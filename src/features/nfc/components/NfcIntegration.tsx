@@ -1,10 +1,20 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, Platform} from 'react-native';
-import NfcManager, {NfcEvents, TagEvent} from 'react-native-nfc-manager';
+import NfcManager, {
+	NfcEvents,
+	NfcTech,
+	TagEvent,
+} from 'react-native-nfc-manager';
 
-import {useAppDispatch} from 'src/features/data/context/store';
+import {selectIsSessionUnlocked} from 'src/features/appState/context/appStateSelectors';
+import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {navigateToScreen} from 'src/features/navigation/context/navigationRef';
+import {
+	selectIsNfcScanning,
+	selectNfcReprogrammingTagId,
+} from '../context/nfcSelectors';
+import {nfcReprogrammingStopped, nfcScanningStopped} from '../context/nfcSlice';
 import {nfcTagDetected} from '../middleware/nfcThunks';
 
 /**
@@ -47,14 +57,61 @@ const delay = (ms: number) =>
 export const NfcIntegration = () => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
+	const isSessionUnlocked = useAppSelector(selectIsSessionUnlocked);
+	const isScanning = useAppSelector(selectIsNfcScanning);
+	const reprogrammingTagId = useAppSelector(selectNfcReprogrammingTagId);
+	const isWaitingForTag = isScanning || reprogrammingTagId !== undefined;
+	const waitingForTagRef = useRef(isWaitingForTag);
+	waitingForTagRef.current = isWaitingForTag;
+	const [isNfcReady, setIsNfcReady] = useState(false);
+	const [pendingRegistrationAlert, setPendingRegistrationAlert] =
+		useState(false);
+
+	useEffect(() => {
+		if (isSessionUnlocked && pendingRegistrationAlert) {
+			Alert.alert(t('nfc.registeredTitle'), t('nfc.registered'));
+			setPendingRegistrationAlert(false);
+		}
+	}, [isSessionUnlocked, pendingRegistrationAlert, t]);
 
 	const handleTag = useCallback(
-		async (tagId: string | undefined) => {
+		async (
+			tagId: string | undefined,
+			technologyAlreadyRequested = false,
+		): Promise<boolean> => {
 			if (!tagId) {
-				return;
+				return false;
 			}
 
-			const result = await dispatch(nfcTagDetected(tagId));
+			const request = technologyAlreadyRequested
+				? {id: tagId, technologyAlreadyRequested: true as const}
+				: tagId;
+			const result = await dispatch(nfcTagDetected(request));
+			if (nfcTagDetected.fulfilled.match(result)) {
+				const payload = result.payload;
+				if (payload && payload.kind === 'registered') {
+					// The tag was added, but the NFC record could not be written
+					// to it; it will not open the app from the background.
+					if (!payload.programmed) {
+						Alert.alert(t('warning'), t('nfc.programFailed'), [
+							{
+								text: t('nfc.goToScreen'),
+								onPress: () => navigateToScreen('NfcTags'),
+							},
+						]);
+					} else {
+						setPendingRegistrationAlert(true);
+					}
+					return true;
+				} else if (payload && payload.kind === 'reprogrammed') {
+					Alert.alert(
+						payload.programmed ? t('nfc.programmedTitle') : t('warning'),
+						payload.programmed ? t('nfc.programmed') : t('nfc.programFailed'),
+					);
+					return true;
+				}
+				return false;
+			}
 			if (nfcTagDetected.rejected.match(result)) {
 				if (typeof result.payload === 'string') {
 					Alert.alert(t('warning'), t(result.payload), [
@@ -69,6 +126,7 @@ export const NfcIntegration = () => {
 					console.warn('nfcTagDetected rejected unexpectedly', result.payload);
 				}
 			}
+			return false;
 		},
 		[dispatch, t],
 	);
@@ -85,7 +143,9 @@ export const NfcIntegration = () => {
 				// re-read of the launch intent does not process them twice.
 				consumedBackgroundTagId = evt.id;
 			}
-			handleTag(evt.id).catch(console.warn);
+			if (!waitingForTagRef.current) {
+				handleTag(evt.id).catch(console.warn);
+			}
 		};
 
 		const initialize = async () => {
@@ -112,6 +172,9 @@ export const NfcIntegration = () => {
 				// fails, the cold-start tag below must still be processed.
 				try {
 					await NfcManager.registerTagEvent();
+					if (!disposed) {
+						setIsNfcReady(true);
+					}
 				} catch (error) {
 					console.warn('NFC tag event registration failed', error);
 				}
@@ -148,11 +211,69 @@ export const NfcIntegration = () => {
 
 		return () => {
 			disposed = true;
+			setIsNfcReady(false);
 			NfcManager.setEventListener(NfcEvents.DiscoverTag, null);
 			NfcManager.setEventListener(NfcEvents.DiscoverBackgroundTag, null);
 			NfcManager.unregisterTagEvent().catch(console.warn);
 		};
 	}, [handleTag]);
+
+	useEffect(() => {
+		if (!isNfcReady || !isWaitingForTag) {
+			return;
+		}
+
+		let cancelled = false;
+		let requestPending = false;
+		let cancellationStarted = false;
+
+		const cancelRequest = () => {
+			if (!requestPending || cancellationStarted) {
+				return Promise.resolve();
+			}
+			cancellationStarted = true;
+			return NfcManager.cancelTechnologyRequest().catch((error) => {
+				console.warn('Failed to close NFC technology request', error);
+			});
+		};
+
+		const readTags = async () => {
+			while (!cancelled) {
+				requestPending = true;
+				cancellationStarted = false;
+				try {
+					await NfcManager.requestTechnology(NfcTech.Ndef);
+					if (cancelled) {
+						return;
+					}
+					const tag = await NfcManager.getTag({readNdef: false});
+					if (tag?.id && (await handleTag(tag.id, true))) {
+						return;
+					}
+				} catch (error) {
+					if (!cancelled) {
+						console.warn('NFC tag request failed', error);
+						if (isScanning) {
+							dispatch(nfcScanningStopped());
+						} else {
+							dispatch(nfcReprogrammingStopped());
+						}
+					}
+					return;
+				} finally {
+					await cancelRequest();
+					requestPending = false;
+				}
+			}
+		};
+
+		readTags().catch(console.warn);
+
+		return () => {
+			cancelled = true;
+			cancelRequest().catch(console.warn);
+		};
+	}, [dispatch, handleTag, isNfcReady, isScanning, isWaitingForTag]);
 
 	return null;
 };

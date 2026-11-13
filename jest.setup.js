@@ -13,13 +13,22 @@ jest.mock('react-native-worklets', () =>
 );
 
 // see https://react.i18next.com/misc/testing
-jest.mock('react-i18next', () => ({
-	useTranslation: () => ({t: key => key, i18n: {language: 'en'}}),
-	initReactI18next: {
-		type: '3rdParty',
-		init: () => {}
-	}
-}));
+// Return a stable `t` and a stable object across renders: the real
+// `useTranslation` keeps the same reference while the language is unchanged.
+// A fresh object per call makes `t` (and any callback built on it) change on
+// every render, which re-runs effects on every render and can cause render
+// loops once those effects schedule state updates.
+jest.mock('react-i18next', () => {
+	const t = (key) => key;
+	const value = {t, i18n: {language: 'en'}};
+	return {
+		useTranslation: () => value,
+		initReactI18next: {
+			type: '3rdParty',
+			init: () => {}
+		}
+	};
+});
 
 jest.mock('@react-navigation/drawer', () => {
 	const React = require('react');

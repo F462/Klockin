@@ -1,5 +1,5 @@
+import NfcManager, {Ndef, NfcTech} from 'react-native-nfc-manager';
 import uuid from 'react-native-uuid';
-import NfcManager, {Ndef} from 'react-native-nfc-manager';
 
 import {selectActiveTimesheetId} from 'src/features/activeTimesheet/context/activeTimesheetSelectors';
 import {newTimesheetStarted} from 'src/features/activeTimesheet/context/activeTimesheetSlice';
@@ -8,8 +8,16 @@ import {selectSelectedActivityId} from 'src/features/activities/context/activiti
 import {AppDispatch, RootState} from 'src/features/data/context/store';
 import {createAppAsyncThunk} from 'src/features/data/middleware/createAppAsyncThunk';
 import {selectSelectedProjectId} from 'src/features/projects/context/projectsSelectors';
-import {selectIsNfcScanning, selectNfcTag} from '../context/nfcSelectors';
-import {nfcScanningStopped, nfcTagAdded} from '../context/nfcSlice';
+import {
+	selectIsNfcScanning,
+	selectNfcReprogrammingTagId,
+	selectNfcTag,
+} from '../context/nfcSelectors';
+import {
+	nfcReprogrammingStopped,
+	nfcScanningStopped,
+	nfcTagAdded,
+} from '../context/nfcSlice';
 
 /**
  * Custom MIME type written into the NDEF record of every registered tag.
@@ -21,18 +29,62 @@ import {nfcScanningStopped, nfcTagAdded} from '../context/nfcSlice';
 const NFC_TAG_MIME_TYPE = 'application/x.kimai';
 
 /**
- * Writes the `application/x.kimai` NDEF MIME record to the currently scanned
- * tag. This is a best-effort operation: a tag that is read-only, lacks NDEF
- * support, or otherwise cannot be written is still registered, it simply
- * loses the "open without dialog" optimisation.
+ * The outcome of programming a physical tag: whether the NDEF record was
+ * actually written. A failed programming still allows the tag to be
+ * registered (UID-based matching works in the foreground), but the tag will
+ * not be routed to the app from the background.
  */
-const writeTagNdef = async (): Promise<void> => {
+export type NfcProgrammingResult = {
+	id: string;
+	programmed: boolean;
+};
+
+/**
+ * The outcome of a tag detection that involved programming the physical tag
+ * (registering it, or re-programming it), so the caller can surface a
+ * failed programming and distinguish the two flows.
+ */
+export type NfcTagDetectionResult =
+	| {kind: 'registered'; programmed: boolean}
+	| {kind: 'reprogrammed'; programmed: boolean};
+
+type NfcTagRequest = string | {id: string; technologyAlreadyRequested: true};
+
+const getTagRequest = (request: NfcTagRequest) =>
+	typeof request === 'string'
+		? {id: request, technologyAlreadyRequested: false as const}
+		: request;
+
+/**
+ * Writes the `application/x.kimai` NDEF MIME record to the currently scanned
+ * tag. Returns `false` instead of throwing when the tag is read-only, lacks
+ * NDEF support, or otherwise cannot be written, so the caller can surface
+ * the failed programming while the registration itself still succeeds.
+ */
+const writeTagNdef = async (
+	technologyAlreadyRequested = false,
+): Promise<boolean> => {
+	let ownsTechnologyRequest = false;
 	try {
-		const record = Ndef.mimeMediaRecord(NFC_TAG_MIME_TYPE, []);
+		if (!technologyAlreadyRequested) {
+			await NfcManager.requestTechnology(NfcTech.Ndef);
+			ownsTechnologyRequest = true;
+		}
+		const record = Ndef.record(Ndef.TNF_MIME_MEDIA, NFC_TAG_MIME_TYPE, [], []);
 		const bytes = Ndef.encodeMessage([record]);
 		await NfcManager.writeNdefMessage(bytes);
+		return true;
 	} catch (error) {
 		console.warn('Failed to write NDEF record to NFC tag', error);
+		return false;
+	} finally {
+		if (ownsTechnologyRequest) {
+			try {
+				await NfcManager.cancelTechnologyRequest();
+			} catch (error) {
+				console.warn('Failed to close NFC technology request', error);
+			}
+		}
 	}
 };
 
@@ -40,28 +92,52 @@ const writeTagNdef = async (): Promise<void> => {
  * Registers a newly scanned NFC tag with a default name derived from its
  * UID, programs the tag with the `application/x.kimai` NDEF record (so
  * future taps route directly to this app without the OS disambiguation
- * dialog), and exits scanning mode.
+ * dialog), and exits scanning mode. The programming result is returned so
+ * the caller can inform the user when the tag could not be programmed.
  */
 export const nfcRegisterTag = createAppAsyncThunk<
-	string,
-	string,
+	NfcProgrammingResult,
+	NfcTagRequest,
 	{
 		state: RootState;
 		dispatch: AppDispatch;
 	}
->('nfc/registerTag', async (tagId, {dispatch}) => {
+>('nfc/registerTag', async (request, {dispatch}) => {
+	const {id: tagId, technologyAlreadyRequested} = getTagRequest(request);
 	// Program the tag while the NFC session is still active. Failures are
-	// swallowed inside `writeTagNdef` so that registration always succeeds,
-	// even for read-only or non-NDEF tags.
-	await writeTagNdef();
+	// reported via the return value so the caller can surface them; the
+	// registration itself always succeeds, even for read-only or non-NDEF
+	// tags.
+	const programmed = await writeTagNdef(technologyAlreadyRequested);
 	const name = `NFC ${tagId.slice(-4)}`;
 	dispatch(nfcTagAdded({id: tagId, name}));
 	dispatch(nfcScanningStopped());
-	return tagId;
+	return {id: tagId, programmed};
+});
+
+/**
+ * (Re-)writes the `application/x.kimai` NDEF record to an already registered
+ * tag whose initial programming failed or was performed before the MIME
+ * record existed. Must run while the tag is held against the device, i.e.
+ * inside the `DiscoverTag` event of a foreground tap.
+ */
+export const nfcReprogramTag = createAppAsyncThunk<
+	NfcProgrammingResult,
+	NfcTagRequest,
+	{
+		state: RootState;
+		dispatch: AppDispatch;
+	}
+>('nfc/reprogramTag', async (request) => {
+	const {id: tagId, technologyAlreadyRequested} = getTagRequest(request);
+	const programmed = await writeTagNdef(technologyAlreadyRequested);
+	return {id: tagId, programmed};
 });
 
 /**
  * Handles an NFC tag detection:
+ * - If re-programming mode is active for this tag, the `application/x.kimai`
+ *   NDEF record is (re-)written and the mode exits.
  * - If scanning is active, the tag is registered as a new known tag.
  * - Otherwise the scanned tag must already be a known tag: it is used to
  *   toggle the active timesheet (stopping the running one, or starting a new
@@ -69,23 +145,46 @@ export const nfcRegisterTag = createAppAsyncThunk<
  *   are used; otherwise the currently selected project and activity are used
  *   (an NFC attendance recorder).
  *
- * Rejects with an i18n key when the tag is unknown or a timesheet cannot be
- * started, so the caller can surface the reason to the user.
+ * Fulfils with the programming result for the register and re-program paths
+ * (so the caller can surface a failed programming), or `undefined` for the
+ * timesheet toggle. Rejects with an i18n key when the tag is unknown or a
+ * timesheet cannot be started, so the caller can surface the reason to the
+ * user.
  */
 export const nfcTagDetected = createAppAsyncThunk<
-	void,
-	string,
+	NfcTagDetectionResult | undefined,
+	NfcTagRequest,
 	{
 		state: RootState;
 		dispatch: AppDispatch;
 		rejectedValue: string;
 	}
->('nfc/tagDetected', async (tagId, {dispatch, getState, rejectWithValue}) => {
+>('nfc/tagDetected', async (request, {dispatch, getState, rejectWithValue}) => {
+	const {id: tagId, technologyAlreadyRequested} = getTagRequest(request);
+	const tagRequest = technologyAlreadyRequested
+		? {id: tagId, technologyAlreadyRequested: true as const}
+		: tagId;
 	const state = getState();
 
+	if (selectNfcReprogrammingTagId(state) === tagId) {
+		const result = await dispatch(nfcReprogramTag(tagRequest));
+		dispatch(nfcReprogrammingStopped());
+		if (nfcReprogramTag.fulfilled.match(result)) {
+			return {kind: 'reprogrammed', programmed: result.payload.programmed};
+		}
+		return {kind: 'reprogrammed', programmed: false};
+	}
+
 	if (selectIsNfcScanning(state)) {
-		await dispatch(nfcRegisterTag(tagId));
+		const result = await dispatch(nfcRegisterTag(tagRequest));
+		if (nfcRegisterTag.fulfilled.match(result)) {
+			return {kind: 'registered', programmed: result.payload.programmed};
+		}
 		return;
+	}
+
+	if (selectNfcReprogrammingTagId(state) !== undefined) {
+		return rejectWithValue('nfc.unknownTag');
 	}
 
 	const tag = selectNfcTag(tagId)(state);
