@@ -94,13 +94,16 @@ struct TimesheetWidgetView: View {
       VStack(alignment: .center, spacing: 2) {
         Text(durationText)
           .font(.system(size: 32, weight: .semibold, design: .rounded).monospacedDigit())
+          .foregroundStyle(.white)
+          .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
           .minimumScaleFactor(0.7)
           .lineLimit(1)
           .frame(maxWidth: .infinity, alignment: .center)
         if !projectActivityText.isEmpty {
           Text(projectActivityText)
             .font(.caption)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(.white.opacity(0.85))
+            .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
             .lineLimit(2)
             .minimumScaleFactor(0.8)
             .multilineTextAlignment(.center)
@@ -112,7 +115,7 @@ struct TimesheetWidgetView: View {
     }
     .accessibilityLabel("Open Active Timesheet")
     .padding(8)
-    .containerBackground(backgroundColor.opacity(0.5), for: .widget)
+    .containerBackground(backgroundColor.opacity(0.8), for: .widget)
   }
 }
 

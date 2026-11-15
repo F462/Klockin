@@ -49,7 +49,7 @@ class TimesheetWidgetProvider : AppWidgetProvider() {
       val projectName = preferences.getString("projectName", "") ?: ""
       val activityName = preferences.getString("activityName", "") ?: ""
       val parsedColor = runCatching { Color.parseColor(primaryContainer) }.getOrDefault(Color.rgb(153, 250, 122))
-      val backgroundColor = Color.argb(128, Color.red(parsedColor), Color.green(parsedColor), Color.blue(parsedColor))
+      val backgroundColor = Color.argb(204, Color.red(parsedColor), Color.green(parsedColor), Color.blue(parsedColor))
       val now = System.currentTimeMillis()
       val snapshotIsToday = isToday(snapshotAt, now)
       val activeStartedToday = isToday(activeBeginAt, now)
