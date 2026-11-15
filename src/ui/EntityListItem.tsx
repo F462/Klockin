@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 	card: {
 		borderRadius: 14,
 		borderWidth: 1,
+		minHeight: 64,
 		marginHorizontal: 12,
 		marginVertical: 6,
 		paddingHorizontal: 14,

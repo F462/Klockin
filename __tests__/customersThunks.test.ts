@@ -2,7 +2,6 @@ import {configureStore} from '@reduxjs/toolkit';
 
 import {api} from 'src/features/account/utils/ApiClient';
 import {
-	customerSelected,
 	customersReceived,
 	customersReducer,
 } from 'src/features/customers/context/customersSlice';
@@ -135,7 +134,6 @@ describe('customer thunks', () => {
 				currency: 'USD',
 			}),
 		);
-		store.dispatch(customerSelected(-1));
 		store.dispatch(customersReceived([makeCustomer()]));
 
 		expect(store.getState().customers.customers[-1]?.name).toBe(
@@ -158,7 +156,6 @@ describe('customer thunks', () => {
 		);
 		expect(store.getState().customers.customers[-1]).toBeUndefined();
 		expect(store.getState().customers.customers[21]).toEqual(syncedCustomer);
-		expect(store.getState().customers.selectedCustomerId).toBe(21);
 	});
 
 	it('fetches the server-configured customer colors', async () => {

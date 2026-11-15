@@ -18,8 +18,3 @@ export const selectHasUnsynchronizedCustomers = createSelector(
 	[selectCustomers],
 	(customers) => Object.values(customers).some((customer) => customer.id < 0),
 );
-
-export const selectSelectedCustomerId = createSelector(
-	[selectCustomersState],
-	(customerState) => customerState.selectedCustomerId,
-);

@@ -4,7 +4,6 @@ import {Customer, CustomersState} from '../types';
 
 const initialState: CustomersState = {
 	customers: {},
-	selectedCustomerId: undefined,
 };
 
 const customersSlice = createSlice({
@@ -22,18 +21,8 @@ const customersSlice = createSlice({
 				),
 			);
 		},
-		customerSelected: (
-			state,
-			{payload: customerId}: PayloadAction<number | undefined>,
-		) => {
-			state.selectedCustomerId = customerId;
-		},
 		customerRemoved: (state, {payload: customerId}: PayloadAction<number>) => {
 			delete state.customers[customerId];
-
-			if (state.selectedCustomerId === customerId) {
-				state.selectedCustomerId = undefined;
-			}
 		},
 		customerUpdated: (state, {payload: customer}: PayloadAction<Customer>) => {
 			state.customers[customer.id] = customer;
@@ -49,16 +38,12 @@ const customersSlice = createSlice({
 		) => {
 			delete state.customers[localId];
 			state.customers[customer.id] = customer;
-			if (state.selectedCustomerId === localId) {
-				state.selectedCustomerId = customer.id;
-			}
 		},
 	},
 });
 
 export const {
 	customersReceived,
-	customerSelected,
 	customerRemoved,
 	customerUpdated,
 	customerCreated,

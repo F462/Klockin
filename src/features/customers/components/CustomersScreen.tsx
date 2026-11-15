@@ -8,11 +8,7 @@ import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {BaseScreen} from 'src/ui/BaseScreen';
 import {DividedList} from 'src/ui/DividedList';
 import {EntityListItem} from 'src/ui/EntityListItem';
-import {
-	selectCustomerList,
-	selectSelectedCustomerId,
-} from '../context/customersSelectors';
-import {customerSelected} from '../context/customersSlice';
+import {selectCustomerList} from '../context/customersSelectors';
 import {fetchCustomers} from '../middleware/customersThunks';
 import {Customer} from '../types';
 import {CustomerItemContextMenu} from './CustomerItemContextMenu';
@@ -26,20 +22,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-const CustomerItem = ({
-	customer,
-	isSelected,
-}: {
-	customer: Customer;
-	isSelected: boolean;
-}) => {
-	const dispatch = useAppDispatch();
+const CustomerItem = ({customer}: {customer: Customer}) => {
 	const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
 	const [contextMenuVisible, setContextMenuVisible] = useState(false);
 
-	const onSelectCustomer = useCallback(() => {
-		dispatch(customerSelected(customer.id));
-	}, [dispatch, customer.id]);
 	const onOpenContextMenu = useCallback(() => setContextMenuVisible(true), []);
 	const onHideContextMenu = useCallback(() => setContextMenuVisible(false), []);
 
@@ -47,8 +33,6 @@ const CustomerItem = ({
 		<EntityListItem
 			name={customer.name}
 			isSyncPending={isUserLoggedIn && customer.id < 0}
-			isSelected={isSelected}
-			onPress={onSelectCustomer}
 			onLongPress={onOpenContextMenu}
 			contextMenu={
 				<CustomerItemContextMenu
@@ -64,7 +48,6 @@ const CustomerItem = ({
 const CustomerList = () => {
 	const dispatch = useAppDispatch();
 	const customerList = useAppSelector(selectCustomerList);
-	const selectedCustomerId = useAppSelector(selectSelectedCustomerId);
 	const onRefresh = useCallback(() => dispatch(fetchCustomers()), [dispatch]);
 
 	return (
@@ -72,12 +55,7 @@ const CustomerList = () => {
 			data={customerList}
 			onRefresh={onRefresh}
 			showDividers={false}
-			renderItem={({item}) => (
-				<CustomerItem
-					customer={item}
-					isSelected={item.id === selectedCustomerId}
-				/>
-			)}
+			renderItem={({item}) => <CustomerItem customer={item} />}
 		/>
 	);
 };
