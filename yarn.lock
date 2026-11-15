@@ -7851,7 +7851,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.0":
+"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -9351,6 +9351,7 @@ __metadata:
     react-native-gesture-handler: "npm:^3.5.0"
     react-native-get-random-values: "npm:^2.1.0"
     react-native-localize: "npm:^3.7.2"
+    react-native-modalfy: "npm:^3.7.4"
     react-native-nfc-manager: "npm:^4.2.0"
     react-native-nitro-image: "npm:^0.15.2"
     react-native-nitro-modules: "npm:^0.37.2"
@@ -10935,6 +10936,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-is@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "react-is@npm:17.0.2"
+  checksum: 10c0/2bdb6b93fbb1820b024b496042cce405c57e2f85e777c9aabd55f9b26d145408f9f74f5934676ffdc46f3dcff656d78413a6e43968e7b3f92eea35b3052e9053
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^19.1.0, react-is@npm:^19.3.1":
   version: 19.3.1
   resolution: "react-is@npm:19.3.1"
@@ -11070,6 +11078,20 @@ __metadata:
     react-native-macos:
       optional: true
   checksum: 10c0/93c415fdf27096517c791cd24bebf7f6a764e5ab5c6d2f628cfe9be2b3a69e8dfd30f35aae8a36e4631933273eb8c6baec47f1befcafafcceb9f5423762f01c8
+  languageName: node
+  linkType: hard
+
+"react-native-modalfy@npm:^3.7.4":
+  version: 3.7.4
+  resolution: "react-native-modalfy@npm:3.7.4"
+  dependencies:
+    hoist-non-react-statics: "npm:^3.3.2"
+    react-is: "npm:^17.0.2"
+  peerDependencies:
+    react: ">=16.8.3"
+    react-native: ">=0.59.0"
+    react-native-gesture-handler: ">=2.2.1"
+  checksum: 10c0/96df641bfd50326abfd724527ede0fc57cc08caff7bbe26f2813cb6d4e39221854a78482581cce0ad61a90b6391c2533fcff4b1cd9b0ff04dadc9671e121f6cb
   languageName: node
   linkType: hard
 

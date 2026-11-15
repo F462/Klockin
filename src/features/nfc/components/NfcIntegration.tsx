@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import NfcManager, {
 	NfcEvents,
 	NfcTech,
@@ -10,6 +10,7 @@ import NfcManager, {
 import {selectIsSessionUnlocked} from 'src/features/appState/context/appStateSelectors';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {navigateToScreen} from 'src/features/navigation/context/navigationRef';
+import {useAppAlert} from 'src/ui/AppAlertModal';
 import {
 	selectIsNfcScanning,
 	selectNfcReprogrammingTagId,
@@ -56,6 +57,7 @@ const delay = (ms: number) =>
  */
 export const NfcIntegration = () => {
 	const {t} = useTranslation();
+	const showAlert = useAppAlert();
 	const dispatch = useAppDispatch();
 	const isSessionUnlocked = useAppSelector(selectIsSessionUnlocked);
 	const isScanning = useAppSelector(selectIsNfcScanning);
@@ -69,10 +71,10 @@ export const NfcIntegration = () => {
 
 	useEffect(() => {
 		if (isSessionUnlocked && pendingRegistrationAlert) {
-			Alert.alert(t('nfc.registeredTitle'), t('nfc.registered'));
+			showAlert(t('nfc.registeredTitle'), t('nfc.registered'));
 			setPendingRegistrationAlert(false);
 		}
-	}, [isSessionUnlocked, pendingRegistrationAlert, t]);
+	}, [isSessionUnlocked, pendingRegistrationAlert, showAlert, t]);
 
 	const handleTag = useCallback(
 		async (
@@ -93,7 +95,7 @@ export const NfcIntegration = () => {
 					// The tag was added, but the NFC record could not be written
 					// to it; it will not open the app from the background.
 					if (!payload.programmed) {
-						Alert.alert(t('warning'), t('nfc.programFailed'), [
+						showAlert(t('warning'), t('nfc.programFailed'), [
 							{
 								text: t('nfc.goToScreen'),
 								onPress: () => navigateToScreen('NfcTags'),
@@ -104,7 +106,7 @@ export const NfcIntegration = () => {
 					}
 					return true;
 				} else if (payload && payload.kind === 'reprogrammed') {
-					Alert.alert(
+					showAlert(
 						payload.programmed ? t('nfc.programmedTitle') : t('warning'),
 						payload.programmed ? t('nfc.programmed') : t('nfc.programFailed'),
 					);
@@ -114,7 +116,7 @@ export const NfcIntegration = () => {
 			}
 			if (nfcTagDetected.rejected.match(result)) {
 				if (typeof result.payload === 'string') {
-					Alert.alert(t('warning'), t(result.payload), [
+					showAlert(t('warning'), t(result.payload), [
 						{
 							text: t('nfc.goToScreen'),
 							onPress: () => navigateToScreen('NfcTags'),
@@ -128,7 +130,7 @@ export const NfcIntegration = () => {
 			}
 			return false;
 		},
-		[dispatch, t],
+		[dispatch, showAlert, t],
 	);
 
 	useEffect(() => {

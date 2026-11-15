@@ -1,4 +1,6 @@
 import React from 'react';
+import {StyleSheet} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Portal} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -14,39 +16,50 @@ import {Onboarding} from 'src/features/onboarding/components/Onboarding';
 import {ThemeProvider} from 'src/features/theming/components/ThemeProvider';
 import {DailyWorkingHoursNotificationIntegration} from 'src/features/timesheets/components/WorktimeNotificationIntegration';
 import {SessionLocker} from 'src/features/utils/components/SessionLocker';
+import {AppModalProvider} from 'src/ui/AppAlertModal';
 
 // Run initial configuration for i18n;
 i18n;
 
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
+const styles = StyleSheet.create({
+	root: {
+		flex: 1,
+	},
+});
+
 function App() {
 	return (
-		<Provider store={store}>
-			<ThemeProvider>
-				<PersistGate loading={null} persistor={persistor}>
-					<SafeAreaProvider>
-						{/*
-							NFC must not depend on the notification permission
-							state: a tag can cold-start the app and has to be
-							processed before (and regardless of) the permission
-							prompt is resolved.
-						*/}
-						<NfcIntegration />
-						<NotificationPermissionGate>
-							<TimesheetWidgetIntegration />
-							<ActiveTimesheetNotificationIntegration />
-							<DailyWorkingHoursNotificationIntegration />
-							<Portal.Host>
-								<SessionLocker />
-								<Onboarding />
-								<RootNavigation />
-							</Portal.Host>
-						</NotificationPermissionGate>
-					</SafeAreaProvider>
-				</PersistGate>
-			</ThemeProvider>
-		</Provider>
+		<GestureHandlerRootView style={styles.root}>
+			<Provider store={store}>
+				<ThemeProvider>
+					<AppModalProvider>
+						<PersistGate loading={null} persistor={persistor}>
+							<SafeAreaProvider>
+								{/*
+									NFC must not depend on the notification permission
+									state: a tag can cold-start the app and has to be
+									processed before (and regardless of) the permission
+									prompt is resolved.
+								*/}
+								<NfcIntegration />
+								<NotificationPermissionGate>
+									<TimesheetWidgetIntegration />
+									<ActiveTimesheetNotificationIntegration />
+									<DailyWorkingHoursNotificationIntegration />
+									<Portal.Host>
+										<SessionLocker />
+										<Onboarding />
+										<RootNavigation />
+									</Portal.Host>
+								</NotificationPermissionGate>
+							</SafeAreaProvider>
+						</PersistGate>
+					</AppModalProvider>
+				</ThemeProvider>
+			</Provider>
+		</GestureHandlerRootView>
 	);
 }
 

@@ -2,7 +2,7 @@ import {Picker} from '@react-native-picker/picker';
 import {simplePrompt} from '@sbaiahmed1/react-native-biometrics';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, Linking, Platform, ScrollView, StyleSheet} from 'react-native';
+import {Linking, Platform, ScrollView, StyleSheet} from 'react-native';
 import notifications, {AndroidImportance} from 'react-native-notify-kit';
 import {List, Switch, useTheme} from 'react-native-paper';
 
@@ -16,6 +16,7 @@ import {
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useAppNavigation} from 'src/features/navigation/context/hooks';
 import {useStyle} from 'src/features/theming/utils/useStyle';
+import {useAppAlert} from 'src/ui/AppAlertModal';
 import {BaseScreen} from 'src/ui/BaseScreen';
 import {
 	selectAppTheme,
@@ -211,6 +212,7 @@ const getBackupIntervalRight = (disabled: boolean) => () => (
 const DataSection = () => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
+	const showAlert = useAppAlert();
 	const [hasBackupFolder, setHasBackupFolder] = useState(false);
 	const [backupFolderPath, setBackupFolderPath] = useState<string | null>(null);
 	const [isExporting, setIsExporting] = useState(false);
@@ -253,10 +255,10 @@ const DataSection = () => {
 			})
 			.catch((error) => {
 				console.error('Selecting the backup folder failed', error);
-				Alert.alert(t('warning'), t('backupDataError'));
+				showAlert(t('warning'), t('backupDataError'));
 			})
 			.finally(() => setIsChoosingFolder(false));
-	}, [dispatch, isChoosingFolder, isExporting, isImporting, t]);
+	}, [dispatch, isChoosingFolder, isExporting, isImporting, showAlert, t]);
 
 	const onBackup = useCallback(() => {
 		if (isExporting || isImporting) {
@@ -267,17 +269,17 @@ const DataSection = () => {
 		dispatch(exportData())
 			.catch((error) => {
 				console.error('Exporting the backup failed', error);
-				Alert.alert(t('warning'), t('backupDataError'));
+				showAlert(t('warning'), t('backupDataError'));
 			})
 			.finally(() => setIsExporting(false));
-	}, [dispatch, isExporting, isImporting, t]);
+	}, [dispatch, isExporting, isImporting, showAlert, t]);
 
 	const onRestore = useCallback(() => {
 		if (isImporting || isExporting || isChoosingFolder) {
 			return;
 		}
 
-		Alert.alert(t('restoreDataConfirmTitle'), t('restoreDataConfirmMessage'), [
+		showAlert(t('restoreDataConfirmTitle'), t('restoreDataConfirmMessage'), [
 			{text: t('cancel'), style: 'cancel'},
 			{
 				text: t('restoreData'),
@@ -288,18 +290,18 @@ const DataSection = () => {
 						.unwrap()
 						.then((restored) => {
 							if (restored) {
-								Alert.alert(t('restoreData'), t('restoreDataSuccess'));
+								showAlert(t('restoreData'), t('restoreDataSuccess'));
 							}
 						})
 						.catch((error) => {
 							console.error('Restoring the backup failed', error);
-							Alert.alert(t('warning'), t('restoreDataError'));
+							showAlert(t('warning'), t('restoreDataError'));
 						})
 						.finally(() => setIsImporting(false));
 				},
 			},
 		]);
-	}, [dispatch, isChoosingFolder, isExporting, isImporting, t]);
+	}, [dispatch, isChoosingFolder, isExporting, isImporting, showAlert, t]);
 	const backupActionsDisabled =
 		!hasBackupFolder || isExporting || isImporting || isChoosingFolder;
 
