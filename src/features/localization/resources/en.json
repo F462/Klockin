@@ -220,13 +220,20 @@
 		"Activities": "Activities",
 		"Customers": "Customers",
 		"NfcTags": "NFC tags",
-		"Overview": "Overview",
+		"Overview": "Working hours",
 		"Projects": "Projects",
 		"Settings": "Settings",
 		"ServerSetup": "Get started",
-		"Timesheets": "Timesheets",
+		"Timesheets": "My time",
 		"Users": "Users",
-		"WorkContract": "Work contract"
+		"WorkContract": "Weekly hours"
+	},
+	"menuSections": {
+		"timeTracking": "Time tracking",
+		"workContract": "Work contract",
+		"administration": "Administration",
+		"system": "System",
+		"app": "App"
 	},
 	"securityTitle": "Security",
 	"selectActivity": "Select Activity",

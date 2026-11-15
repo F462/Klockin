@@ -228,13 +228,20 @@
 		"Activities": "Tätigkeiten",
 		"Customers": "Kunden",
 		"NfcTags": "NFC-Tags",
-		"Overview": "Übersicht",
+		"Overview": "Arbeitszeiten",
 		"Projects": "Projekte",
 		"Settings": "Einstellungen",
 		"ServerSetup": "Erste Schritte",
-		"Timesheets": "Zeiteinträge",
+		"Timesheets": "Meine Zeiten",
 		"Users": "Benutzer",
-		"WorkContract": "Arbeitsvertrag"
+		"WorkContract": "Wochenstunden"
+	},
+	"menuSections": {
+		"timeTracking": "Zeiterfassung",
+		"workContract": "Arbeitsvertrag",
+		"administration": "Administration",
+		"system": "System",
+		"app": "App"
 	},
 	"overtime": "Überstunden",
 	"overtimeBasedOnWorkingHours": "Überstunden werden anhand Ihres Arbeitsvertrags berechnet.",
