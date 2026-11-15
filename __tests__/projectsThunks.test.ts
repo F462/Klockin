@@ -11,6 +11,8 @@ import type {AppDispatch} from 'src/features/data/context/store';
 import {
 	projectsReceived,
 	projectsReducer,
+	projectCreated,
+	projectSelected,
 } from 'src/features/projects/context/projectsSlice';
 import {
 	createProject,
@@ -94,6 +96,28 @@ describe('createProject', () => {
 			globalActivities: true,
 		});
 		expect(store.getState().projects.projects[project.id]).toEqual(project);
+	});
+
+	it('automatically selects the created project when it is the first one', () => {
+		const store = configureTestStore() as TestStore;
+
+		store.dispatch(projectCreated(makeProject()));
+
+		expect(store.getState().projects.selectedProjectId).toBe(31);
+	});
+
+	it('does not change the selection when creating a project next to existing ones', () => {
+		const store = configureTestStore() as TestStore;
+		store.dispatch(projectCreated(makeProject()));
+		store.dispatch(projectSelected(31));
+
+		store.dispatch(projectCreated({
+			...makeProject(),
+			id: 32,
+			name: 'Second project',
+		}));
+
+		expect(store.getState().projects.selectedProjectId).toBe(31);
 	});
 
 	it('creates projects locally and synchronizes them with updated references', async () => {

@@ -5,6 +5,7 @@ import {
 	activitiesReceived,
 	activitiesReducer,
 	activityCreated,
+	activitySelected,
 } from 'src/features/activities/context/activitiesSlice';
 import {
 	createActivity,
@@ -87,6 +88,27 @@ describe('createActivity', () => {
 		expect(createActivity.fulfilled.match(result)).toBe(true);
 		expect(result.payload).toMatchObject({id: -1, name: 'Offline activity'});
 		expect(store.getState().activities.activities[-1]).toEqual(result.payload);
+	});
+
+	it('automatically selects the created activity when it is the first one', async () => {
+		const store = configureTestStore() as TestStore;
+
+		const result = await store.dispatch(
+			createActivity({name: 'Local activity'}),
+		);
+
+		expect(createActivity.fulfilled.match(result)).toBe(true);
+		expect(store.getState().activities.selectedActivityId).toBe(-1);
+	});
+
+	it('does not change the selection when creating an activity next to existing ones', () => {
+		const store = configureTestStore() as TestStore;
+		store.dispatch(activityCreated(makeActivity(-1, 'Local activity')));
+		store.dispatch(activitySelected(-1));
+
+		store.dispatch(activityCreated(makeActivity(-2, 'Second activity')));
+
+		expect(store.getState().activities.selectedActivityId).toBe(-1);
 	});
 
 	it('sends project, color, and budget settings to Kimai', async () => {

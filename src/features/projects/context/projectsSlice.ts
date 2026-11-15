@@ -41,6 +41,10 @@ const projectsSlice = createSlice({
 		},
 		projectCreated: (state, {payload: project}: PayloadAction<Project>) => {
 			state.projects[project.id] = project;
+
+			if (Object.keys(state.projects).length === 1) {
+				state.selectedProjectId = project.id;
+			}
 		},
 		projectSynced: (
 			state,

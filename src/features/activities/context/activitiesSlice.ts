@@ -40,6 +40,10 @@ const activitiesSlice = createSlice({
 		},
 		activityCreated: (state, {payload: activity}: PayloadAction<Activity>) => {
 			state.activities[activity.id] = activity;
+
+			if (Object.keys(state.activities).length === 1) {
+				state.selectedActivityId = activity.id;
+			}
 		},
 		activitySynced: (
 			state,
