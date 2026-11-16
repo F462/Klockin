@@ -8,13 +8,39 @@ import {
 } from '../context/tagsSlice';
 import {Tag} from '../types';
 
-const createLocalTag = (name: string, tags: {[id: number]: Tag}): Tag => {
+export type CreateTagPayload = {
+	name: string;
+	color?: string | null;
+	visible?: boolean;
+};
+
+const createTagBody = (payload: CreateTagPayload) => {
+	const body: Record<string, unknown> = {name: payload.name};
+
+	if (payload.color) {
+		body.color = payload.color;
+	}
+
+	body.visible = payload.visible ?? true;
+
+	return body;
+};
+
+const createLocalTag = (
+	payload: CreateTagPayload,
+	tags: {[id: number]: Tag},
+): Tag => {
 	const localIds = Object.keys(tags)
 		.map(Number)
 		.filter((id) => Number.isInteger(id) && id < 0);
 	const id = localIds.length > 0 ? Math.min(...localIds) - 1 : -1;
 
-	return {id, name};
+	return {
+		id,
+		name: payload.name,
+		color: payload.color ?? null,
+		visible: payload.visible ?? true,
+	};
 };
 
 export const fetchTags = createAppAsyncThunk(
@@ -35,11 +61,11 @@ export const fetchTags = createAppAsyncThunk(
 	},
 );
 
-export const createTag = createAppAsyncThunk<Tag, string>(
+export const createTag = createAppAsyncThunk<Tag, CreateTagPayload>(
 	'tags/createTag',
-	async (name, {dispatch, getState}) => {
+	async (payload, {dispatch, getState}) => {
 		const saveLocally = () => {
-			const tag = createLocalTag(name, getState().tags.tags);
+			const tag = createLocalTag(payload, getState().tags.tags);
 			dispatch(tagCreated(tag));
 			return tag;
 		};
@@ -49,7 +75,7 @@ export const createTag = createAppAsyncThunk<Tag, string>(
 		}
 
 		try {
-			const response = await api.post<Tag>('api/tags', {name});
+			const response = await api.post<Tag>('api/tags', createTagBody(payload));
 			dispatch(tagCreated(response));
 			return response;
 		} catch (error: any) {
@@ -94,7 +120,7 @@ export const synchronizeLocalTags = createAppAsyncThunk(
 
 		for (const tag of localTags) {
 			try {
-				const response = await api.post<Tag>('api/tags', {name: tag.name});
+				const response = await api.post<Tag>('api/tags', createTagBody(tag));
 				dispatch(tagSynced({localId: tag.id, tag: response}));
 			} catch (error: any) {
 				console.warn(`Could not synchronize local tag: ${error.toString()}`);

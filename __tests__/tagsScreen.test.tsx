@@ -69,7 +69,30 @@ describe('TagsScreen', () => {
 		fireEvent.press(view.getByText('save'));
 
 		await waitFor(() =>
-			expect(api.post).toHaveBeenCalledWith('api/tags', {name: 'review'}),
+			expect(api.post).toHaveBeenCalledWith('api/tags', {
+				name: 'review',
+				visible: true,
+			}),
+		);
+	});
+
+	it('does not show the "already exists" warning after a tag was created', async () => {
+		const {view} = renderScreen();
+
+		await waitFor(() => expect(view.getByText('planning')).toBeTruthy());
+
+		fireEvent.press(view.getByText('addTag'));
+		fireEvent.changeText(view.getByLabelText('tagName'), 'review');
+		fireEvent.press(view.getByText('save'));
+
+		await waitFor(() =>
+			expect(api.post).toHaveBeenCalledWith('api/tags', {
+				name: 'review',
+				visible: true,
+			}),
+		);
+		await waitFor(() =>
+			expect(view.queryByText('tagAlreadyExists')).toBeNull(),
 		);
 	});
 
@@ -83,7 +106,10 @@ describe('TagsScreen', () => {
 		fireEvent.press(view.getByText('save'));
 
 		await waitFor(() => {
-			expect(api.post).toHaveBeenCalledWith('api/tags', {name: 'review'});
+			expect(api.post).toHaveBeenCalledWith('api/tags', {
+				name: 'review',
+				visible: true,
+			});
 			expect(api.delete).toHaveBeenCalledWith('api/tags/4');
 			expect(store.getState().tags.tags).toEqual({9: reviewTag});
 		});

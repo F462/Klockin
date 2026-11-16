@@ -111,7 +111,7 @@ export const TimesheetTagsEditor = ({
 			);
 			const savedName = existingTag
 				? existingTag.name
-				: (await dispatch(createTag(trimmedTagName)).unwrap()).name;
+				: (await dispatch(createTag({name: trimmedTagName})).unwrap()).name;
 
 			if (editingIndex === undefined) {
 				onChange([...tags, savedName]);

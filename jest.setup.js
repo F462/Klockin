@@ -12,6 +12,21 @@ jest.mock('react-native-worklets', () =>
 	require('react-native-worklets/lib/module/mock')
 );
 
+// The test renderer hits a react-native-paper portal-context error in this
+// environment even when the component tree is wrapped correctly. Keep the real
+// Paper components for styling and inputs, but render portal content inline so
+// the tests can exercise the app logic without the portal manager crashing.
+jest.mock('react-native-paper', () => {
+	const React = require('react');
+	const actual = jest.requireActual('react-native-paper');
+	const Portal = ({children}) => React.createElement(React.Fragment, null, children);
+	Portal.Host = ({children}) => React.createElement(React.Fragment, null, children);
+	return {
+		...actual,
+		Portal,
+	};
+});
+
 // see https://react.i18next.com/misc/testing
 // Return a stable `t` and a stable object across renders: the real
 // `useTranslation` keeps the same reference while the language is unchanged.

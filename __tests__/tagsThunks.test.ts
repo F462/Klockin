@@ -84,20 +84,49 @@ describe('createTag', () => {
 		(api.post as jest.Mock).mockResolvedValue(createdTag);
 		const store = createTestStore();
 
-		await store.dispatch(createTag('review'));
+		await store.dispatch(createTag({name: 'review'}));
 
-		expect(api.post).toHaveBeenCalledWith('api/tags', {name: 'review'});
+		expect(api.post).toHaveBeenCalledWith('api/tags', {
+			name: 'review',
+			visible: true,
+		});
 		expect(store.getState().tags.tags).toEqual({9: createdTag});
+	});
+
+	it('sends the configured color and visibility', async () => {
+		(api.isConfigured as jest.Mock).mockReturnValue(true);
+		(api.post as jest.Mock).mockResolvedValue({
+			id: 9,
+			name: 'review',
+			color: 'green',
+			visible: false,
+		});
+		const store = createTestStore();
+
+		await store.dispatch(
+			createTag({name: 'review', color: 'green', visible: false}),
+		);
+
+		expect(api.post).toHaveBeenCalledWith('api/tags', {
+			name: 'review',
+			color: 'green',
+			visible: false,
+		});
 	});
 
 	it('creates and stores a local tag when the API is not configured', async () => {
 		(api.isConfigured as jest.Mock).mockReturnValue(false);
 		const store = createTestStore();
 
-		const result = await store.dispatch(createTag('review'));
+		const result = await store.dispatch(createTag({name: 'review'}));
 
 		expect(createTag.fulfilled.match(result)).toBe(true);
-		expect(result.payload).toMatchObject({id: -1, name: 'review'});
+		expect(result.payload).toMatchObject({
+			id: -1,
+			name: 'review',
+			color: null,
+			visible: true,
+		});
 		expect(store.getState().tags.tags[-1]).toEqual(result.payload);
 		expect(api.post).not.toHaveBeenCalled();
 	});
@@ -109,7 +138,7 @@ describe('createTag', () => {
 		);
 		const store = createTestStore();
 
-		const result = await store.dispatch(createTag('review'));
+		const result = await store.dispatch(createTag({name: 'review'}));
 
 		expect(createTag.fulfilled.match(result)).toBe(true);
 		expect(result.payload).toMatchObject({id: -1, name: 'review'});
@@ -120,8 +149,8 @@ describe('createTag', () => {
 		(api.isConfigured as jest.Mock).mockReturnValue(false);
 		const store = createTestStore();
 
-		await store.dispatch(createTag('first'));
-		await store.dispatch(createTag('second'));
+		await store.dispatch(createTag({name: 'first'}));
+		await store.dispatch(createTag({name: 'second'}));
 
 		expect(store.getState().tags.tags[-1].name).toBe('first');
 		expect(store.getState().tags.tags[-2].name).toBe('second');
@@ -134,7 +163,7 @@ describe('createTag', () => {
 		(api.post as jest.Mock).mockRejectedValue(serverError);
 		const store = createTestStore();
 
-		const result = await store.dispatch(createTag('review'));
+		const result = await store.dispatch(createTag({name: 'review'}));
 
 		expect(createTag.rejected.match(result)).toBe(true);
 		expect(Object.keys(store.getState().tags.tags)).toHaveLength(0);
@@ -199,7 +228,10 @@ describe('synchronizeLocalTags', () => {
 
 		await store.dispatch(synchronizeLocalTags());
 
-		expect(api.post).toHaveBeenCalledWith('api/tags', {name: 'review'});
+		expect(api.post).toHaveBeenCalledWith('api/tags', {
+			name: 'review',
+			visible: true,
+		});
 		expect(store.getState().tags.tags[-1]).toBeUndefined();
 		expect(store.getState().tags.tags[17]).toEqual(remoteTag);
 	});

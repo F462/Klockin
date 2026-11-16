@@ -1,7 +1,7 @@
 export type Tag = {
 	id: number;
 	name: string;
-	color?: string;
+	color?: string | null;
 	'color-safe'?: string;
 	visible?: boolean;
 };
