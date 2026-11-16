@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {
@@ -251,6 +251,25 @@ export const ProjectModal = ({
 			active = false;
 		};
 	}, [dispatch, isEdit, visible]);
+
+	const autoSelectedCustomerRef = useRef(false);
+
+	useEffect(() => {
+		if (!visible) {
+			return;
+		}
+		autoSelectedCustomerRef.current = false;
+	}, [visible, project]);
+
+	useEffect(() => {
+		if (!visible || isEdit || autoSelectedCustomerRef.current) {
+			return;
+		}
+		if (customerList.length === 1) {
+			setCustomer(customerList[0]);
+			autoSelectedCustomerRef.current = true;
+		}
+	}, [visible, isEdit, customerList]);
 
 	const budgetTypeOptions = useMemo(
 		() =>

@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {
@@ -162,6 +162,26 @@ export const ActivityModal = ({
 			active = false;
 		};
 	}, [dispatch, visible]);
+
+	const autoSelectedProjectRef = useRef(false);
+
+	useEffect(() => {
+		if (!visible) {
+			return;
+		}
+		autoSelectedProjectRef.current = false;
+	}, [visible, activity]);
+
+	useEffect(() => {
+		if (!visible || isEdit || autoSelectedProjectRef.current) {
+			return;
+		}
+		const projectList = Object.values(projects);
+		if (projectList.length === 1) {
+			setProjectId(projectList[0].id);
+			autoSelectedProjectRef.current = true;
+		}
+	}, [visible, isEdit, projects]);
 
 	const budgetTypeOptions = useMemo(
 		() =>
