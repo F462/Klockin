@@ -14,9 +14,19 @@ const onboardingSlice = createSlice({
 		notificationPermissionSkipped: (state) => {
 			state.hasSkippedNotificationPermission = true;
 		},
+		chosenOfflineWorkflow: (state) => {
+			state.hasChosenOfflineWorkflow = true;
+		},
+		serverSetupCompleted: (state) => {
+			state.hasCompletedServerSetup = true;
+		},
 	},
 });
 
-export const {developmentWarningShown, notificationPermissionSkipped} =
-	onboardingSlice.actions;
+export const {
+	developmentWarningShown,
+	notificationPermissionSkipped,
+	chosenOfflineWorkflow,
+	serverSetupCompleted,
+} = onboardingSlice.actions;
 export const onboardingReducer = onboardingSlice.reducer;

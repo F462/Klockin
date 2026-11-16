@@ -1,3 +1,4 @@
+import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
@@ -5,6 +6,7 @@ import {FAB} from 'react-native-paper';
 
 import {selectIsUserLoggedIn} from 'src/features/account/context/accountSelectors';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
+import {ScreenParameters} from 'src/features/navigation/ScreenParameters';
 import {BaseScreen} from 'src/ui/BaseScreen';
 import {DividedList} from 'src/ui/DividedList';
 import {EntityListItem} from 'src/ui/EntityListItem';
@@ -85,7 +87,10 @@ const ProjectList = () => {
 
 export const ProjectsScreen = () => {
 	const {t} = useTranslation();
-	const [addModalVisible, setAddModalVisible] = useState(false);
+	const route = useRoute<RouteProp<ScreenParameters, 'Projects'>>();
+	const [addModalVisible, setAddModalVisible] = useState(
+		route.params?.openCreateModal ?? false,
+	);
 
 	const onShowAddModal = useCallback(() => setAddModalVisible(true), []);
 	const onHideAddModal = useCallback(() => setAddModalVisible(false), []);

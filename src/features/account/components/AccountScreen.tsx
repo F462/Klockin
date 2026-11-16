@@ -1,5 +1,5 @@
 import path from 'path';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Linking, StyleSheet, View} from 'react-native';
 import {Button, Portal, TextInput, useTheme} from 'react-native-paper';
@@ -9,6 +9,7 @@ import {
 	selectIsUserLoggingOut,
 } from 'src/features/appState/context/appStateSelectors';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
+import {useAppNavigation} from 'src/features/navigation/context/hooks';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {BaseScreen} from 'src/ui/BaseScreen';
 import {selectIsUserLoggedIn} from '../context/accountSelectors';
@@ -40,11 +41,17 @@ export const AccountScreen = () => {
 	const theme = useTheme();
 	const languageTag = useTranslation().i18n.language;
 	const dispatch = useAppDispatch();
+	const navigation = useAppNavigation();
 
 	const isUserLoggingIn = useAppSelector(selectIsUserLoggingIn);
 	const isUserLoggingOut = useAppSelector(selectIsUserLoggingOut);
 
 	const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
+	useEffect(() => {
+		if (isUserLoggedIn) {
+			navigation.navigate('ServerSetup');
+		}
+	}, [isUserLoggedIn, navigation]);
 
 	const [apiToken, setApiToken] = useState('');
 	const [serverUrl, setServerUrl] = useState(api.getBaseUrl() ?? '');

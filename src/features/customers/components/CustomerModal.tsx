@@ -13,7 +13,9 @@ import {
 	useTheme,
 } from 'react-native-paper';
 
-import {useAppDispatch} from 'src/features/data/context/store';
+import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
+import {useAppNavigation} from 'src/features/navigation/context/hooks';
+import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {OptionSelector} from 'src/ui/Selectors/OptionSelector';
 import {
@@ -106,6 +108,8 @@ export const CustomerModal = ({
 	onHideModal,
 }: CustomerModalProps) => {
 	const dispatch = useAppDispatch();
+	const navigation = useAppNavigation();
+	const hasCompletedServerSetup = useAppSelector(selectHasCompletedServerSetup);
 	const theme = useTheme();
 	const {t} = useTranslation();
 
@@ -165,7 +169,6 @@ export const CustomerModal = ({
 		}
 
 		setSaveError(null);
-
 		if (customer) {
 			setName(customer.name);
 			setNumber(customer.number);
@@ -256,6 +259,7 @@ export const CustomerModal = ({
 		}
 
 		setSaveError(null);
+		let created = false;
 
 		if (customer) {
 			const resultAction = await dispatch(
@@ -316,9 +320,13 @@ export const CustomerModal = ({
 				setSaveError(extractErrorMessage(resultAction));
 				return;
 			}
+			created = true;
 		}
 
 		onHideModal();
+		if (created && !hasCompletedServerSetup) {
+			navigation.navigate('ServerSetup');
+		}
 	}, [
 		buyerReference,
 		color,
@@ -333,6 +341,8 @@ export const CustomerModal = ({
 		isBillable,
 		isValid,
 		isVisible,
+		hasCompletedServerSetup,
+		navigation,
 		invoiceEmail,
 		invoiceTemplate,
 		invoiceText,

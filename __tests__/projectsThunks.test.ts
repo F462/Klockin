@@ -9,10 +9,10 @@ import {
 import {Customer} from 'src/features/customers/types';
 import type {AppDispatch} from 'src/features/data/context/store';
 import {
-	projectsReceived,
-	projectsReducer,
 	projectCreated,
 	projectSelected,
+	projectsReceived,
+	projectsReducer,
 } from 'src/features/projects/context/projectsSlice';
 import {
 	createProject,
@@ -111,11 +111,13 @@ describe('createProject', () => {
 		store.dispatch(projectCreated(makeProject()));
 		store.dispatch(projectSelected(31));
 
-		store.dispatch(projectCreated({
-			...makeProject(),
-			id: 32,
-			name: 'Second project',
-		}));
+		store.dispatch(
+			projectCreated({
+				...makeProject(),
+				id: 32,
+				name: 'Second project',
+			}),
+		);
 
 		expect(store.getState().projects.selectedProjectId).toBe(31);
 	});

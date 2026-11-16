@@ -13,10 +13,10 @@ import {useTheme} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 
-import {selectIsUserLoggedIn} from 'src/features/account/context/accountSelectors';
 import {selectIsSessionUnlocked} from 'src/features/appState/context/appStateSelectors';
 import {userUnlockedSession} from 'src/features/appState/context/appStateSlice';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
+import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
 import {navigationRef} from '../context/navigationRef';
 import {ScreenParameters} from '../ScreenParameters';
 import {screens} from '../screens';
@@ -67,9 +67,12 @@ const linking = {
 };
 
 const useInitialRouteName = () => {
-	const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+	const hasCompletedServerSetup = useSelector(selectHasCompletedServerSetup);
 
-	return !isUserLoggedIn ? 'Account' : 'ActiveTimesheet';
+	if (!hasCompletedServerSetup) {
+		return 'ServerSetup';
+	}
+	return 'ActiveTimesheet';
 };
 
 export const RootNavigation = () => {

@@ -4,6 +4,7 @@ import {ActiveTimesheetScreen} from 'src/features/activeTimesheet/components/Act
 import {ActivitiesScreen} from 'src/features/activities/components/ActivitiesScreen';
 import {CustomersScreen} from 'src/features/customers/components/CustomersScreen';
 import {NfcTagsScreen} from 'src/features/nfc/components/NfcTagsScreen';
+import {ServerSetupScreen} from 'src/features/onboarding/components/ServerSetupScreen';
 import {OverviewScreen} from 'src/features/overview/components/OverviewScreen';
 import {ProjectsScreen} from 'src/features/projects/components/ProjectsScreen';
 import {SettingsScreen} from 'src/features/settings/components/SettingsScreen';
@@ -80,6 +81,11 @@ export const screens: Array<{
 		options: {
 			drawerIcon: createDrawerIconFunction('cog'),
 		},
+	},
+	{
+		name: 'ServerSetup',
+		component: ServerSetupScreen,
+		options: {drawerItemStyle: {display: 'none'}},
 	},
 	{
 		name: 'WorkContract',

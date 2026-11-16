@@ -17,6 +17,8 @@ import {selectCustomerList} from 'src/features/customers/context/customersSelect
 import {fetchCustomerColors} from 'src/features/customers/middleware/customersThunks';
 import {Customer} from 'src/features/customers/types';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
+import {useAppNavigation} from 'src/features/navigation/context/hooks';
+import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {parseSelectedId} from 'src/features/timesheets/utils/functions';
 import {DateField} from 'src/ui/DateField';
@@ -95,6 +97,8 @@ export const ProjectModal = ({
 	onHideModal,
 }: ProjectModalProps) => {
 	const dispatch = useAppDispatch();
+	const navigation = useAppNavigation();
+	const hasCompletedServerSetup = useAppSelector(selectHasCompletedServerSetup);
 	const theme = useTheme();
 	const {t} = useTranslation();
 	const customerList = useAppSelector(selectCustomerList);
@@ -152,7 +156,6 @@ export const ProjectModal = ({
 		}
 
 		setSaveError(null);
-
 		if (project) {
 			setName(project.name);
 			setColor(project.color);
@@ -308,6 +311,7 @@ export const ProjectModal = ({
 		}
 
 		setSaveError(null);
+		let created = false;
 
 		const budgetValue =
 			budget.trim().length > 0 && Number.isFinite(Number(budget))
@@ -370,11 +374,15 @@ export const ProjectModal = ({
 				setSaveError(extractErrorMessage(resultAction));
 				return;
 			}
+			created = true;
 		} else {
 			return;
 		}
 
 		onHideModal();
+		if (created && !hasCompletedServerSetup) {
+			navigation.navigate('ServerSetup');
+		}
 	}, [
 		budget,
 		budgetType,
@@ -386,11 +394,13 @@ export const ProjectModal = ({
 		end,
 		extractErrorMessage,
 		globalActivities,
+		hasCompletedServerSetup,
 		invoiceText,
 		isBillable,
 		isVisible,
 		lockedUntil,
 		name,
+		navigation,
 		number,
 		onHideModal,
 		orderDate,

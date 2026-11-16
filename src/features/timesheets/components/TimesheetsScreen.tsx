@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
 export const TimesheetsScreen = () => {
 	const {t} = useTranslation();
-	const route = useRoute<RouteProp<ScreenParameters>>();
+	const route = useRoute<RouteProp<ScreenParameters, 'Timesheets'>>();
 	const [selectedProject, setSelectedProject] = useState<Project>();
 	const [selectedActivity, setSelectedActivity] = useState<Activity>();
 	const [fromDate, setFromDate] = useState<string | null>(null);

@@ -15,6 +15,8 @@ import {
 import {CustomerColorField} from 'src/features/customers/components/CustomerColorField';
 import {fetchCustomerColors} from 'src/features/customers/middleware/customersThunks';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
+import {useAppNavigation} from 'src/features/navigation/context/hooks';
+import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
 import {selectProjects} from 'src/features/projects/context/projectsSelectors';
 import {Project} from 'src/features/projects/types';
 import {
@@ -92,6 +94,8 @@ export const ActivityModal = ({
 	onHideModal,
 }: ActivityModalProps) => {
 	const dispatch = useAppDispatch();
+	const navigation = useAppNavigation();
+	const hasCompletedServerSetup = useAppSelector(selectHasCompletedServerSetup);
 	const theme = useTheme();
 	const {t} = useTranslation();
 	const projects = useAppSelector(selectProjects);
@@ -209,6 +213,7 @@ export const ActivityModal = ({
 
 		setSaving(true);
 		setSaveError(null);
+		const isCreating = !activity;
 		const payload: CreateActivityPayload = {
 			name: name.trim(),
 			number: number.trim() || null,
@@ -229,6 +234,9 @@ export const ActivityModal = ({
 				await dispatch(createActivity(payload)).unwrap();
 			}
 			onHideModal();
+			if (isCreating && !hasCompletedServerSetup) {
+				navigation.navigate('ServerSetup');
+			}
 		} catch (error: unknown) {
 			const message = (error as {message?: string})?.message;
 			setSaveError(message || t('activitySaveError'));
@@ -246,6 +254,8 @@ export const ActivityModal = ({
 		isBillable,
 		isVisible,
 		name,
+		navigation,
+		hasCompletedServerSetup,
 		number,
 		onHideModal,
 		projectId,

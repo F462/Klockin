@@ -13,3 +13,13 @@ export const selectHasSkippedNotificationPermission = createSelector(
 	[selectOnboardingState],
 	(onboardingState) => onboardingState.hasSkippedNotificationPermission,
 );
+
+export const selectHasChosenOfflineWorkflow = createSelector(
+	[selectOnboardingState],
+	(onboardingState) => onboardingState.hasChosenOfflineWorkflow,
+);
+
+export const selectHasCompletedServerSetup = createSelector(
+	[selectOnboardingState],
+	(onboardingState) => onboardingState.hasCompletedServerSetup,
+);
