@@ -10,6 +10,7 @@ import {
 } from 'src/features/appState/context/appStateSelectors';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useAppNavigation} from 'src/features/navigation/context/hooks';
+import {serverSetupCompleted} from 'src/features/onboarding/context/onboardingSlice';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {BaseScreen} from 'src/ui/BaseScreen';
 import {selectIsUserLoggedIn} from '../context/accountSelectors';
@@ -49,9 +50,10 @@ export const AccountScreen = () => {
 	const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
 	useEffect(() => {
 		if (isUserLoggedIn) {
-			navigation.navigate('ServerSetup');
+			dispatch(serverSetupCompleted());
+			navigation.navigate('ActiveTimesheet');
 		}
-	}, [isUserLoggedIn, navigation]);
+	}, [isUserLoggedIn, navigation, dispatch]);
 
 	const [apiToken, setApiToken] = useState('');
 	const [serverUrl, setServerUrl] = useState(api.getBaseUrl() ?? '');
