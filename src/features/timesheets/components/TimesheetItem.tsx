@@ -2,7 +2,13 @@ import dayjs from 'dayjs';
 import React, {useCallback, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View} from 'react-native';
-import {ActivityIndicator, Icon, Text, useTheme} from 'react-native-paper';
+import {
+	ActivityIndicator,
+	Chip,
+	Icon,
+	Text,
+	useTheme,
+} from 'react-native-paper';
 
 import {selectIsUserLoggedIn} from 'src/features/account/context/accountSelectors';
 import {selectActivity} from 'src/features/activities/context/activitiesSelectors';
@@ -59,6 +65,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flexDirection: 'row',
 		gap: 12,
+	},
+	tagRow: {
+		alignItems: 'center',
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		gap: 4,
+		marginTop: 4,
 	},
 	syncErrorText: {
 		paddingHorizontal: 2,
@@ -333,6 +346,15 @@ export const TimesheetItem = ({timesheet}: {timesheet: Timesheet}) => {
 					<View style={styles.flex}>
 						<TimesheetTimeDisplay timesheet={timesheet} scale={scale} />
 						<TimesheetDetails timesheet={timesheet} scale={scale} />
+						{timesheet.tags && timesheet.tags.length > 0 && (
+							<View style={styles.tagRow}>
+								{timesheet.tags.map((tag, index) => (
+									<Chip key={`${tag}-${index}`} compact disabled>
+										{tag}
+									</Chip>
+								))}
+							</View>
+						)}
 					</View>
 					<TimesheetDurationDisplay timesheet={timesheet} scale={scale} />
 				</View>

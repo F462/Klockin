@@ -6,6 +6,7 @@ import {startOverviewListeners} from 'src/features/overview/middleware/overviewL
 import {startProjectListeners} from 'src/features/projects/middleware/projectsListener';
 import {startSettingsListeners} from 'src/features/settings/middleware/settingsListener';
 import {startSynchronizationListeners} from 'src/features/synchronization/middleware/synchronizationListeners';
+import {startTagListeners} from 'src/features/tags/middleware/tagsListener';
 import {startTimesheetsListeners} from 'src/features/timesheets/middleware/timesheetsListener';
 import {AppStartListening} from '../context/store';
 
@@ -18,5 +19,6 @@ export const startRootListener = (startListening: AppStartListening) => {
 	startProjectListeners(startListening);
 	startSettingsListeners(startListening);
 	startSynchronizationListeners(startListening);
+	startTagListeners(startListening);
 	startTimesheetsListeners(startListening);
 };

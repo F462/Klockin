@@ -20,6 +20,7 @@ import {ActivitySelector} from 'src/ui/Selectors/ActivitySelector';
 import {ProjectSelector} from 'src/ui/Selectors/ProjectSelector';
 import {timesheetEdited} from '../context/timesheetActions';
 import {Timesheet} from '../types';
+import {TimesheetTagsEditor} from './TimesheetTagsEditor';
 
 const styles = StyleSheet.create({
 	modal: {
@@ -88,6 +89,7 @@ const EditTimesheetForm = ({
 
 	const timesheetActivity = useAppSelector(selectActivity(timesheet.activity));
 	const [selectedActivity, setSelectedActivity] = useState(timesheetActivity);
+	const [timesheetTags, setTimesheetTags] = useState(timesheet.tags ?? []);
 
 	const handleEndModeChange = useCallback(
 		(value: string) => {
@@ -111,6 +113,7 @@ const EditTimesheetForm = ({
 				end: resolvedEnd,
 				project: selectedProject?.id,
 				activity: selectedActivity?.id,
+				tags: timesheetTags,
 			}),
 		);
 		onHideModal();
@@ -123,6 +126,7 @@ const EditTimesheetForm = ({
 		timesheet,
 		timesheetBegin,
 		timesheetEnd,
+		timesheetTags,
 	]);
 
 	return (
@@ -164,6 +168,7 @@ const EditTimesheetForm = ({
 					selectedActivity={selectedActivity}
 					onSelectActivity={setSelectedActivity}
 				/>
+				<TimesheetTagsEditor tags={timesheetTags} onChange={setTimesheetTags} />
 			</View>
 			<View style={styles.buttonContainer}>
 				<Button onPress={onHideModal}>{t('dismiss')}</Button>

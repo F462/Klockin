@@ -25,6 +25,8 @@ import {
 	abortWorkContractHoursSync,
 	synchronizeWorkContractHours,
 } from 'src/features/settings/middleware/settingsThunks';
+import {selectHasUnsynchronizedTags} from 'src/features/tags/context/tagsSelectors';
+import {synchronizeLocalTags} from 'src/features/tags/middleware/tagsThunks';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {selectHasUnsynchronizedUsers} from 'src/features/users/context/usersSelectors';
 import {synchronizeLocalUsers} from 'src/features/users/middleware/usersThunks';
@@ -210,6 +212,41 @@ const LocalProjectsJob = () => {
 	);
 };
 
+const LocalTagsJobIcon = () => <List.Icon icon="tag-outline" />;
+
+const LocalTagsJobAction = () => {
+	const {t} = useTranslation();
+	const dispatch = useAppDispatch();
+	const isSyncPending = useAppSelector(selectHasUnsynchronizedTags);
+
+	return (
+		<IconButton
+			icon={isSyncPending ? 'cloud-upload-outline' : 'check'}
+			disabled={!isSyncPending}
+			accessibilityLabel={t(isSyncPending ? 'synchronize' : 'entitySyncDone')}
+			onPress={() => {
+				dispatch(synchronizeLocalTags())
+					.unwrap()
+					.catch(() => undefined);
+			}}
+		/>
+	);
+};
+
+const LocalTagsJob = () => {
+	const {t} = useTranslation();
+	const isSyncPending = useAppSelector(selectHasUnsynchronizedTags);
+
+	return (
+		<List.Item
+			title={t('screenTitles.Tags')}
+			description={t(isSyncPending ? 'entitySyncPending' : 'entitySyncDone')}
+			left={LocalTagsJobIcon}
+			right={LocalTagsJobAction}
+		/>
+	);
+};
+
 const LocalUsersJobIcon = () => <List.Icon icon="account-multiple-outline" />;
 
 const LocalUsersJobAction = () => {
@@ -254,6 +291,7 @@ const syncJobs: SyncJob[] = [
 	{key: 'users', Component: LocalUsersJob},
 	{key: 'customers', Component: LocalCustomersJob},
 	{key: 'projects', Component: LocalProjectsJob},
+	{key: 'tags', Component: LocalTagsJob},
 	{key: 'workContract', Component: WorkContractJob},
 ];
 

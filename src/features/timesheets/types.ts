@@ -3,7 +3,7 @@ export type TimesheetFromApi = {
 	activity: number;
 	project: number;
 	user: number;
-	tags: Array<unknown>;
+	tags: string[];
 	begin: string;
 	end: string | null;
 	duration: number;

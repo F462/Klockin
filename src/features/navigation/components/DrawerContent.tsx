@@ -168,7 +168,7 @@ export const DefaultDrawerContent = ({
 					icon="briefcase"
 					expanded={expandedSections.administration}
 					onToggle={() => toggleSection('administration')}
-					routeNames={['Customers', 'Projects', 'Activities']}
+					routeNames={['Customers', 'Projects', 'Activities', 'Tags']}
 					itemProps={itemProps}
 				/>
 				<AccordionSection

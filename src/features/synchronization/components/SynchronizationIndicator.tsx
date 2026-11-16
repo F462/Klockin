@@ -12,6 +12,7 @@ import {
 	selectHasWorkContractHoursSyncStatus,
 	selectIsWorkContractHoursSyncInProgress,
 } from 'src/features/settings/context/settingsSelectors';
+import {selectHasUnsynchronizedTags} from 'src/features/tags/context/tagsSelectors';
 import {selectHasUnsynchronizedUsers} from 'src/features/users/context/usersSelectors';
 import {selectAreAllTimesheetsInSync} from '../context/synchronizationSelectors';
 import {SynchronizeModal} from './SynchronizeModal';
@@ -27,6 +28,7 @@ export const SynchronizationIndicator = () => {
 	const hasUnsynchronizedProjects = useAppSelector(
 		selectHasUnsynchronizedProjects,
 	);
+	const hasUnsynchronizedTags = useAppSelector(selectHasUnsynchronizedTags);
 	const hasUnsynchronizedUsers = useAppSelector(selectHasUnsynchronizedUsers);
 	const isInternetReachable = useAppSelector(selectIsInternetReachable);
 	const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
@@ -58,6 +60,7 @@ export const SynchronizationIndicator = () => {
 			} else if (
 				hasUnsynchronizedCustomers ||
 				hasUnsynchronizedProjects ||
+				hasUnsynchronizedTags ||
 				hasUnsynchronizedUsers
 			) {
 				return {
@@ -87,6 +90,7 @@ export const SynchronizationIndicator = () => {
 		areAllTimesheetsInSync,
 		hasUnsynchronizedCustomers,
 		hasUnsynchronizedProjects,
+		hasUnsynchronizedTags,
 		hasUnsynchronizedUsers,
 		isInternetReachable,
 		isUserLoggedIn,

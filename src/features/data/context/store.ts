@@ -37,6 +37,7 @@ import {settingsReducer} from 'src/features/settings/context/settingsSlice';
 import {ResetSyncStateTransform} from 'src/features/synchronization/context/ResetSyncStateTransform';
 import {synchronizationReducer} from 'src/features/synchronization/context/synchronizationSlice';
 import {SyncState} from 'src/features/synchronization/types';
+import {tagsReducer} from 'src/features/tags/context/tagsSlice';
 import {
 	timesheetsReducer,
 	timesheetsUpdated,
@@ -74,6 +75,7 @@ const appReducer = combineReducers({
 	projects: projectsReducer,
 	settings: settingsReducer,
 	synchronization: synchronizationReducer,
+	tags: tagsReducer,
 	timesheets: timesheetsReducer,
 	users: usersReducer,
 });

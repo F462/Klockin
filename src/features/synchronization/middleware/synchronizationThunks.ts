@@ -73,6 +73,7 @@ export const synchronizeTimesheet = createAppAsyncThunk<
 						end: timesheet.end,
 						project: timesheet.project,
 						activity: timesheet.activity,
+						tags: timesheet.tags?.join(','),
 					},
 				);
 			} else {
@@ -84,6 +85,7 @@ export const synchronizeTimesheet = createAppAsyncThunk<
 					end: timesheet.end,
 					project: timesheet.project,
 					activity: timesheet.activity,
+					tags: timesheet.tags?.join(','),
 				});
 			}
 

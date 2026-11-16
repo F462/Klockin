@@ -9,6 +9,7 @@ import {OverviewScreen} from 'src/features/overview/components/OverviewScreen';
 import {ProjectsScreen} from 'src/features/projects/components/ProjectsScreen';
 import {SettingsScreen} from 'src/features/settings/components/SettingsScreen';
 import {WorkContractScreen} from 'src/features/settings/components/WorkContractScreen';
+import {TagsScreen} from 'src/features/tags/components/TagsScreen';
 import {TimesheetsScreen} from 'src/features/timesheets/components/TimesheetsScreen';
 import {UsersScreen} from 'src/features/users/components/UsersScreen';
 import {createDrawerIconFunction} from './components/DrawerItemIcon';
@@ -80,6 +81,13 @@ export const screens: Array<{
 		component: SettingsScreen,
 		options: {
 			drawerIcon: createDrawerIconFunction('cog'),
+		},
+	},
+	{
+		name: 'Tags',
+		component: TagsScreen,
+		options: {
+			drawerIcon: createDrawerIconFunction('tag-multiple'),
 		},
 	},
 	{

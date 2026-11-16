@@ -81,12 +81,43 @@ describe('fetchTimesheets', () => {
 	});
 
 	it('fetches a single page when all entries fit into one page', async () => {
-		(api.get as jest.Mock).mockResolvedValueOnce(makeTimesheets(1, 3));
+		const response = makeTimesheets(1, 3);
+		response[0].tags = ['planning', 'review'];
+		(api.get as jest.Mock).mockResolvedValueOnce(response);
 
 		await store.dispatch(fetchTimesheets());
 
 		expect(api.get).toHaveBeenCalledTimes(1);
 		expect(localTimesheetCount()).toBe(3);
+		expect(
+			Object.values(store.getState().timesheets.timesheets).find(
+				(timesheet) => timesheet.tags?.length,
+			)?.tags,
+		).toEqual(['planning', 'review']);
+	});
+
+	it('serializes tags as a comma-separated string when creating a timesheet', async () => {
+		const timesheet: Timesheet = {
+			id: 'local-tagged',
+			begin: '2026-03-01T08:00:00',
+			project: 1,
+			activity: 1,
+			tags: ['planning', 'review'],
+		};
+		store.dispatch(
+			timesheetsUpdated({
+				timesheets: {[timesheet.id]: timesheet},
+				newTimesheetsIdTable: {},
+			}),
+		);
+		(api.post as jest.Mock).mockResolvedValue(makeTimesheet(42));
+
+		await store.dispatch(synchronizeTimesheet({timesheet}));
+
+		expect(api.post).toHaveBeenCalledWith(
+			'api/timesheets',
+			expect.objectContaining({tags: 'planning,review'}),
+		);
 	});
 
 	it('follows the pagination until a short page is received', async () => {
@@ -183,6 +214,7 @@ describe('fetchTimesheets', () => {
 			end: '2026-03-01T09:00:00',
 			project: 1,
 			activity: 1,
+			tags: ['planning', 'review'],
 		};
 		const updatedTimesheet: Timesheet = {
 			...initialTimesheet,
@@ -222,6 +254,7 @@ describe('fetchTimesheets', () => {
 		expect((api.patch as jest.Mock).mock.calls).toHaveLength(1);
 		expect((api.patch as jest.Mock).mock.calls[0][1]).toMatchObject({
 			end: updatedTimesheet.end,
+			tags: 'planning,review',
 		});
 	});
 });

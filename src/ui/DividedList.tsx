@@ -8,12 +8,14 @@ export function DividedList<T>({
 	onRefresh,
 	showDividers = false,
 	scrollEnabled = true,
+	emptyComponent,
 }: {
 	data: Array<T>;
 	renderItem: React.ComponentProps<typeof FlatList<T>>['renderItem'];
 	onRefresh?: () => Promise<unknown>;
 	showDividers?: boolean;
 	scrollEnabled?: boolean;
+	emptyComponent?: React.ReactElement;
 }) {
 	const [refreshing, setRefreshing] = useState(false);
 	const dividerCallback = useCallback(() => <Divider />, []);
@@ -34,6 +36,7 @@ export function DividedList<T>({
 			data={data}
 			renderItem={renderItem}
 			ItemSeparatorComponent={showDividers ? dividerCallback : undefined}
+			ListEmptyComponent={emptyComponent}
 			refreshing={refreshing}
 			onRefresh={onRefresh ? refreshCallback : undefined}
 			scrollEnabled={scrollEnabled}
