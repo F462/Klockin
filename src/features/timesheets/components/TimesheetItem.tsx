@@ -19,10 +19,12 @@ import {
 	selectSyncState,
 } from 'src/features/synchronization/context/synchronizationSelectors';
 import {SyncState} from 'src/features/synchronization/types';
+import {selectTagList} from 'src/features/tags/context/tagsSelectors';
 import {useResponsiveScale} from 'src/features/theming/utils/useResponsiveScale';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {useTime} from 'src/features/utils/useTime';
 import {ColorIndicator} from 'src/ui/ColorIndicator';
+import {getContrastingTextColor} from 'src/ui/getContrastingTextColor';
 import {ListItem} from 'src/ui/ListItem';
 import {ListItemText} from 'src/ui/ListItemText';
 import {PressableOpacity} from 'src/ui/PressableOpacity';
@@ -294,6 +296,7 @@ export const TimesheetItem = ({timesheet}: {timesheet: Timesheet}) => {
 	const theme = useTheme();
 	const scale = useResponsiveScale();
 	const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
+	const managedTags = useAppSelector(selectTagList);
 	const syncError = useAppSelector(selectSyncError(timesheet.id));
 
 	const [contextMenuVisible, setContextMenuVisible] = useState(false);
@@ -348,11 +351,30 @@ export const TimesheetItem = ({timesheet}: {timesheet: Timesheet}) => {
 						<TimesheetDetails timesheet={timesheet} scale={scale} />
 						{timesheet.tags && timesheet.tags.length > 0 && (
 							<View style={styles.tagRow}>
-								{timesheet.tags.map((tag, index) => (
-									<Chip key={`${tag}-${index}`} compact disabled>
-										{tag}
-									</Chip>
-								))}
+								{timesheet.tags.map((tag, index) => {
+									const managedTag = managedTags.find(
+										(item) =>
+											item.name.toLocaleLowerCase() === tag.toLocaleLowerCase(),
+									);
+									return (
+										<Chip
+											key={`${tag}-${index}`}
+											compact
+											disabled
+											style={{
+												backgroundColor:
+													managedTag?.color ?? managedTag?.['color-safe'],
+											}}
+											textStyle={{
+												color: getContrastingTextColor(
+													managedTag?.color ?? managedTag?.['color-safe'],
+													theme.colors.onSurface,
+												),
+											}}>
+											{tag}
+										</Chip>
+									);
+								})}
 							</View>
 						)}
 					</View>

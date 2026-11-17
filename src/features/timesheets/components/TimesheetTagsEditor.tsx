@@ -15,6 +15,7 @@ import {
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {selectTagList} from 'src/features/tags/context/tagsSelectors';
 import {createTag} from 'src/features/tags/middleware/tagsThunks';
+import {getContrastingTextColor} from 'src/ui/getContrastingTextColor';
 
 const styles = StyleSheet.create({
 	container: {
@@ -96,6 +97,12 @@ export const TimesheetTagsEditor = ({
 					tag.toLocaleLowerCase() === managedTag.name.toLocaleLowerCase(),
 			),
 	);
+	const getTagColor = (name: string) => {
+		const managedTag = managedTags.find(
+			(tag) => tag.name.toLocaleLowerCase() === name.toLocaleLowerCase(),
+		);
+		return managedTag?.color ?? managedTag?.['color-safe'];
+	};
 
 	const saveTag = async () => {
 		if (!canSave) {
@@ -156,6 +163,13 @@ export const TimesheetTagsEditor = ({
 						key={`${tag}-${index}`}
 						compact
 						mode="outlined"
+						style={{backgroundColor: getTagColor(tag)}}
+						textStyle={{
+							color: getContrastingTextColor(
+								getTagColor(tag),
+								theme.colors.onSurface,
+							),
+						}}
 						onPress={() => openEditModal(index)}
 						onClose={() => deleteTagAtIndex(index)}>
 						{tag}
@@ -171,6 +185,15 @@ export const TimesheetTagsEditor = ({
 								key={tag.id}
 								compact
 								mode="outlined"
+								style={{
+									backgroundColor: tag.color ?? tag['color-safe'],
+								}}
+								textStyle={{
+									color: getContrastingTextColor(
+										tag.color ?? tag['color-safe'],
+										theme.colors.onSurface,
+									),
+								}}
 								onPress={() => onChange([...tags, tag.name])}>
 								{tag.name}
 							</Chip>

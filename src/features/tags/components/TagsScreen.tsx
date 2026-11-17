@@ -43,7 +43,7 @@ const TagItem = ({tag}: {tag: Tag}) => {
 			/>
 			<EntityListItem
 				name={tag.name}
-				color={tag.color}
+				color={tag.color ?? tag['color-safe']}
 				onPress={showEditModal}
 				onLongPress={() => setContextMenuVisible(true)}
 			/>
