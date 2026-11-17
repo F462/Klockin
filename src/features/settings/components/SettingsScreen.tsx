@@ -21,12 +21,10 @@ import {BaseScreen} from 'src/ui/BaseScreen';
 import {
 	selectAppTheme,
 	selectAutomaticBackupIntervalDays,
-	selectIsActiveTimesheetNotificationEnabled,
 	selectIsBiometricsToUnlockEnabled,
 	selectIsDarkOledEnabled,
 } from '../context/settingsSelectors';
 import {
-	activeTimesheetNotificationEnabledSet,
 	appThemeSet,
 	automaticBackupIntervalDaysSet,
 	biometricsToUnlockEnabledStateSet,
@@ -371,22 +369,6 @@ const WorkingTimeSection = () => {
 	);
 };
 
-const ActiveTimesheetNotificationSwitch = () => {
-	const dispatch = useAppDispatch();
-	const isActiveTimesheetNotificationEnabled = useAppSelector(
-		selectIsActiveTimesheetNotificationEnabled,
-	);
-
-	return (
-		<Switch
-			value={isActiveTimesheetNotificationEnabled}
-			onValueChange={(newValue) => {
-				dispatch(activeTimesheetNotificationEnabledSet(newValue));
-			}}
-		/>
-	);
-};
-
 const NotificationSettingsItem = () => {
 	const {t} = useTranslation();
 
@@ -417,12 +399,6 @@ const NotificationSettingsItem = () => {
 	return (
 		<List.Section>
 			<List.Subheader>{t('notificationsTitle')}</List.Subheader>
-			<List.Item
-				title={t('activeTimesheetNotificationSettings')}
-				description={t('manageActiveTimesheetNotificationSettings')}
-				left={NotificationBellIcon}
-				right={ActiveTimesheetNotificationSwitch}
-			/>
 			<List.Item
 				title={t('dailyWorkingHoursNotificationSettings')}
 				description={t('manageDailyWorkingHoursNotificationSettings')}

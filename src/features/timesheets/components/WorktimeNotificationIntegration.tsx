@@ -89,8 +89,9 @@ export const DailyWorkingHoursNotificationIntegration = () => {
 						}),
 						android: {
 							channelId: NOTIFICATION_CHANNEL_ID,
-							// Must be an alpha-only monochrome icon (see
-							// ActiveTimesheetNotificationIntegration for details).
+							// Must be an alpha-only monochrome icon: Android derives
+							// the notification icon from the alpha channel and would
+							// render the adaptive app icon as a solid circle.
 							smallIcon: 'ic_notification',
 						},
 					},
@@ -150,8 +151,9 @@ export const DailyWorkingHoursNotificationIntegration = () => {
 				}),
 				android: {
 					channelId: NOTIFICATION_CHANNEL_ID,
-					// Must be an alpha-only monochrome icon (see
-					// ActiveTimesheetNotificationIntegration for details).
+					// Must be an alpha-only monochrome icon: Android derives
+					// the notification icon from the alpha channel and would
+					// render the adaptive app icon as a solid circle.
 					smallIcon: 'ic_notification',
 				},
 			});

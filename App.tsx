@@ -5,7 +5,6 @@ import {Portal} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 
-import {ActiveTimesheetNotificationIntegration} from 'src/features/activeTimesheet/components/ActiveTimesheetNotificationIntegration';
 import {TimesheetWidgetIntegration} from 'src/features/activeTimesheet/components/TimesheetWidgetIntegration';
 import {persistor, store} from 'src/features/data/context/store';
 import i18n from 'src/features/localization/utils/i18n';
@@ -46,7 +45,6 @@ function App() {
 								<NfcIntegration />
 								<NotificationPermissionGate>
 									<TimesheetWidgetIntegration />
-									<ActiveTimesheetNotificationIntegration />
 									<DailyWorkingHoursNotificationIntegration />
 									<Portal.Host>
 										<SessionLocker />

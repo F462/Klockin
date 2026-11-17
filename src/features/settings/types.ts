@@ -23,7 +23,6 @@ export type SettingsState = {
 	appTheme: AppTheme;
 	isDarkOledEnabled: boolean;
 	isBiometricsToUnlockEnabled: boolean;
-	isActiveTimesheetNotificationEnabled: boolean;
 	automaticBackupIntervalDays: AutomaticBackupIntervalDays;
 	lastAutomaticBackupAt: number | null;
 	workContractHoursPerDay: WorkContractHours;
