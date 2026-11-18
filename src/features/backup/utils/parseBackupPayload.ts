@@ -306,21 +306,19 @@ export const parseBackupPayload = (contents: string): BackupPayload => {
 	}
 
 	if (!isRecord(payload) || !isRecord(payload.data)) {
-		throw new Error('The selected file is not a supported Kimai backup');
+		throw new Error('The selected file is not a supported Klockin backup');
 	}
 
 	const data = normalizeBackupData(payload.data);
 	if (!data) {
-		throw new Error('The selected file is not a supported Kimai backup');
+		throw new Error('The selected file is not a supported Klockin backup');
 	}
 
 	return {
 		app: isRecord(payload.app)
 			? {
 					name:
-						typeof payload.app.name === 'string'
-							? payload.app.name
-							: 'Kimai Time Tracker',
+						typeof payload.app.name === 'string' ? payload.app.name : 'Klockin',
 					version:
 						typeof payload.app.version === 'string'
 							? payload.app.version
@@ -330,7 +328,7 @@ export const parseBackupPayload = (contents: string): BackupPayload => {
 							? payload.app.build
 							: 'unknown',
 				}
-			: {name: 'Kimai Time Tracker', version: 'unknown', build: 'unknown'},
+			: {name: 'Klockin', version: 'unknown', build: 'unknown'},
 		exportedAt:
 			typeof payload.exportedAt === 'string' &&
 			!Number.isNaN(Date.parse(payload.exportedAt))

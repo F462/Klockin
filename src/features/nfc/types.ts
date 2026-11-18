@@ -20,7 +20,7 @@ export type NfcState = {
 	isScanning: boolean;
 	/**
 	 * The UID of the tag that is waiting to be (re-)programmed with the
-	 * `application/x.kimai` NDEF record, or `undefined` when no
+	 * `application/x.klockin` NDEF record, or `undefined` when no
 	 * re-programming is in progress. Mutually exclusive with {@link isScanning}.
 	 */
 	reprogrammingTagId?: string;

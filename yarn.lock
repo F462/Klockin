@@ -9292,9 +9292,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kimai_time_tracker@workspace:.":
+"kleur@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "kleur@npm:3.0.3"
+  checksum: 10c0/cd3a0b8878e7d6d3799e54340efe3591ca787d9f95f109f28129bdd2915e37807bf8918bb295ab86afb8c82196beec5a1adcaf29042ce3f2bd932b038fe3aa4b
+  languageName: node
+  linkType: hard
+
+"klockin@workspace:.":
   version: 0.0.0-use.local
-  resolution: "kimai_time_tracker@workspace:."
+  resolution: "klockin@workspace:."
   dependencies:
     "@babel/core": "npm:^7.29.7"
     "@babel/preset-env": "npm:^7.29.7"
@@ -9384,13 +9391,6 @@ __metadata:
     typescript-7: "npm:typescript@7.0.2"
   languageName: unknown
   linkType: soft
-
-"kleur@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "kleur@npm:3.0.3"
-  checksum: 10c0/cd3a0b8878e7d6d3799e54340efe3591ca787d9f95f109f28129bdd2915e37807bf8918bb295ab86afb8c82196beec5a1adcaf29042ce3f2bd932b038fe3aa4b
-  languageName: node
-  linkType: hard
 
 "launch-editor@npm:^2.9.1":
   version: 2.10.0
@@ -12235,9 +12235,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"src@link:./src::locator=kimai_time_tracker%40workspace%3A.":
+"src@link:./src::locator=klockin%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "src@link:./src::locator=kimai_time_tracker%40workspace%3A."
+  resolution: "src@link:./src::locator=klockin%40workspace%3A."
   languageName: node
   linkType: soft
 

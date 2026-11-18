@@ -1,7 +1,7 @@
 import SwiftUI
 import WidgetKit
 
-private let appGroup = "group.com.github.f462.kimaitimetracker"
+private let appGroup = "group.com.github.f462.klockin"
 
 struct TimesheetWidgetEntry: TimelineEntry {
   let date: Date
@@ -18,7 +18,7 @@ struct TimesheetWidgetProvider: TimelineProvider {
       date: .now,
       workedSeconds: 0,
       active: false,
-      primaryContainer: "#99FA7A",
+      primaryContainer: "#D1FAE5",
       projectName: "",
       activityName: ""
     )
@@ -46,7 +46,7 @@ struct TimesheetWidgetProvider: TimelineProvider {
     let elapsedSinceSnapshot = active && activeStartedToday && snapshotIsToday
       ? max(0, Int(now.timeIntervalSince(snapshotAt)))
       : 0
-    let primaryContainer = state["primaryContainer"] as? String ?? "#99FA7A"
+    let primaryContainer = state["primaryContainer"] as? String ?? "#D1FAE5"
     let projectName = state["projectName"] as? String ?? ""
     let activityName = state["activityName"] as? String ?? ""
     return TimesheetWidgetEntry(
@@ -70,7 +70,7 @@ struct TimesheetWidgetView: View {
   private func color(from colorString: String) -> Color {
     let hex = colorString.trimmingCharacters(in: CharacterSet(charactersIn: "#"))
     guard hex.count == 6, let value = UInt32(hex, radix: 16) else {
-      return Color(red: 153.0 / 255, green: 250.0 / 255, blue: 122.0 / 255)
+      return Color(red: 209.0 / 255, green: 250.0 / 255, blue: 229.0 / 255)
     }
     return Color(
       red: Double((value >> 16) & 0xff) / 255,
@@ -90,7 +90,7 @@ struct TimesheetWidgetView: View {
   }
 
   var body: some View {
-    Link(destination: URL(string: "kimai://active-timesheet")!) {
+    Link(destination: URL(string: "klockin://active-timesheet")!) {
       VStack(alignment: .center, spacing: 2) {
         Text(durationText)
           .font(.system(size: 32, weight: .semibold, design: .rounded).monospacedDigit())
@@ -126,7 +126,7 @@ struct TimesheetWidget: Widget {
     StaticConfiguration(kind: kind, provider: TimesheetWidgetProvider()) { entry in
       TimesheetWidgetView(entry: entry)
     }
-    .configurationDisplayName("Kimai time")
+    .configurationDisplayName("Klockin")
     .description("Track today's worked time and control the active timesheet.")
     .supportedFamilies([.systemSmall, .systemMedium])
   }

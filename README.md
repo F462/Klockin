@@ -1,4 +1,4 @@
-# Kimai Time Tracker App
+# Klockin App
 
 This project is about creating an Android/iOS app for [Kimai](https://github.com/kimai/kimai) that supports time tracking on a single button press, even without Internet access (with delayed synchronization).
 
@@ -14,7 +14,7 @@ This project is about creating an Android/iOS app for [Kimai](https://github.com
 - [x] Home-screen widget showing today's worked duration and starting/stopping the active timesheet
 - [x] Smartwatch compatibility
 
-The iOS widget requires iOS 17 or later. Enable the `group.com.github.f462.kimaitimetracker` App Group for both the app and the `TimesheetWidget` extension in the Apple Developer account used for signing.
+The iOS widget requires iOS 17 or later. Enable the `group.com.github.f462.klockin` App Group for both the app and the `TimesheetWidget` extension in the Apple Developer account used for signing.
 
 ## Contributing
 

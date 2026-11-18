@@ -6,7 +6,7 @@ import {backupDataImported} from '../context/backupActions';
 import {buildBackupPayload} from '../utils/buildBackupPayload';
 import {parseBackupPayload} from '../utils/parseBackupPayload';
 
-const BACKUP_FILE_NAME = 'kimai-backup.json';
+const BACKUP_FILE_NAME = 'klockin-backup.json';
 
 type BackupSaver = {
 	chooseBackupFolder: () => Promise<boolean>;

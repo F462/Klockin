@@ -170,7 +170,7 @@
 	"restoreDataConfirmTitle": "App-Daten wiederherstellen?",
 	"restoreDataConfirmMessage": "Die aktuellen App-Daten werden durch die ausgewählte Sicherung ersetzt. Dies kann nicht rückgängig gemacht werden.",
 	"restoreDataSuccess": "Die App-Daten wurden wiederhergestellt.",
-	"restoreDataError": "Die Sicherung konnte nicht wiederhergestellt werden. Wählen Sie eine gültige Kimai-Sicherungsdatei.",
+	"restoreDataError": "Die Sicherung konnte nicht wiederhergestellt werden. Wählen Sie eine gültige Klockin-Sicherungsdatei.",
 	"cancel": "Abbrechen",
 	"automaticBackup": "Automatische Sicherung",
 	"automaticBackupDescription": "Sichert beim Öffnen der App nach der ausgewählten Anzahl von Tagen.",

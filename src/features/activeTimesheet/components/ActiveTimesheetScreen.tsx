@@ -12,7 +12,6 @@ import {
 import {IconButton, SegmentedButtons, Text, useTheme} from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
-import AppIcon from 'src/assets/icon.svg';
 import {stopActiveTimesheet} from 'src/features/activeTimesheet/middleware/activeTimesheetThunks';
 import {
 	selectSelectedActivity,
@@ -35,7 +34,6 @@ import {
 } from 'src/features/timesheets/context/timesheetsSelectors';
 import {fetchTimesheets} from 'src/features/timesheets/middleware/timesheetsThunks';
 import {DateTimePicker} from 'src/ui/DateTimePicker';
-import {PressableOpacity} from 'src/ui/PressableOpacity';
 import {ActivitySelector as ActivitySelectorComponent} from 'src/ui/Selectors/ActivitySelector';
 import {ProjectSelector as ProjectSelectorComponent} from 'src/ui/Selectors/ProjectSelector';
 import {
@@ -206,6 +204,7 @@ const ProjectSelector = () => {
 
 const StartButton = () => {
 	const dispatch = useAppDispatch();
+	const theme = useTheme();
 	const canTimesheetBeStarted = useAppSelector(selectCanTimesheetBeStarted);
 	const selectedProjectId = useAppSelector(selectSelectedProjectId);
 	const selectedActivityId = useAppSelector(selectSelectedActivityId);
@@ -236,11 +235,13 @@ const StartButton = () => {
 	]);
 
 	return canTimesheetBeStarted ? (
-		<PressableOpacity
+		<IconButton
+			icon="play"
 			style={[styles.startButton, {padding: 20 * scale}]}
-			onPress={handleStart}>
-			<AppIcon width={iconSize} height={iconSize} />
-		</PressableOpacity>
+			iconColor={theme.colors.primary}
+			size={iconSize}
+			onPress={handleStart}
+		/>
 	) : null;
 };
 

@@ -61,7 +61,7 @@ describe('buildBackupPayload', () => {
 		} = buildBackupPayload(makeState(), exportTimestamp);
 
 		expect(app).toEqual({
-			name: 'Kimai Time Tracker',
+			name: 'Klockin',
 			version: '1.2.3',
 			build: '42',
 		});

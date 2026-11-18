@@ -58,7 +58,7 @@ const SessionUnlockComponent = () => {
 const RootDrawer = createDrawerNavigator();
 
 const linking = {
-	prefixes: ['kimai://'],
+	prefixes: ['klockin://'],
 	config: {
 		screens: {
 			ActiveTimesheet: 'active-timesheet',

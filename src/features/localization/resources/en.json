@@ -146,7 +146,7 @@
 	"restoreDataConfirmTitle": "Restore app data?",
 	"restoreDataConfirmMessage": "This replaces the current app data with the selected backup. This cannot be undone.",
 	"restoreDataSuccess": "App data was restored.",
-	"restoreDataError": "The backup could not be restored. Choose a valid Kimai backup file.",
+	"restoreDataError": "The backup could not be restored. Choose a valid Klockin backup file.",
 	"cancel": "Cancel",
 	"automaticBackup": "Automatic backup",
 	"automaticBackupDescription": "Saves when you open the app after the selected number of days.",

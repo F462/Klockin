@@ -26,7 +26,7 @@ import {
  * app — the OS no longer shows the "Open with…" disambiguation dialog.
  * The literal string must match `android:mimeType` in AndroidManifest.xml.
  */
-const NFC_TAG_MIME_TYPE = 'application/x.kimai';
+const NFC_TAG_MIME_TYPE = 'application/x.klockin';
 
 /**
  * The outcome of programming a physical tag: whether the NDEF record was
@@ -56,7 +56,7 @@ const getTagRequest = (request: NfcTagRequest) =>
 		: request;
 
 /**
- * Writes the `application/x.kimai` NDEF MIME record to the currently scanned
+ * Writes the `application/x.klockin` NDEF MIME record to the currently scanned
  * tag. Returns `false` instead of throwing when the tag is read-only, lacks
  * NDEF support, or otherwise cannot be written, so the caller can surface
  * the failed programming while the registration itself still succeeds.
@@ -90,7 +90,7 @@ const writeTagNdef = async (
 
 /**
  * Registers a newly scanned NFC tag with a default name derived from its
- * UID, programs the tag with the `application/x.kimai` NDEF record (so
+ * UID, programs the tag with the `application/x.klockin` NDEF record (so
  * future taps route directly to this app without the OS disambiguation
  * dialog), and exits scanning mode. The programming result is returned so
  * the caller can inform the user when the tag could not be programmed.
@@ -116,7 +116,7 @@ export const nfcRegisterTag = createAppAsyncThunk<
 });
 
 /**
- * (Re-)writes the `application/x.kimai` NDEF record to an already registered
+ * (Re-)writes the `application/x.klockin` NDEF record to an already registered
  * tag whose initial programming failed or was performed before the MIME
  * record existed. Must run while the tag is held against the device, i.e.
  * inside the `DiscoverTag` event of a foreground tap.
@@ -136,7 +136,7 @@ export const nfcReprogramTag = createAppAsyncThunk<
 
 /**
  * Handles an NFC tag detection:
- * - If re-programming mode is active for this tag, the `application/x.kimai`
+ * - If re-programming mode is active for this tag, the `application/x.klockin`
  *   NDEF record is (re-)written and the mode exits.
  * - If scanning is active, the tag is registered as a new known tag.
  * - Otherwise the scanned tag must already be a known tag: it is used to

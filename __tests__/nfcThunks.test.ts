@@ -67,7 +67,7 @@ describe('nfcRegisterTag', () => {
 		expect(tags[TAG_ID].name).toBe('NFC 1234');
 	});
 
-	it('programs the tag with the application/x.kimai NDEF record', async () => {
+	it('programs the tag with the application/x.klockin NDEF record', async () => {
 		const store = configureTestStore() as TestStore;
 		store.dispatch(nfcScanningStarted());
 
@@ -75,7 +75,7 @@ describe('nfcRegisterTag', () => {
 
 		expect(Ndef.record).toHaveBeenCalledWith(
 			Ndef.TNF_MIME_MEDIA,
-			'application/x.kimai',
+			'application/x.klockin',
 			expect.anything(),
 			expect.anything(),
 		);
@@ -106,7 +106,7 @@ describe('nfcRegisterTag', () => {
 });
 
 describe('nfcReprogramTag', () => {
-	it('writes the application/x.kimai NDEF record and reports success', async () => {
+	it('writes the application/x.klockin NDEF record and reports success', async () => {
 		const store = configureTestStore() as TestStore;
 
 		const result = await store.dispatch(nfcReprogramTag(TAG_ID));
@@ -115,7 +115,7 @@ describe('nfcReprogramTag', () => {
 		expect(result.payload).toEqual({id: TAG_ID, programmed: true});
 		expect(Ndef.record).toHaveBeenCalledWith(
 			Ndef.TNF_MIME_MEDIA,
-			'application/x.kimai',
+			'application/x.klockin',
 			expect.anything(),
 			expect.anything(),
 		);

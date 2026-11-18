@@ -34,7 +34,7 @@ export const buildBackupPayload = (
 	exportedAt: string = new Date().toISOString(),
 ): BackupPayload => ({
 	app: {
-		name: 'Kimai Time Tracker',
+		name: 'Klockin',
 		version: DeviceInfo.getVersion(),
 		build: DeviceInfo.getBuildNumber(),
 	},

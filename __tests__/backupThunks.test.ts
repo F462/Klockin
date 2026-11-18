@@ -52,7 +52,7 @@ describe('exportData', () => {
 
 		expect(saveBackup).toHaveBeenCalledWith(
 			expect.any(String),
-			'kimai-backup.json',
+			'klockin-backup.json',
 		);
 		expect(JSON.parse(saveBackup.mock.calls[0][0])).toHaveProperty('data');
 		expect(() => parseBackupPayload(saveBackup.mock.calls[0][0])).not.toThrow();
@@ -62,7 +62,7 @@ describe('exportData', () => {
 describe('importData', () => {
 	const validBackup = () =>
 		JSON.stringify({
-			app: {name: 'Kimai Time Tracker', version: '1.2.3', build: '42'},
+			app: {name: 'Klockin', version: '1.2.3', build: '42'},
 			exportedAt: '2026-11-05T12:00:00.000Z',
 			device: {model: 'Test Device', os: 'Android', osVersion: '14'},
 			data: {
@@ -134,7 +134,7 @@ describe('importData', () => {
 
 		const parsed = parseBackupPayload(JSON.stringify(payload));
 
-		expect(parsed.app.name).toBe('Kimai Time Tracker');
+		expect(parsed.app.name).toBe('Klockin');
 		expect(parsed.data.synchronization).toEqual({timesheets: {}, errors: {}});
 		expect(parsed.data.timesheets).toEqual({
 			timesheets: {},
@@ -170,7 +170,7 @@ describe('importData', () => {
 
 		expect(importData.rejected.match(result)).toBe(true);
 		if (importData.rejected.match(result)) {
-			expect(result.error.message).toContain('supported Kimai backup');
+			expect(result.error.message).toContain('supported Klockin backup');
 		}
 
 		expect(
