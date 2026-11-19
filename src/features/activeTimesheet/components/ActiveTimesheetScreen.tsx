@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+	Image,
 	RefreshControl,
 	ScrollView,
 	StyleProp,
@@ -54,9 +55,16 @@ const styles = StyleSheet.create({
 	scrollableContent: {
 		flex: 1,
 	},
-	startButton: {
+	watermarkedButton: {
 		alignSelf: 'center',
+		alignItems: 'center',
+		justifyContent: 'center',
 		padding: 20,
+	},
+	watermark: {
+		position: 'absolute',
+		top: '50%',
+		left: '50%',
 	},
 	dayWorkingHoursContainer: {
 		flexDirection: 'row',
@@ -77,9 +85,70 @@ const styles = StyleSheet.create({
 
 const ICON_SIZE = 200;
 
+// The monogram sits in the foreground, fully inside the play/stop glyph, in a
+// dark color so it contrasts against the primary-colored icon. It is sized as
+// a fraction of the icon so it stays inside even the narrowest glyph (play).
+const WATERMARK_RATIO = 0.25;
+const WATERMARK = require('src/assets/bootsplash/logo_mono_dark.png');
+
+// The icon-font glyphs are left- and baseline-aligned, so their visible center
+// is offset from the centered icon box. Fractions of the icon size that move
+// the watermark from the box center onto each glyph's center (y positive = down).
+const WATERMARK_CENTER_OFFSETS: Record<string, {x: number; y: number}> = {
+	play: {x: -0.1035, y: 0.0439},
+	stop: {x: -0.125, y: 0.0625},
+};
+
+const WatermarkedIconButton = ({
+	icon,
+	size,
+	onPress,
+}: {
+	icon: string;
+	size: number;
+	onPress: () => void;
+}) => {
+	const theme = useTheme();
+	const watermarkSize = size * WATERMARK_RATIO;
+	const {x: offsetX, y: offsetY} = WATERMARK_CENTER_OFFSETS[icon] ?? {
+		x: 0,
+		y: 0,
+	};
+
+	return (
+		<View style={styles.watermarkedButton}>
+			<IconButton
+				icon={icon}
+				size={size}
+				iconColor={theme.colors.primary}
+				onPress={onPress}
+			/>
+			<Image
+				source={WATERMARK}
+				style={[
+					styles.watermark,
+					{
+						width: watermarkSize,
+						height: watermarkSize,
+						transform: [
+							{translateY: '-50%'},
+							{translateX: '-50%'},
+							{translateX: offsetX * size},
+							{translateY: offsetY * size},
+						],
+					},
+				]}
+				resizeMode="contain"
+				accessible={false}
+				accessibilityElementsHidden
+				importantForAccessibility="no-hide-descendants"
+			/>
+		</View>
+	);
+};
+
 const StopButton = () => {
 	const dispatch = useAppDispatch();
-	const theme = useTheme();
 	const scale = useResponsiveScale();
 
 	const handleStop = useCallback(() => {
@@ -87,10 +156,8 @@ const StopButton = () => {
 	}, [dispatch]);
 
 	return (
-		<IconButton
+		<WatermarkedIconButton
 			icon="stop"
-			style={[styles.startButton, {padding: 20 * scale}]}
-			iconColor={theme.colors.primary}
 			size={ICON_SIZE * scale}
 			onPress={handleStop}
 		/>
@@ -204,7 +271,6 @@ const ProjectSelector = () => {
 
 const StartButton = () => {
 	const dispatch = useAppDispatch();
-	const theme = useTheme();
 	const canTimesheetBeStarted = useAppSelector(selectCanTimesheetBeStarted);
 	const selectedProjectId = useAppSelector(selectSelectedProjectId);
 	const selectedActivityId = useAppSelector(selectSelectedActivityId);
@@ -212,8 +278,6 @@ const StartButton = () => {
 		selectNextTimesheetStartDate,
 	);
 	const scale = useResponsiveScale();
-
-	const iconSize = ICON_SIZE * scale;
 
 	const handleStart = useCallback(() => {
 		dispatch(
@@ -235,11 +299,9 @@ const StartButton = () => {
 	]);
 
 	return canTimesheetBeStarted ? (
-		<IconButton
+		<WatermarkedIconButton
 			icon="play"
-			style={[styles.startButton, {padding: 20 * scale}]}
-			iconColor={theme.colors.primary}
-			size={iconSize}
+			size={ICON_SIZE * scale}
 			onPress={handleStart}
 		/>
 	) : null;
