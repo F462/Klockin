@@ -34,15 +34,15 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
       TimesheetWidgetProvider.PREFERENCES_NAME,
       Context.MODE_PRIVATE,
     )
-    preferences.edit()
+    val editor = preferences.edit()
       .putInt("workedSeconds", state.getInt("workedSeconds"))
       .putBoolean("active", state.getBoolean("active"))
       .putLong("activeBeginAt", state.getDouble("activeBeginAt").toLong())
       .putLong("snapshotAt", state.getDouble("snapshotAt").toLong())
-      .putString("primaryContainer", state.getString("primaryContainer"))
-      .putString("projectName", state.getString("projectName"))
-      .putString("activityName", state.getString("activityName"))
-      .apply()
+    if (state.hasKey("primaryContainer")) {
+      editor.putString("primaryContainer", state.getString("primaryContainer"))
+    }
+    editor.apply()
 
     val manager = AppWidgetManager.getInstance(reactApplicationContext)
     val component = ComponentName(reactApplicationContext, TimesheetWidgetProvider::class.java)

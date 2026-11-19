@@ -146,6 +146,20 @@ export const store = configureStore({
 
 export const persistor = persistStore(store, null, () => {});
 
+export const waitForStoreRehydration = () =>
+	new Promise<void>((resolve) => {
+		if (persistor.getState().bootstrapped) {
+			resolve();
+			return;
+		}
+		const unsubscribe = persistor.subscribe(() => {
+			if (persistor.getState().bootstrapped) {
+				unsubscribe();
+				resolve();
+			}
+		});
+	});
+
 type AppStore = typeof store;
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];

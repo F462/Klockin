@@ -3,28 +3,30 @@ import {useEffect} from 'react';
 import {NativeModules} from 'react-native';
 import {useTheme} from 'react-native-paper';
 
-import {selectActivityName} from 'src/features/activities/context/activitiesSelectors';
 import {useAppSelector} from 'src/features/data/context/store';
 import {getWorkingHoursInSeconds} from 'src/features/overview/utils/overviewUtils';
-import {selectProjectName} from 'src/features/projects/context/projectsSelectors';
 import {
 	selectActiveTimesheet,
 	selectTimesheetListOfCurrentDay,
 } from 'src/features/timesheets/context/timesheetsSelectors';
 
+export type TimesheetWidgetState = {
+	workedSeconds: number;
+	active: boolean;
+	activeBeginAt: number;
+	snapshotAt: number;
+	primaryContainer?: string;
+};
+
 type WidgetBridge = {
-	publishState: (state: {
-		workedSeconds: number;
-		active: boolean;
-		activeBeginAt: number;
-		snapshotAt: number;
-		primaryContainer: string;
-		projectName: string;
-		activityName: string;
-	}) => void;
+	publishState: (state: TimesheetWidgetState) => void;
 };
 
 const widgetBridge = NativeModules.WidgetBridge as WidgetBridge | undefined;
+
+export const publishTimesheetWidgetState = (state: TimesheetWidgetState) => {
+	widgetBridge?.publishState(state);
+};
 
 const toHexColor = (color: string) => {
 	const rgb = color.match(/^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/);
@@ -41,16 +43,10 @@ export const TimesheetWidgetIntegration = () => {
 	const theme = useTheme();
 	const timesheets = useAppSelector(selectTimesheetListOfCurrentDay);
 	const activeTimesheet = useAppSelector(selectActiveTimesheet);
-	const projectName = useAppSelector(
-		selectProjectName(activeTimesheet?.project),
-	);
-	const activityName = useAppSelector(
-		selectActivityName(activeTimesheet?.activity),
-	);
 	const workedSeconds = getWorkingHoursInSeconds(timesheets, dayjs());
 
 	useEffect(() => {
-		widgetBridge?.publishState({
+		publishTimesheetWidgetState({
 			workedSeconds: Math.max(0, Math.floor(workedSeconds)),
 			active: activeTimesheet !== undefined,
 			activeBeginAt: activeTimesheet?.begin
@@ -58,16 +54,8 @@ export const TimesheetWidgetIntegration = () => {
 				: 0,
 			snapshotAt: Date.now(),
 			primaryContainer: toHexColor(theme.colors.primaryContainer),
-			projectName: projectName ?? '',
-			activityName: activityName ?? '',
 		});
-	}, [
-		workedSeconds,
-		activeTimesheet,
-		projectName,
-		activityName,
-		theme.colors.primaryContainer,
-	]);
+	}, [workedSeconds, activeTimesheet, theme.colors.primaryContainer]);
 
 	return null;
 };
