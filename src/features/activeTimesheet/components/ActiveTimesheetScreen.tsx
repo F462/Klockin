@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+	Pressable,
 	RefreshControl,
 	ScrollView,
 	StyleProp,
@@ -9,7 +10,13 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
-import {IconButton, SegmentedButtons, Text, useTheme} from 'react-native-paper';
+import {
+	Icon,
+	IconButton,
+	SegmentedButtons,
+	Text,
+	useTheme,
+} from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
 import {stopActiveTimesheet} from 'src/features/activeTimesheet/middleware/activeTimesheetThunks';
@@ -57,6 +64,11 @@ const styles = StyleSheet.create({
 	startButton: {
 		alignSelf: 'center',
 		padding: 20,
+	},
+	centeredCircle: {
+		alignSelf: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	dayWorkingHoursContainer: {
 		flexDirection: 'row',
@@ -235,13 +247,20 @@ const StartButton = () => {
 	]);
 
 	return canTimesheetBeStarted ? (
-		<IconButton
-			icon="play"
-			style={[styles.startButton, {padding: 20 * scale}]}
-			iconColor={theme.colors.primary}
-			size={iconSize}
+		<Pressable
 			onPress={handleStart}
-		/>
+			style={[
+				styles.centeredCircle,
+				{
+					width: 200 * scale,
+					height: 200 * scale,
+					borderRadius: 100 * scale,
+					marginVertical: 40 * scale,
+					backgroundColor: theme.colors.primary,
+				},
+			]}>
+			<Icon source="play" size={iconSize} color={theme.colors.onPrimary} />
+		</Pressable>
 	) : null;
 };
 
