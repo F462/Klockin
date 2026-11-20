@@ -38,6 +38,7 @@ import {ResetSyncStateTransform} from 'src/features/synchronization/context/Rese
 import {synchronizationReducer} from 'src/features/synchronization/context/synchronizationSlice';
 import {SyncState} from 'src/features/synchronization/types';
 import {tagsReducer} from 'src/features/tags/context/tagsSlice';
+import {teamsReducer} from 'src/features/teams/context/teamsSlice';
 import {
 	timesheetsReducer,
 	timesheetsUpdated,
@@ -76,6 +77,7 @@ const appReducer = combineReducers({
 	settings: settingsReducer,
 	synchronization: synchronizationReducer,
 	tags: tagsReducer,
+	teams: teamsReducer,
 	timesheets: timesheetsReducer,
 	users: usersReducer,
 });

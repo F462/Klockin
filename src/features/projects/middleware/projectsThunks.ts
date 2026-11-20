@@ -9,12 +9,10 @@ import {
 } from '../context/projectsSlice';
 import {Project} from '../types';
 
-/** A team, as returned by `GET /api/teams` and used to restrict a project. */
-export type Team = {
-	id: number;
-	name: string;
-	color?: string | null;
-};
+// The Team type and fetch thunk are owned by the teams feature; they are
+// re-exported here so existing imports (e.g. the project modal) keep working.
+export {fetchTeams} from 'src/features/teams/middleware/teamsThunks';
+export type {Team} from 'src/features/teams/types';
 
 export type CreateProjectPayload = {
 	name: string;
@@ -175,14 +173,6 @@ export const removeProject = createAppAsyncThunk<void, number>(
 			throw error;
 		}
 	},
-);
-
-/**
- * Fetch the teams the current user may assign to a project. Used by the
- * project modal to populate the "Team" multi-select.
- */
-export const fetchTeams = createAppAsyncThunk('Projects/fetchTeams', async () =>
-	api.get<Array<Team>>('api/teams'),
 );
 
 export const updateProject = createAppAsyncThunk(

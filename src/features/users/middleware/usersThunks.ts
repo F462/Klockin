@@ -34,11 +34,11 @@ export type CreateUserPayload = {
 
 export type UpdateUserPayload = UserUpdateChanges & {id: number};
 
-export type UserTeam = {
-	id: number;
-	name: string;
-	color?: string | null;
-};
+// The UserTeam type and the team fetch thunk are owned by the teams feature;
+// they are re-exported here so existing imports (e.g. the user modal) keep
+// working.
+export {fetchTeams as fetchUserTeams} from 'src/features/teams/middleware/teamsThunks';
+export type {Team as UserTeam} from 'src/features/teams/types';
 
 const syncUserTeams = async (
 	userId: number,
@@ -204,11 +204,6 @@ const hasServerChangedField = (
 		JSON.stringify(getComparableValue(originalValue, field))
 	);
 };
-
-export const fetchUserTeams = createAppAsyncThunk(
-	'users/fetchUserTeams',
-	async () => api.get<Array<UserTeam>>('api/teams'),
-);
 
 export const fetchUsers = createAppAsyncThunk(
 	'users/fetchUsers',
