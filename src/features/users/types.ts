@@ -1,3 +1,5 @@
+import type {Team} from 'src/features/teams/types';
+
 export type UserReference = {
 	id: number;
 	username: string;
@@ -5,11 +7,8 @@ export type UserReference = {
 	color?: string | null;
 };
 
-export type UserTeam = {
-	id: number;
-	name: string;
-	color?: string | null;
-};
+/** A team reference as embedded in a user entity. */
+export type UserTeam = Team;
 
 export type UserMembership = {
 	team: UserTeam;

@@ -208,17 +208,15 @@ export const DefaultDrawerContent = ({
 						itemProps={itemProps}
 					/>
 				)}
-				{allowedSystemRoutes.length > 0 && (
-					<AccordionSection
-						id="system"
-						title="system"
-						icon="cog"
-						expanded={expandedSections.system}
-						onToggle={() => toggleSection('system')}
-						routeNames={allowedSystemRoutes}
-						itemProps={itemProps}
-					/>
-				)}
+				<AccordionSection
+					id="system"
+					title="system"
+					icon="cog"
+					expanded={expandedSections.system}
+					onToggle={() => toggleSection('system')}
+					routeNames={[...allowedSystemRoutes, 'Teams']}
+					itemProps={itemProps}
+				/>
 				<AccordionSection
 					id="app"
 					title="app"

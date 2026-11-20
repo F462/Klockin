@@ -8,6 +8,7 @@ import {startRolesListener} from 'src/features/roles/middleware/rolesListener';
 import {startSettingsListeners} from 'src/features/settings/middleware/settingsListener';
 import {startSynchronizationListeners} from 'src/features/synchronization/middleware/synchronizationListeners';
 import {startTagListeners} from 'src/features/tags/middleware/tagsListener';
+import {startTeamsListeners} from 'src/features/teams/middleware/teamsListener';
 import {startTimesheetsListeners} from 'src/features/timesheets/middleware/timesheetsListener';
 import {AppStartListening} from '../context/store';
 
@@ -22,5 +23,6 @@ export const startRootListener = (startListening: AppStartListening) => {
 	startSettingsListeners(startListening);
 	startSynchronizationListeners(startListening);
 	startTagListeners(startListening);
+	startTeamsListeners(startListening);
 	startTimesheetsListeners(startListening);
 };

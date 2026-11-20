@@ -12,6 +12,7 @@ import {RolesScreen} from 'src/features/roles/components/RolesScreen';
 import {SettingsScreen} from 'src/features/settings/components/SettingsScreen';
 import {WorkContractScreen} from 'src/features/settings/components/WorkContractScreen';
 import {TagsScreen} from 'src/features/tags/components/TagsScreen';
+import {TeamsScreen} from 'src/features/teams/components/TeamsScreen';
 import {TimesheetsScreen} from 'src/features/timesheets/components/TimesheetsScreen';
 import {UsersScreen} from 'src/features/users/components/UsersScreen';
 import {createDrawerIconFunction} from './components/DrawerItemIcon';
@@ -101,6 +102,13 @@ export const screens: Array<{
 		name: 'Welcome',
 		component: WelcomeScreen,
 		options: {drawerItemStyle: {display: 'none'}},
+	},
+	{
+		name: 'Teams',
+		component: TeamsScreen,
+		options: {
+			drawerIcon: createDrawerIconFunction('account-group'),
+		},
 	},
 	{
 		name: 'WorkContract',

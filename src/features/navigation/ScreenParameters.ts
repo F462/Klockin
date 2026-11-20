@@ -12,6 +12,7 @@ export type ScreenParameters = {
 	OfflineSetup: undefined;
 	Tags: undefined;
 	Welcome: undefined;
+	Teams: undefined;
 	WorkContract: undefined;
 	Timesheets: {date?: string; onlyShowNonDoneEntries?: boolean};
 	Users: undefined;
