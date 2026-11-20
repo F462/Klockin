@@ -11,6 +11,7 @@ export type ScreenParameters = {
 	Settings: undefined;
 	ServerSetup: undefined;
 	Tags: undefined;
+	Teams: undefined;
 	WorkContract: undefined;
 	Timesheets: {date?: string; onlyShowNonDoneEntries?: boolean};
 	Users: undefined;
