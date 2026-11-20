@@ -93,7 +93,7 @@ struct TimesheetWidgetView: View {
     Link(destination: URL(string: "klockin://active-timesheet")!) {
       VStack(alignment: .center, spacing: 2) {
         Text(durationText)
-          .font(.system(size: 32, weight: .semibold, design: .rounded).monospacedDigit())
+          .font(.system(size: 32, weight: .semibold, design: .monospaced).monospacedDigit())
           .foregroundStyle(.white)
           .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
           .minimumScaleFactor(0.7)
