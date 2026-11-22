@@ -7,6 +7,7 @@ import {NfcTagsScreen} from 'src/features/nfc/components/NfcTagsScreen';
 import {ServerSetupScreen} from 'src/features/onboarding/components/ServerSetupScreen';
 import {OverviewScreen} from 'src/features/overview/components/OverviewScreen';
 import {ProjectsScreen} from 'src/features/projects/components/ProjectsScreen';
+import {RolesScreen} from 'src/features/roles/components/RolesScreen';
 import {SettingsScreen} from 'src/features/settings/components/SettingsScreen';
 import {WorkContractScreen} from 'src/features/settings/components/WorkContractScreen';
 import {TagsScreen} from 'src/features/tags/components/TagsScreen';
@@ -107,6 +108,13 @@ export const screens: Array<{
 		component: TimesheetsScreen,
 		options: {
 			drawerIcon: createDrawerIconFunction('calendar-clock'),
+		},
+	},
+	{
+		name: 'Roles',
+		component: RolesScreen,
+		options: {
+			drawerIcon: createDrawerIconFunction('account-key-outline'),
 		},
 	},
 	{

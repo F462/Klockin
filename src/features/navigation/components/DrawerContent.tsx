@@ -177,7 +177,7 @@ export const DefaultDrawerContent = ({
 					icon="cog"
 					expanded={expandedSections.system}
 					onToggle={() => toggleSection('system')}
-					routeNames={['Users']}
+					routeNames={['Users', 'Roles']}
 					itemProps={itemProps}
 				/>
 				<AccordionSection

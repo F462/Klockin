@@ -7,6 +7,7 @@ export type ScreenParameters = {
 	NfcTags: undefined;
 	Overview: undefined;
 	Projects: {openCreateModal?: boolean};
+	Roles: undefined;
 	Settings: undefined;
 	ServerSetup: undefined;
 	Tags: undefined;

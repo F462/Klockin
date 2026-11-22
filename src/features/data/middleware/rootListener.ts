@@ -4,6 +4,7 @@ import {startCustomerListeners} from 'src/features/customers/middleware/customer
 import {startNetworkListeners} from 'src/features/network/middleware/networkListeners';
 import {startOverviewListeners} from 'src/features/overview/middleware/overviewListener';
 import {startProjectListeners} from 'src/features/projects/middleware/projectsListener';
+import {startRolesListener} from 'src/features/roles/middleware/rolesListener';
 import {startSettingsListeners} from 'src/features/settings/middleware/settingsListener';
 import {startSynchronizationListeners} from 'src/features/synchronization/middleware/synchronizationListeners';
 import {startTagListeners} from 'src/features/tags/middleware/tagsListener';
@@ -17,6 +18,7 @@ export const startRootListener = (startListening: AppStartListening) => {
 	startNetworkListeners(startListening);
 	startOverviewListeners(startListening);
 	startProjectListeners(startListening);
+	startRolesListener(startListening);
 	startSettingsListeners(startListening);
 	startSynchronizationListeners(startListening);
 	startTagListeners(startListening);

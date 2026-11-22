@@ -33,6 +33,7 @@ import {nfcReducer} from 'src/features/nfc/context/nfcSlice';
 import {onboardingReducer} from 'src/features/onboarding/context/onboardingSlice';
 import {overviewReducer} from 'src/features/overview/context/overviewSlice';
 import {projectsReducer} from 'src/features/projects/context/projectsSlice';
+import {rolesReducer} from 'src/features/roles/context/rolesSlice';
 import {settingsReducer} from 'src/features/settings/context/settingsSlice';
 import {ResetSyncStateTransform} from 'src/features/synchronization/context/ResetSyncStateTransform';
 import {synchronizationReducer} from 'src/features/synchronization/context/synchronizationSlice';
@@ -73,6 +74,7 @@ const appReducer = combineReducers({
 	onboarding: onboardingReducer,
 	overview: overviewReducer,
 	projects: projectsReducer,
+	roles: rolesReducer,
 	settings: settingsReducer,
 	synchronization: synchronizationReducer,
 	tags: tagsReducer,

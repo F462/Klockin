@@ -67,6 +67,24 @@ const usersSlice = createSlice({
 				state.selectedUserId = user.id;
 			}
 		},
+		roleStrippedFromUsers: (state, {payload}: PayloadAction<string>) => {
+			// A role was deleted; Kimai removes it from every user that owns it.
+			// Mirror that on the local user base.
+			Object.values(state.users).forEach((user) => {
+				if (user.roles) {
+					user.roles = user.roles.filter((role) => role !== payload);
+				}
+			});
+		},
+		userRolesReceived: (
+			state,
+			{payload}: PayloadAction<{userId: number; roles: Array<string>}>,
+		) => {
+			const user = state.users[payload.userId];
+			if (user) {
+				user.roles = payload.roles;
+			}
+		},
 	},
 });
 
@@ -78,5 +96,7 @@ export const {
 	userUpdateQueued,
 	userUpdateSynced,
 	userSynced,
+	roleStrippedFromUsers,
+	userRolesReceived,
 } = usersSlice.actions;
 export const usersReducer = usersSlice.reducer;
