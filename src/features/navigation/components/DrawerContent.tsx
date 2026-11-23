@@ -7,7 +7,23 @@ import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {List, useTheme} from 'react-native-paper';
 
+import {useCan} from 'src/features/account/utils/useCan';
+import {Capability} from 'src/features/roles/permissions';
 import {useStyle} from 'src/features/theming/utils/useStyle';
+
+/**
+ * The capability required to access a route from the administration and
+ * system sections. Routes without an entry (e.g. `Overview`, `Account`) are
+ * always available.
+ */
+const ROUTE_CAPABILITIES: Readonly<Record<string, Capability>> = {
+	Customers: 'createCustomer',
+	Projects: 'createProject',
+	Activities: 'createActivity',
+	Tags: 'createTag',
+	Users: 'manageUsers',
+	Roles: 'manageRoles',
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -130,6 +146,25 @@ export const DefaultDrawerContent = ({
 		[descriptors, navigation, state.index, state.routes],
 	);
 
+	// When the app is connected to a server, the user's role decides which of
+	// the administration / system entries are available. In local mode every
+	// route is allowed.
+	const can = useCan();
+	const allowedAdministrationRoutes = useMemo(
+		() =>
+			['Customers', 'Projects', 'Activities', 'Tags'].filter((routeName) =>
+				can(ROUTE_CAPABILITIES[routeName]),
+			),
+		[can],
+	);
+	const allowedSystemRoutes = useMemo(
+		() =>
+			['Users', 'Roles'].filter((routeName) =>
+				can(ROUTE_CAPABILITIES[routeName]),
+			),
+		[can],
+	);
+
 	const dynamicStyles = useStyle(
 		() => ({
 			container: {
@@ -162,24 +197,28 @@ export const DefaultDrawerContent = ({
 					routeNames={['WorkContract']}
 					itemProps={itemProps}
 				/>
-				<AccordionSection
-					id="administration"
-					title="administration"
-					icon="briefcase"
-					expanded={expandedSections.administration}
-					onToggle={() => toggleSection('administration')}
-					routeNames={['Customers', 'Projects', 'Activities', 'Tags']}
-					itemProps={itemProps}
-				/>
-				<AccordionSection
-					id="system"
-					title="system"
-					icon="cog"
-					expanded={expandedSections.system}
-					onToggle={() => toggleSection('system')}
-					routeNames={['Users', 'Roles']}
-					itemProps={itemProps}
-				/>
+				{allowedAdministrationRoutes.length > 0 && (
+					<AccordionSection
+						id="administration"
+						title="administration"
+						icon="briefcase"
+						expanded={expandedSections.administration}
+						onToggle={() => toggleSection('administration')}
+						routeNames={allowedAdministrationRoutes}
+						itemProps={itemProps}
+					/>
+				)}
+				{allowedSystemRoutes.length > 0 && (
+					<AccordionSection
+						id="system"
+						title="system"
+						icon="cog"
+						expanded={expandedSections.system}
+						onToggle={() => toggleSection('system')}
+						routeNames={allowedSystemRoutes}
+						itemProps={itemProps}
+					/>
+				)}
 				<AccordionSection
 					id="app"
 					title="app"

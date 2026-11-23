@@ -1,10 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import {AccountState} from '../types';
-import {userLoggedIn, userLoggedOut} from './accountActions';
+import {
+	currentRolesReceived,
+	userLoggedIn,
+	userLoggedOut,
+} from './accountActions';
 
 const initialState: AccountState = {
 	serverUrl: undefined,
+	currentRoles: [],
 };
 
 const accountSlice = createSlice({
@@ -18,6 +23,10 @@ const accountSlice = createSlice({
 			})
 			.addCase(userLoggedOut, (state) => {
 				state.serverUrl = undefined;
+				state.currentRoles = [];
+			})
+			.addCase(currentRolesReceived, (state, {payload}) => {
+				state.currentRoles = payload;
 			});
 	},
 });

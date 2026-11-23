@@ -45,6 +45,16 @@ export type EntityItemContextMenuProps = {
 	 */
 	onEdit?: () => void;
 	/**
+	 * Whether the user is allowed to edit the entry. When `false`, the "Edit"
+	 * entry is hidden even if `onEdit` is provided. Defaults to `true`.
+	 */
+	canEdit?: boolean;
+	/**
+	 * Whether the user is allowed to delete the entry. When `false`, the
+	 * "Delete" entry is hidden. Defaults to `true`.
+	 */
+	canDelete?: boolean;
+	/**
 	 * Optional: title of an additional action entry, e.g.
 	 * `t('nfc.reprogramTag')`. Must be provided together with {@link onAction}.
 	 */
@@ -79,6 +89,8 @@ export const EntityItemContextMenu = ({
 	onConfirmDelete,
 	editTitle,
 	onEdit,
+	canEdit = true,
+	canDelete = true,
 	actionTitle,
 	actionIcon,
 	onAction,
@@ -160,18 +172,20 @@ export const EntityItemContextMenu = ({
 						left={(props) => createListIcon(props, actionIcon ?? 'refresh')}
 					/>
 				)}
-				{onEdit && (
+				{onEdit && canEdit && (
 					<List.Item
 						title={editTitle ?? t('edit')}
 						onPress={onEditPressed}
 						left={(props) => createListIcon(props, 'pencil-outline')}
 					/>
 				)}
-				<List.Item
-					title={t('delete')}
-					onPress={onOpenDeleteConfirmation}
-					left={(props) => createListIcon(props, 'delete-outline')}
-				/>
+				{canDelete && (
+					<List.Item
+						title={t('delete')}
+						onPress={onOpenDeleteConfirmation}
+						left={(props) => createListIcon(props, 'delete-outline')}
+					/>
+				)}
 			</Modal>
 		</Portal>
 	);

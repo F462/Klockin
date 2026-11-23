@@ -4,6 +4,7 @@ import React from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
 
+import {accountReducer} from 'src/features/account/context/accountSlice';
 import {api} from 'src/features/account/utils/ApiClient';
 import {screens} from 'src/features/navigation/screens';
 import {TagsScreen} from 'src/features/tags/components/TagsScreen';
@@ -22,7 +23,8 @@ jest.mock('src/features/account/utils/ApiClient', () => ({
 
 const planningTag: Tag = {id: 4, name: 'planning'};
 const reviewTag: Tag = {id: 9, name: 'review'};
-const makeStore = () => configureStore({reducer: {tags: tagsReducer}});
+const makeStore = () =>
+	configureStore({reducer: {account: accountReducer, tags: tagsReducer}});
 
 const renderScreen = () => {
 	const store = makeStore();

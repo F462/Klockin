@@ -4,6 +4,7 @@ import React from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
 
+import {accountReducer} from 'src/features/account/context/accountSlice';
 import {api} from 'src/features/account/utils/ApiClient';
 import type {AppDispatch} from 'src/features/data/context/store';
 import {screens} from 'src/features/navigation/screens';
@@ -46,7 +47,8 @@ const user: User = {
 	enabled: true,
 };
 
-const makeStore = () => configureStore({reducer: {users: usersReducer}});
+const makeStore = () =>
+	configureStore({reducer: {account: accountReducer, users: usersReducer}});
 type TestStore = Omit<ReturnType<typeof makeStore>, 'dispatch'> & {
 	dispatch: AppDispatch;
 };

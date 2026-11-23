@@ -3,6 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet, View} from 'react-native';
 import {FAB, Text} from 'react-native-paper';
 
+import {useCan} from 'src/features/account/utils/useCan';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {BaseScreen} from 'src/ui/BaseScreen';
 import {DividedList} from 'src/ui/DividedList';
@@ -68,6 +69,7 @@ const EmptyState = () => {
 export const TagsScreen = () => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
+	const can = useCan();
 	const tags = useAppSelector(selectTagList);
 	const [addModalVisible, setAddModalVisible] = useState(false);
 
@@ -86,12 +88,14 @@ export const TagsScreen = () => {
 				renderItem={({item}) => <TagItem tag={item} />}
 				emptyComponent={<EmptyState />}
 			/>
-			<FAB
-				icon="plus"
-				label={t('addTag')}
-				onPress={() => setAddModalVisible(true)}
-				style={styles.fab}
-			/>
+			{can('createTag') && (
+				<FAB
+					icon="plus"
+					label={t('addTag')}
+					onPress={() => setAddModalVisible(true)}
+					style={styles.fab}
+				/>
+			)}
 			<TagModal
 				visible={addModalVisible}
 				onHideModal={() => setAddModalVisible(false)}

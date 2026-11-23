@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 
+import {useCan} from 'src/features/account/utils/useCan';
 import {useAppDispatch} from 'src/features/data/context/store';
 import {EntityItemContextMenu} from 'src/ui/EntityItemContextMenu';
 import {deleteRole} from '../middleware/rolesThunks';
@@ -17,6 +18,7 @@ export const RoleItemContextMenu = ({
 }) => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
+	const can = useCan();
 	const onConfirmDelete = useCallback(() => {
 		dispatch(deleteRole(role.name)).catch(console.error);
 	}, [dispatch, role.name]);
@@ -29,6 +31,7 @@ export const RoleItemContextMenu = ({
 			deleteTitle={t('deleteRole')}
 			deleteWarning={t('deleteRoleWarning')}
 			onConfirmDelete={onConfirmDelete}
+			canDelete={can('manageRoles')}
 		/>
 	);
 };

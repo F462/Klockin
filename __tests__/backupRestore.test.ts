@@ -8,7 +8,10 @@ describe('backup restore reducer', () => {
 		const initialState = rootReducer(undefined, {type: 'test/initialize'});
 		const importedData = {
 			...initialState,
-			account: {serverUrl: 'https://restored.example.com'},
+			account: {
+				serverUrl: 'https://restored.example.com',
+				currentRoles: [],
+			},
 			synchronization: {
 				timesheets: {'restored-id': SyncState.RUNNING},
 				errors: {},

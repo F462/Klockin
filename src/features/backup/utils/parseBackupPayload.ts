@@ -224,6 +224,11 @@ const normalizeBackupData = (value: unknown): BackupData | undefined => {
 		...account,
 		serverUrl:
 			typeof account.serverUrl === 'string' ? account.serverUrl : undefined,
+		currentRoles: Array.isArray(account.currentRoles)
+			? account.currentRoles.filter(
+					(role): role is string => typeof role === 'string',
+				)
+			: [],
 	};
 	const normalizedActiveTimesheet = {
 		...activeTimesheet,

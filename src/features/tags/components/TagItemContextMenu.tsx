@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 
+import {useCan} from 'src/features/account/utils/useCan';
 import {useAppDispatch} from 'src/features/data/context/store';
 import {EntityItemContextMenu} from 'src/ui/EntityItemContextMenu';
 import {deleteTag} from '../middleware/tagsThunks';
@@ -19,6 +20,7 @@ export const TagItemContextMenu = ({
 }) => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
+	const can = useCan();
 	const onConfirmDelete = useCallback(() => {
 		dispatch(deleteTag(tag.id)).catch(console.error);
 	}, [dispatch, tag.id]);
@@ -32,6 +34,8 @@ export const TagItemContextMenu = ({
 			deleteWarning={t('deleteTagWarning')}
 			onConfirmDelete={onConfirmDelete}
 			onEdit={onEdit}
+			canEdit={can('editTag')}
+			canDelete={can('deleteTag')}
 		/>
 	);
 };

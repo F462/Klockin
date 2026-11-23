@@ -5,6 +5,7 @@ import {StyleSheet} from 'react-native';
 import {FAB} from 'react-native-paper';
 
 import {selectIsUserLoggedIn} from 'src/features/account/context/accountSelectors';
+import {useCan} from 'src/features/account/utils/useCan';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {ScreenParameters} from 'src/features/navigation/ScreenParameters';
 import {BaseScreen} from 'src/ui/BaseScreen';
@@ -65,6 +66,7 @@ const CustomerList = () => {
 export const CustomersScreen = () => {
 	const {t} = useTranslation();
 	const route = useRoute<RouteProp<ScreenParameters, 'Customers'>>();
+	const can = useCan();
 	const [addModalVisible, setAddModalVisible] = useState(
 		route.params?.openCreateModal ?? false,
 	);
@@ -75,12 +77,14 @@ export const CustomersScreen = () => {
 	return (
 		<BaseScreen>
 			<CustomerList />
-			<FAB
-				icon="plus"
-				label={t('addCustomer')}
-				onPress={onShowAddModal}
-				style={styles.fab}
-			/>
+			{can('createCustomer') && (
+				<FAB
+					icon="plus"
+					label={t('addCustomer')}
+					onPress={onShowAddModal}
+					style={styles.fab}
+				/>
+			)}
 			<CustomerModal visible={addModalVisible} onHideModal={onHideAddModal} />
 		</BaseScreen>
 	);

@@ -5,6 +5,7 @@ import {StyleSheet} from 'react-native';
 import {FAB} from 'react-native-paper';
 
 import {selectIsUserLoggedIn} from 'src/features/account/context/accountSelectors';
+import {useCan} from 'src/features/account/utils/useCan';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {ScreenParameters} from 'src/features/navigation/ScreenParameters';
 import {BaseScreen} from 'src/ui/BaseScreen';
@@ -88,6 +89,7 @@ const ProjectList = () => {
 export const ProjectsScreen = () => {
 	const {t} = useTranslation();
 	const route = useRoute<RouteProp<ScreenParameters, 'Projects'>>();
+	const can = useCan();
 	const [addModalVisible, setAddModalVisible] = useState(
 		route.params?.openCreateModal ?? false,
 	);
@@ -98,12 +100,14 @@ export const ProjectsScreen = () => {
 	return (
 		<BaseScreen>
 			<ProjectList />
-			<FAB
-				icon="plus"
-				label={t('addProject')}
-				onPress={onShowAddModal}
-				style={styles.fab}
-			/>
+			{can('createProject') && (
+				<FAB
+					icon="plus"
+					label={t('addProject')}
+					onPress={onShowAddModal}
+					style={styles.fab}
+				/>
+			)}
 			<ProjectModal visible={addModalVisible} onHideModal={onHideAddModal} />
 		</BaseScreen>
 	);

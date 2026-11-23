@@ -3,6 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet, View} from 'react-native';
 import {FAB, Icon, Text, useTheme} from 'react-native-paper';
 
+import {useCan} from 'src/features/account/utils/useCan';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {BaseScreen} from 'src/ui/BaseScreen';
@@ -79,6 +80,7 @@ const UserItem = ({user, onPress}: {user: User; onPress: () => void}) => {
 export const UsersScreen = () => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
+	const can = useCan();
 	const users = useAppSelector(selectUserList);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [editingUser, setEditingUser] = useState<User | undefined>();
@@ -117,16 +119,25 @@ export const UsersScreen = () => {
 					onRefresh={onRefresh}
 					showDividers={false}
 					renderItem={({item}) => (
-						<UserItem user={item} onPress={() => onEdit(item)} />
+						<UserItem
+							user={item}
+							onPress={() => {
+								if (can('manageUsers')) {
+									onEdit(item);
+								}
+							}}
+						/>
 					)}
 				/>
 			)}
-			<FAB
-				icon="plus"
-				label={t('addUser')}
-				onPress={onAdd}
-				style={styles.fab}
-			/>
+			{can('manageUsers') && (
+				<FAB
+					icon="plus"
+					label={t('addUser')}
+					onPress={onAdd}
+					style={styles.fab}
+				/>
+			)}
 			<UserModal
 				user={editingUser}
 				visible={modalVisible}

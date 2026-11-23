@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 
+import {useCan} from 'src/features/account/utils/useCan';
 import {useAppDispatch} from 'src/features/data/context/store';
 import {EntityItemContextMenu} from 'src/ui/EntityItemContextMenu';
 import {removeProject} from '../middleware/projectsThunks';
@@ -20,6 +21,7 @@ export const ProjectItemContextMenu = ({
 }: ProjectItemContextMenuProps) => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
+	const can = useCan();
 	const [editModalVisible, setEditModalVisible] = useState(false);
 
 	const onConfirmDelete = useCallback(() => {
@@ -47,6 +49,8 @@ export const ProjectItemContextMenu = ({
 				deleteWarning={t('deleteProjectWarning')}
 				onConfirmDelete={onConfirmDelete}
 				onEdit={onEditPressed}
+				canEdit={can('editProject')}
+				canDelete={can('deleteProject')}
 			/>
 		</>
 	);
