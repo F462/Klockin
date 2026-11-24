@@ -9,8 +9,9 @@ export type ScreenParameters = {
 	Projects: {openCreateModal?: boolean};
 	Roles: undefined;
 	Settings: undefined;
-	ServerSetup: undefined;
+	OfflineSetup: undefined;
 	Tags: undefined;
+	Welcome: undefined;
 	WorkContract: undefined;
 	Timesheets: {date?: string; onlyShowNonDoneEntries?: boolean};
 	Users: undefined;

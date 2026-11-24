@@ -18,7 +18,7 @@ import {fetchCustomerColors} from 'src/features/customers/middleware/customersTh
 import {Customer} from 'src/features/customers/types';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useAppNavigation} from 'src/features/navigation/context/hooks';
-import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
+import {selectHasCompletedOnboarding} from 'src/features/onboarding/context/onboardingSelectors';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {parseSelectedId} from 'src/features/timesheets/utils/functions';
 import {DateField} from 'src/ui/DateField';
@@ -98,7 +98,7 @@ export const ProjectModal = ({
 }: ProjectModalProps) => {
 	const dispatch = useAppDispatch();
 	const navigation = useAppNavigation();
-	const hasCompletedServerSetup = useAppSelector(selectHasCompletedServerSetup);
+	const hasCompletedOnboarding = useAppSelector(selectHasCompletedOnboarding);
 	const theme = useTheme();
 	const {t} = useTranslation();
 	const customerList = useAppSelector(selectCustomerList);
@@ -380,8 +380,8 @@ export const ProjectModal = ({
 		}
 
 		onHideModal();
-		if (created && !hasCompletedServerSetup) {
-			navigation.navigate('ServerSetup');
+		if (created && !hasCompletedOnboarding) {
+			navigation.navigate('OfflineSetup');
 		}
 	}, [
 		budget,
@@ -394,7 +394,7 @@ export const ProjectModal = ({
 		end,
 		extractErrorMessage,
 		globalActivities,
-		hasCompletedServerSetup,
+		hasCompletedOnboarding,
 		invoiceText,
 		isBillable,
 		isVisible,

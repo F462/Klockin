@@ -1,6 +1,8 @@
+export type OnboardingMode = 'online' | 'offline';
+
 export type OnboardingState = {
 	hasDevelopmentWarningBeenShown?: boolean;
 	hasSkippedNotificationPermission?: boolean;
-	hasChosenOfflineWorkflow?: boolean;
-	hasCompletedServerSetup?: boolean;
+	selectedMode?: OnboardingMode;
+	hasCompletedOnboarding?: boolean;
 };

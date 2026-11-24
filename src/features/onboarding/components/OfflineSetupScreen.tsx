@@ -9,10 +9,9 @@ import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useAppNavigation} from 'src/features/navigation/context/hooks';
 import {selectProjectList} from 'src/features/projects/context/projectsSelectors';
 import {BaseScreen} from 'src/ui/BaseScreen';
-import {selectHasChosenOfflineWorkflow} from '../context/onboardingSelectors';
 import {
-	chosenOfflineWorkflow,
-	serverSetupCompleted,
+	onboardingCompleted,
+	selectedModeChanged,
 } from '../context/onboardingSlice';
 
 const styles = StyleSheet.create({
@@ -22,7 +21,9 @@ const styles = StyleSheet.create({
 	button: {marginTop: 12},
 });
 
-export const ServerSetupScreen = () => {
+type Stage = 'Customers' | 'Projects' | 'Activities' | 'ActiveTimesheet';
+
+export const OfflineSetupScreen = () => {
 	const {t} = useTranslation();
 	const theme = useTheme();
 	const navigation = useAppNavigation();
@@ -30,11 +31,7 @@ export const ServerSetupScreen = () => {
 	const customers = useAppSelector(selectCustomerList);
 	const projects = useAppSelector(selectProjectList);
 	const activities = useAppSelector(selectActivityList);
-	const hasChosenOfflineWorkflow = useAppSelector(
-		selectHasChosenOfflineWorkflow,
-	);
-	let next: 'Customers' | 'Projects' | 'Activities' | 'ActiveTimesheet' =
-		'ActiveTimesheet';
+	let next: Stage = 'ActiveTimesheet';
 	if (customers.length === 0) {
 		next = 'Customers';
 	} else if (projects.length === 0) {
@@ -42,10 +39,7 @@ export const ServerSetupScreen = () => {
 	} else if (activities.length === 0) {
 		next = 'Activities';
 	}
-	const offlineStage: Record<
-		'Customers' | 'Projects' | 'Activities' | 'ActiveTimesheet',
-		{icon: string; message: string}
-	> = {
+	const offlineStage: Record<Stage, {icon: string; message: string}> = {
 		Customers: {
 			icon: 'account-plus-outline',
 			message: t('onboarding.offlineCustomers'),
@@ -65,12 +59,15 @@ export const ServerSetupScreen = () => {
 	};
 	const continueSetup = () => {
 		if (next === 'ActiveTimesheet') {
-			dispatch(serverSetupCompleted());
+			dispatch(onboardingCompleted());
 			navigation.navigate('ActiveTimesheet');
 		} else {
-			dispatch(chosenOfflineWorkflow());
 			navigation.navigate(next, {openCreateModal: true});
 		}
+	};
+	const switchToOnline = () => {
+		dispatch(selectedModeChanged('online'));
+		navigation.navigate('Account');
 	};
 
 	return (
@@ -78,41 +75,29 @@ export const ServerSetupScreen = () => {
 			<View style={styles.content}>
 				<View style={styles.icon}>
 					<Icon
-						source={
-							hasChosenOfflineWorkflow
-								? offlineStage[next].icon
-								: 'cloud-outline'
-						}
+						source={offlineStage[next].icon}
 						color={theme.colors.primary}
 						size={56}
 					/>
 				</View>
 				<Text variant="headlineSmall" style={styles.text}>
-					{hasChosenOfflineWorkflow
-						? t('onboarding.offlineTitle')
-						: t('onboarding.serverTitle')}
+					{t('onboarding.offlineTitle')}
 				</Text>
 				<Text variant="bodyLarge" style={styles.text}>
-					{hasChosenOfflineWorkflow
-						? offlineStage[next].message
-						: t('onboarding.serverMessage')}
+					{offlineStage[next].message}
 				</Text>
-				{!hasChosenOfflineWorkflow && (
-					<Button
-						mode="contained"
-						icon="account-cog-outline"
-						style={styles.button}
-						onPress={() => navigation.navigate('Account')}>
-						{t('onboarding.connectServer')}
-					</Button>
-				)}
-				<Button mode="outlined" style={styles.button} onPress={continueSetup}>
+				<Button mode="contained" style={styles.button} onPress={continueSetup}>
 					{next === 'ActiveTimesheet'
 						? t('onboarding.startTracking')
 						: t('onboarding.createFirst', {
 								entity: t(`onboarding.${next.toLowerCase()}`),
 							})}
 				</Button>
+				{next !== 'ActiveTimesheet' && (
+					<Button mode="text" style={styles.button} onPress={switchToOnline}>
+						{t('onboarding.switchToOnline')}
+					</Button>
+				)}
 			</View>
 		</BaseScreen>
 	);

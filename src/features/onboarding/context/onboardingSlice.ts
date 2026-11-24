@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {OnboardingState} from '../types';
+import {OnboardingMode, OnboardingState} from '../types';
 
 const initialState: OnboardingState = {};
 
@@ -14,11 +14,11 @@ const onboardingSlice = createSlice({
 		notificationPermissionSkipped: (state) => {
 			state.hasSkippedNotificationPermission = true;
 		},
-		chosenOfflineWorkflow: (state) => {
-			state.hasChosenOfflineWorkflow = true;
+		selectedModeChanged: (state, {payload}: {payload: OnboardingMode}) => {
+			state.selectedMode = payload;
 		},
-		serverSetupCompleted: (state) => {
-			state.hasCompletedServerSetup = true;
+		onboardingCompleted: (state) => {
+			state.hasCompletedOnboarding = true;
 		},
 	},
 });
@@ -26,7 +26,7 @@ const onboardingSlice = createSlice({
 export const {
 	developmentWarningShown,
 	notificationPermissionSkipped,
-	chosenOfflineWorkflow,
-	serverSetupCompleted,
+	selectedModeChanged,
+	onboardingCompleted,
 } = onboardingSlice.actions;
 export const onboardingReducer = onboardingSlice.reducer;

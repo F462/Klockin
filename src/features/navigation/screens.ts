@@ -4,7 +4,8 @@ import {ActiveTimesheetScreen} from 'src/features/activeTimesheet/components/Act
 import {ActivitiesScreen} from 'src/features/activities/components/ActivitiesScreen';
 import {CustomersScreen} from 'src/features/customers/components/CustomersScreen';
 import {NfcTagsScreen} from 'src/features/nfc/components/NfcTagsScreen';
-import {ServerSetupScreen} from 'src/features/onboarding/components/ServerSetupScreen';
+import {OfflineSetupScreen} from 'src/features/onboarding/components/OfflineSetupScreen';
+import {WelcomeScreen} from 'src/features/onboarding/components/WelcomeScreen';
 import {OverviewScreen} from 'src/features/overview/components/OverviewScreen';
 import {ProjectsScreen} from 'src/features/projects/components/ProjectsScreen';
 import {RolesScreen} from 'src/features/roles/components/RolesScreen';
@@ -92,8 +93,13 @@ export const screens: Array<{
 		},
 	},
 	{
-		name: 'ServerSetup',
-		component: ServerSetupScreen,
+		name: 'OfflineSetup',
+		component: OfflineSetupScreen,
+		options: {drawerItemStyle: {display: 'none'}},
+	},
+	{
+		name: 'Welcome',
+		component: WelcomeScreen,
 		options: {drawerItemStyle: {display: 'none'}},
 	},
 	{

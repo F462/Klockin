@@ -16,7 +16,10 @@ import {useSelector} from 'react-redux';
 import {selectIsSessionUnlocked} from 'src/features/appState/context/appStateSelectors';
 import {userUnlockedSession} from 'src/features/appState/context/appStateSlice';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
-import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
+import {
+	selectHasCompletedOnboarding,
+	selectSelectedMode,
+} from 'src/features/onboarding/context/onboardingSelectors';
 import {navigationRef} from '../context/navigationRef';
 import {ScreenParameters} from '../ScreenParameters';
 import {screens} from '../screens';
@@ -67,12 +70,19 @@ const linking = {
 };
 
 const useInitialRouteName = () => {
-	const hasCompletedServerSetup = useSelector(selectHasCompletedServerSetup);
+	const selectedMode = useSelector(selectSelectedMode);
+	const hasCompletedOnboarding = useSelector(selectHasCompletedOnboarding);
 
-	if (!hasCompletedServerSetup) {
-		return 'ServerSetup';
+	if (hasCompletedOnboarding) {
+		return 'ActiveTimesheet';
 	}
-	return 'ActiveTimesheet';
+	if (selectedMode === 'online') {
+		return 'Account';
+	}
+	if (selectedMode === 'offline') {
+		return 'OfflineSetup';
+	}
+	return 'Welcome';
 };
 
 export const RootNavigation = () => {

@@ -14,12 +14,12 @@ export const selectHasSkippedNotificationPermission = createSelector(
 	(onboardingState) => onboardingState.hasSkippedNotificationPermission,
 );
 
-export const selectHasChosenOfflineWorkflow = createSelector(
+export const selectSelectedMode = createSelector(
 	[selectOnboardingState],
-	(onboardingState) => onboardingState.hasChosenOfflineWorkflow,
+	(onboardingState) => onboardingState.selectedMode,
 );
 
-export const selectHasCompletedServerSetup = createSelector(
+export const selectHasCompletedOnboarding = createSelector(
 	[selectOnboardingState],
-	(onboardingState) => onboardingState.hasCompletedServerSetup,
+	(onboardingState) => onboardingState.hasCompletedOnboarding,
 );

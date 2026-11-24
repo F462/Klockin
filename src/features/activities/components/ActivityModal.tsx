@@ -16,7 +16,7 @@ import {CustomerColorField} from 'src/features/customers/components/CustomerColo
 import {fetchCustomerColors} from 'src/features/customers/middleware/customersThunks';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useAppNavigation} from 'src/features/navigation/context/hooks';
-import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
+import {selectHasCompletedOnboarding} from 'src/features/onboarding/context/onboardingSelectors';
 import {selectProjects} from 'src/features/projects/context/projectsSelectors';
 import {Project} from 'src/features/projects/types';
 import {
@@ -95,7 +95,7 @@ export const ActivityModal = ({
 }: ActivityModalProps) => {
 	const dispatch = useAppDispatch();
 	const navigation = useAppNavigation();
-	const hasCompletedServerSetup = useAppSelector(selectHasCompletedServerSetup);
+	const hasCompletedOnboarding = useAppSelector(selectHasCompletedOnboarding);
 	const theme = useTheme();
 	const {t} = useTranslation();
 	const projects = useAppSelector(selectProjects);
@@ -234,8 +234,8 @@ export const ActivityModal = ({
 				await dispatch(createActivity(payload)).unwrap();
 			}
 			onHideModal();
-			if (isCreating && !hasCompletedServerSetup) {
-				navigation.navigate('ServerSetup');
+			if (isCreating && !hasCompletedOnboarding) {
+				navigation.navigate('OfflineSetup');
 			}
 		} catch (error: unknown) {
 			const message = (error as {message?: string})?.message;
@@ -255,7 +255,7 @@ export const ActivityModal = ({
 		isVisible,
 		name,
 		navigation,
-		hasCompletedServerSetup,
+		hasCompletedOnboarding,
 		number,
 		onHideModal,
 		projectId,

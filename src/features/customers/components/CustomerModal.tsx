@@ -15,7 +15,7 @@ import {
 
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useAppNavigation} from 'src/features/navigation/context/hooks';
-import {selectHasCompletedServerSetup} from 'src/features/onboarding/context/onboardingSelectors';
+import {selectHasCompletedOnboarding} from 'src/features/onboarding/context/onboardingSelectors';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {OptionSelector} from 'src/ui/Selectors/OptionSelector';
 import {
@@ -109,7 +109,7 @@ export const CustomerModal = ({
 }: CustomerModalProps) => {
 	const dispatch = useAppDispatch();
 	const navigation = useAppNavigation();
-	const hasCompletedServerSetup = useAppSelector(selectHasCompletedServerSetup);
+	const hasCompletedOnboarding = useAppSelector(selectHasCompletedOnboarding);
 	const theme = useTheme();
 	const {t} = useTranslation();
 
@@ -324,8 +324,8 @@ export const CustomerModal = ({
 		}
 
 		onHideModal();
-		if (created && !hasCompletedServerSetup) {
-			navigation.navigate('ServerSetup');
+		if (created && !hasCompletedOnboarding) {
+			navigation.navigate('OfflineSetup');
 		}
 	}, [
 		buyerReference,
@@ -341,7 +341,7 @@ export const CustomerModal = ({
 		isBillable,
 		isValid,
 		isVisible,
-		hasCompletedServerSetup,
+		hasCompletedOnboarding,
 		navigation,
 		invoiceEmail,
 		invoiceTemplate,

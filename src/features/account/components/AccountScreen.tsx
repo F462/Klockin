@@ -10,7 +10,11 @@ import {
 } from 'src/features/appState/context/appStateSelectors';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {useAppNavigation} from 'src/features/navigation/context/hooks';
-import {serverSetupCompleted} from 'src/features/onboarding/context/onboardingSlice';
+import {selectHasCompletedOnboarding} from 'src/features/onboarding/context/onboardingSelectors';
+import {
+	onboardingCompleted,
+	selectedModeChanged,
+} from 'src/features/onboarding/context/onboardingSlice';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {BaseScreen} from 'src/ui/BaseScreen';
 import {selectIsUserLoggedIn} from '../context/accountSelectors';
@@ -48,9 +52,10 @@ export const AccountScreen = () => {
 	const isUserLoggingOut = useAppSelector(selectIsUserLoggingOut);
 
 	const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
+	const hasCompletedOnboarding = useAppSelector(selectHasCompletedOnboarding);
 	useEffect(() => {
 		if (isUserLoggedIn) {
-			dispatch(serverSetupCompleted());
+			dispatch(onboardingCompleted());
 			navigation.navigate('ActiveTimesheet');
 		}
 	}, [isUserLoggedIn, navigation, dispatch]);
@@ -153,6 +158,18 @@ export const AccountScreen = () => {
 				}}>
 				{t('save')}
 			</Button>
+			{!hasCompletedOnboarding && (
+				<Button
+					mode="text"
+					style={styles.actionButton}
+					icon="laptop-off"
+					onPress={() => {
+						dispatch(selectedModeChanged('offline'));
+						navigation.navigate('OfflineSetup');
+					}}>
+					{t('onboarding.workOfflineInstead')}
+				</Button>
+			)}
 			<View style={styles.spacer} />
 			{isUserLoggedIn && (
 				<Button
