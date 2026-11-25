@@ -50,6 +50,31 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
   }
 
   @ReactMethod
+  fun updateActiveTimesheetNotification(state: ReadableMap) {
+    val preferences = reactApplicationContext.getSharedPreferences(
+      ActiveTimesheetNotificationService.PREFERENCES_NAME,
+      Context.MODE_PRIVATE,
+    )
+    val editor = preferences.edit()
+      .putBoolean("active", state.getBoolean("active"))
+      .putLong("activeBeginAt", state.getDouble("activeBeginAt").toLong())
+      .putInt("workedSeconds", state.getInt("workedSeconds"))
+      .putLong("snapshotAt", state.getDouble("snapshotAt").toLong())
+    if (state.hasKey("channelName")) {
+      editor.putString("channelName", state.getString("channelName"))
+    }
+    if (state.hasKey("title")) {
+      editor.putString("title", state.getString("title"))
+    }
+    if (state.hasKey("bodyTemplate")) {
+      editor.putString("bodyTemplate", state.getString("bodyTemplate"))
+    }
+    editor.apply()
+
+    ActiveTimesheetNotificationService.sync(reactApplicationContext)
+  }
+
+  @ReactMethod
   fun getBackupFolder(promise: Promise) {
     promise.resolve(backupFolderUri() != null)
   }

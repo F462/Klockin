@@ -17,6 +17,7 @@ import {
 } from '../context/activeTimesheetSelectors';
 import {newTimesheetStarted} from '../context/activeTimesheetSlice';
 import {stopActiveTimesheet} from '../middleware/activeTimesheetThunks';
+import {syncActiveTimesheetNotification} from './ActiveTimesheetNotificationIntegration';
 import {publishTimesheetWidgetState} from './TimesheetWidgetIntegration';
 
 const publishCurrentWidgetState = () => {
@@ -61,4 +62,5 @@ export const runWidgetAction = async ({action}: {action: string}) => {
 
 	await persistor.flush();
 	publishCurrentWidgetState();
+	syncActiveTimesheetNotification(store.getState());
 };

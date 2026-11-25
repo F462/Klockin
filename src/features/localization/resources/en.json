@@ -314,6 +314,9 @@
 	"dailyWorkingHoursReachedBody": "You have worked {{hours}} hours today.",
 	"dailyWorkingHoursNotificationSettings": "Daily working-hours notification",
 	"manageDailyWorkingHoursNotificationSettings": "Manage or turn off this notification in system settings.",
+	"activeTimesheetChannel": "Active timesheet",
+	"activeTimesheetNotificationTitle": "Timesheet running",
+	"activeTimesheetNotificationBody": "Current: {{current}} • Total today: {{total}}",
 	"notificationsTitle": "Notifications",
 	"workedTime": "Worked time"
 }
