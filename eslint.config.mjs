@@ -27,6 +27,7 @@ const compat = new FlatCompat({
 export default defineConfig([
 	globalIgnores([
 		'**/.eslintrc.js',
+		'**/.detoxrc.js',
 		'**/jest.config.js',
 		'**/jest.setup.js',
 		'.yarn/',
@@ -171,6 +172,19 @@ export default defineConfig([
 				},
 			],
 			'simple-import-sort/exports': 'error',
+		},
+	},
+	{
+		// Detox E2E tests rely on globals injected by the Detox Jest environment.
+		files: ['e2e/**/*.js'],
+		languageOptions: {
+			globals: {
+				by: 'readonly',
+				device: 'readonly',
+				element: 'readonly',
+				expect: 'readonly',
+				waitFor: 'readonly',
+			},
 		},
 	},
 ]);

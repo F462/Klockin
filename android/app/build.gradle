@@ -88,6 +88,11 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode project.hasProperty('versionCode') ? project.versionCode.toInteger() : 1
         versionName project.hasProperty('versionName') ? project.versionName : "1.0.0"
+
+        // Detox (E2E testing): build the auxiliary androidTest APK against the
+        // same build type as the app APK (driven by `-DtestBuildType=...`).
+        testBuildType System.getProperty('testBuildType', 'debug')
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         debug {
@@ -109,6 +114,8 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            // Keep Detox's reflection-based hooks from being minified (release).
+            proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
         }
     }
 }
@@ -122,4 +129,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // Detox (E2E testing): native Android driver bundled into the test APK.
+    androidTestImplementation('com.wix:detox:+')
 }

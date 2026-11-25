@@ -29,4 +29,13 @@ subprojects{
     }
 }
 
+allprojects {
+    repositories {
+        // Detox (E2E testing): exposes the prebuilt native Android driver AAR.
+        maven {
+            url("$rootDir/../node_modules/detox/Detox-android")
+        }
+    }
+}
+
 apply plugin: "com.facebook.react.rootproject"
