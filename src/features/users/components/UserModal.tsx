@@ -16,6 +16,7 @@ import {CustomerColorField} from 'src/features/customers/components/CustomerColo
 import {fetchCustomerColors} from 'src/features/customers/middleware/customersThunks';
 import {LANGUAGES, TIMEZONES} from 'src/features/customers/utils/options';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
+import {selectRoleList} from 'src/features/roles/context/rolesSelectors';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {selectUserList} from 'src/features/users/context/usersSelectors';
 import {
@@ -64,6 +65,8 @@ const styles = StyleSheet.create({
 		gap: 12,
 	},
 });
+
+type RoleOption = {id: string; name: string};
 
 type UserModalProps = {
 	user?: User;
@@ -158,6 +161,7 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 	const {t} = useTranslation();
 	const theme = useTheme();
 	const userList = useAppSelector(selectUserList);
+	const knownRoles = useAppSelector(selectRoleList);
 	const isEdit = user !== undefined;
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
@@ -174,7 +178,7 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 	const [supervisorId, setSupervisorId] = useState<number | undefined>();
 	const [teams, setTeams] = useState<Array<UserTeam>>([]);
 	const [teamList, setTeamList] = useState<Array<UserTeam>>([]);
-	const [roles, setRoles] = useState('ROLE_USER');
+	const [selectedRoles, setSelectedRoles] = useState<Array<RoleOption>>([]);
 	const [enabled, setEnabled] = useState(true);
 	const [systemAccount, setSystemAccount] = useState(false);
 	const [requiresPasswordReset, setRequiresPasswordReset] = useState(false);
@@ -219,6 +223,15 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 	const selectedSupervisor = supervisorChoices.find(
 		(item) => item.id === supervisorId,
 	);
+	const roleOptions = useMemo(
+		() => [
+			...knownRoles.map((role) => ({id: role.name, name: role.name})),
+			...(user?.roles ?? [])
+				.filter((name) => !knownRoles.some((role) => role.name === name))
+				.map((name) => ({id: name, name})),
+		],
+		[knownRoles, user?.roles],
+	);
 
 	useEffect(() => {
 		if (!visible) {
@@ -251,7 +264,11 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 						color: team.color,
 					})),
 		);
-		setRoles(user?.roles?.join(', ') ?? 'ROLE_USER');
+		setSelectedRoles(
+			user?.roles && user.roles.length > 0
+				? user.roles.map((name) => ({id: name, name}))
+				: [{id: 'ROLE_USER', name: 'ROLE_USER'}],
+		);
 		setEnabled(user?.enabled ?? true);
 		setSystemAccount(user?.systemAccount ?? false);
 		setRequiresPasswordReset(false);
@@ -321,10 +338,7 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 
 		setSaving(true);
 		setSaveError(null);
-		const roleList = roles
-			.split(',')
-			.map((role) => role.trim())
-			.filter(Boolean);
+		const roleList = selectedRoles.map((role) => role.name);
 		try {
 			if (user) {
 				const resultAction = await dispatch(
@@ -396,7 +410,7 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 		onHideModal,
 		password,
 		requiresPasswordReset,
-		roles,
+		selectedRoles,
 		supervisorId,
 		systemAccount,
 		teams,
@@ -543,13 +557,14 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 							onSelection={setTeams}
 						/>
 					</View>
-					<TextInput
-						label={t('roles')}
-						mode="outlined"
-						value={roles}
-						onChangeText={setRoles}
-						style={styles.field}
-					/>
+					<View style={styles.field}>
+						<BaseMultiSelector
+							elements={roleOptions}
+							selectedElements={selectedRoles}
+							label={t('roles')}
+							onSelection={setSelectedRoles}
+						/>
+					</View>
 					<View style={styles.field}>
 						<OptionSelector
 							options={localeChoices}
