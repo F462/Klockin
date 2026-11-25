@@ -56,7 +56,10 @@ export const AccountScreen = () => {
 	useEffect(() => {
 		if (isUserLoggedIn) {
 			dispatch(onboardingCompleted());
-			navigation.navigate('ActiveTimesheet');
+			navigation.reset({
+				index: 0,
+				routes: [{name: 'ActiveTimesheet'}],
+			});
 		}
 	}, [isUserLoggedIn, navigation, dispatch]);
 

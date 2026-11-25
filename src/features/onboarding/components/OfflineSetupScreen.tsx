@@ -60,7 +60,10 @@ export const OfflineSetupScreen = () => {
 	const continueSetup = () => {
 		if (next === 'ActiveTimesheet') {
 			dispatch(onboardingCompleted());
-			navigation.navigate('ActiveTimesheet');
+			navigation.reset({
+				index: 0,
+				routes: [{name: 'ActiveTimesheet'}],
+			});
 		} else {
 			navigation.navigate(next, {openCreateModal: true});
 		}
