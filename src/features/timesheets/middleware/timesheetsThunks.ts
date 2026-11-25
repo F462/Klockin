@@ -102,6 +102,24 @@ export const fetchTimesheets = createAppAsyncThunk(
 				page += 1;
 			}
 
+			// Preserve local timesheets that are already synced (registered in
+			// the id table) but missing from the server response. This can
+			// happen right after a timesheet has been created or updated when
+			// the server's list query does not yet include it (e.g. read
+			// replication lag or API caching). Dropping it here would leave a
+			// dangling active timesheet id, so a just-started timesheet would
+			// no longer be considered running.
+			const {timesheets: localTimesheets, timesheetIdTable} =
+				getState().timesheets;
+			for (const localId of Object.keys(localTimesheets)) {
+				if (
+					timesheetIdTable[localId] !== undefined &&
+					allTimesheets[localId] === undefined
+				) {
+					allTimesheets[localId] = localTimesheets[localId];
+				}
+			}
+
 			dispatch(
 				timesheetsUpdated({timesheets: allTimesheets, newTimesheetsIdTable}),
 			);

@@ -206,6 +206,34 @@ describe('fetchTimesheets', () => {
 		expect(localTimesheetCount()).toBe(2);
 	});
 
+	it('keeps synced local timesheets that are missing from the server response', async () => {
+		const localId = 'local-synced-missing';
+		const knownRemoteId = 999;
+
+		store.dispatch(
+			timesheetsUpdated({
+				timesheets: {[localId]: {id: localId, begin: '2026-03-01T08:00:00'}},
+				newTimesheetsIdTable: {[localId]: knownRemoteId},
+			}),
+		);
+
+		// The server list does not (yet) include the just-created timesheet,
+		// e.g. due to read replication lag or API caching.
+		(api.get as jest.Mock).mockResolvedValueOnce([makeTimesheet(7)]);
+
+		await store.dispatch(fetchTimesheets());
+
+		const {timesheets, timesheetIdTable} = store.getState().timesheets;
+
+		// The synced local timesheet survives the fetch instead of being
+		// dropped, so the active timesheet id does not dangle
+		expect(timesheets[localId]).toBeDefined();
+		// ... and keeps its remote id mapping
+		expect(timesheetIdTable[localId]).toBe(knownRemoteId);
+		// The server timesheet was added on top
+		expect(localTimesheetCount()).toBe(2);
+	});
+
 	it('retries sync with the latest local timesheet after a running sync is interrupted by an edit', async () => {
 		const localId = 'local-edit-sync';
 		const initialTimesheet: Timesheet = {
