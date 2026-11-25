@@ -14,7 +14,7 @@ import java.util.Calendar
 class TimesheetWidgetProvider : AppWidgetProvider() {
   override fun onReceive(context: Context, intent: Intent) {
     if (intent.action == ACTION_TOGGLE_TIMESHEET) {
-      WidgetActionService.start(context)
+      WidgetActionWorker.enqueueToggle(context)
     } else if (intent.action == ACTION_REFRESH) {
       val manager = AppWidgetManager.getInstance(context)
       val component = android.content.ComponentName(context, TimesheetWidgetProvider::class.java)
