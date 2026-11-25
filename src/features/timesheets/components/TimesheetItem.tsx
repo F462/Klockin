@@ -343,7 +343,7 @@ export const TimesheetItem = ({timesheet}: {timesheet: Timesheet}) => {
 			/>
 			<PressableOpacity
 				style={[styles.card, dynamicStyles.card]}
-				onPress={onItemPress}>
+				onLongPress={onItemPress}>
 				<View style={[styles.cardRow, dynamicStyles.cardRow]}>
 					<TimesheetSyncIndicator timesheet={timesheet} scale={scale} />
 					<View style={styles.flex}>

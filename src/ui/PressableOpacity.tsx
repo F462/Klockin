@@ -10,7 +10,8 @@ export const PressableOpacity = ({
 }: Omit<React.ComponentProps<typeof Pressable>, 'style'> & {
 	style?: StyleProp<ViewStyle>;
 }) => {
-	const hasPressHandler = props.onPress !== undefined;
+	const hasPressHandler =
+		props.onPress !== undefined || props.onLongPress !== undefined;
 	const styleResolver = useCallback(
 		({pressed}: {pressed: boolean}) => [
 			style,
