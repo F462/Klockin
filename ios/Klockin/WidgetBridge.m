@@ -14,6 +14,30 @@
 
 RCT_EXPORT_MODULE(WidgetBridge)
 
++ (BOOL)requiresMainQueueSetup
+{
+  return YES;
+}
+
+- (NSDictionary *)constantsToExport
+{
+  NSBundle *bundle = [NSBundle mainBundle];
+  NSString *appName = [bundle objectForInfoDictionaryKey:@"CFBundleDisplayName"]
+    ?: [bundle objectForInfoDictionaryKey:@"CFBundleName"]
+    ?: @"Klockin";
+  NSString *versionName = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"] ?: @"";
+  NSString *versionCode = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"] ?: @"";
+  UIDevice *device = [UIDevice currentDevice];
+  return @{
+    @"appName": appName,
+    @"versionName": versionName,
+    @"versionCode": versionCode,
+    @"deviceModel": device.model ?: @"",
+    @"systemName": device.systemName ?: @"iOS",
+    @"systemVersion": device.systemVersion ?: @"",
+  };
+}
+
 RCT_EXPORT_METHOD(publishState:(NSDictionary *)state)
 {
   NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.github.f462.klockin"];

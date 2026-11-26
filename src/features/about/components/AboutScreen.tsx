@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import {Button, Text} from 'react-native-paper';
 
 import AppIcon from 'src/assets/icon.svg';
@@ -10,6 +9,7 @@ import {selectIsUserLoggedIn} from 'src/features/account/context/accountSelector
 import {api} from 'src/features/account/utils/ApiClient';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
 import {exportLogs} from 'src/features/logging/middleware/loggingThunks';
+import {getAppName, getReadableVersion} from 'src/features/utils/appInfo';
 import {BaseScreen} from 'src/ui/BaseScreen';
 
 const styles = StyleSheet.create({
@@ -76,15 +76,11 @@ export const AboutScreen = () => {
 			<ScrollView>
 				<View style={styles.mainContainer}>
 					<View style={styles.paragraph}>
-						<Text variant="headlineLarge">
-							{DeviceInfo.getApplicationName()}
-						</Text>
+						<Text variant="headlineLarge">{getAppName()}</Text>
 					</View>
 					<AppIcon width={iconSize} height={iconSize} />
 					<View style={[styles.paragraph, styles.appInfoTextBox]}>
-						<Text>
-							{t('appVersion', {version: DeviceInfo.getReadableVersion()})}
-						</Text>
+						<Text>{t('appVersion', {version: getReadableVersion()})}</Text>
 						<ServerVersionDisplay />
 					</View>
 					<ExportLogsButton />

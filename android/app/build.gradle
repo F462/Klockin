@@ -82,6 +82,9 @@ android {
     compileSdk rootProject.ext.compileSdkVersion
 
     namespace "com.github.f462.klockin"
+    buildFeatures {
+        buildConfig true
+    }
     defaultConfig {
         applicationId "com.github.f462.klockin"
         minSdkVersion rootProject.ext.minSdkVersion

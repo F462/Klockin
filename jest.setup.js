@@ -110,9 +110,7 @@ jest.mock('react-native-bootsplash', () => {
 	};
 });
 
-// see https://github.com/react-native-device-info/react-native-device-info/issues/1101#issuecomment-1007340089
-import mockRNDeviceInfo from 'react-native-device-info/jest/react-native-device-info-mock';
-jest.mock('react-native-device-info', () => mockRNDeviceInfo);
+// NativeModules.WidgetBridge is mocked per-test where needed.
 
 // see https://www.npmjs.com/package/@react-native-community/netinfo
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js';
@@ -165,18 +163,41 @@ jest.mock('react-native/Libraries/Components/RefreshControl/RefreshControl', () 
 	default: require('./__mocks__/RefreshControlMock'),
 }));
 
-jest.mock('react-native-vision-camera', () => ({
-	Camera: () => null,
-	useCameraDevice: jest.fn(),
-	useCameraPermission: jest.fn(() => ({
-		hasPermission: true,
-		requestPermission: jest.fn().mockResolvedValue(true),
-	})),
-}));
+// Mock VisionCamera and Nitro Zxing for Jest
+jest.mock('react-native-vision-camera', () => {
+  return {
+    Camera: (props) => null,
+    useCameraDevice: () => ({ id: '0', position: 'back', facing: 'back' }),
+    useCameraPermission: () => ({
+      hasPermission: true,
+      requestPermission: jest.fn().mockResolvedValue(true),
+    }),
+    useFrameOutput: () => ({
+      // mock frame output, not used in tests directly
+    }),
+  };
+});
 
-jest.mock('react-native-vision-camera-barcode-scanner', () => ({
-	useBarcodeScannerOutput: jest.fn(() => ({})),
-	useBarcodeScanner: jest.fn(),
-	createBarcodeScanner: jest.fn(),
-	createBarcodeScannerOutput: jest.fn(),
-}));
+jest.mock('react-native-nitro-zxing', () => {
+  return {
+    useBarcodeScanner: () => ({
+      scanCodes: jest.fn(() => []),
+    }),
+  };
+});
+
+// Mock react-native-reanimated for Jest (minimal stub)
+jest.mock('react-native-reanimated', () => {
+  return {
+    // Provide a no-op implementation of runOnJS used in QrScanner
+    runOnJS: (fn) => fn,
+    // Stub other common exports as no-ops to avoid runtime errors
+    createAnimatedComponent: (Component) => Component,
+    useSharedValue: () => ({ value: 0 }),
+    useAnimatedStyle: () => ({}),
+    withTiming: (value) => value,
+    useEvent: () => {},
+  };
+});
+
+

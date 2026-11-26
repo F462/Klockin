@@ -1,6 +1,12 @@
-import DeviceInfo from 'react-native-device-info';
-
 import type {RootState} from 'src/features/data/context/store';
+import {
+	getAppName,
+	getAppVersion,
+	getBuildNumber,
+	getDeviceModel,
+	getSystemName,
+	getSystemVersion,
+} from 'src/features/utils/appInfo';
 import type {BackupData, BackupPayload} from '../types';
 
 /**
@@ -34,15 +40,15 @@ export const buildBackupPayload = (
 	exportedAt: string = new Date().toISOString(),
 ): BackupPayload => ({
 	app: {
-		name: 'Klockin',
-		version: DeviceInfo.getVersion(),
-		build: DeviceInfo.getBuildNumber(),
+		name: getAppName(),
+		version: getAppVersion(),
+		build: getBuildNumber(),
 	},
 	exportedAt,
 	device: {
-		model: DeviceInfo.getModel(),
-		os: DeviceInfo.getSystemName(),
-		osVersion: DeviceInfo.getSystemVersion(),
+		model: getDeviceModel(),
+		os: getSystemName(),
+		osVersion: getSystemVersion(),
 	},
 	data: buildBackupData(state),
 });

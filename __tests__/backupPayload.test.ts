@@ -1,13 +1,16 @@
+import {NativeModules} from 'react-native';
+
 import {buildBackupPayload} from 'src/features/backup/utils/buildBackupPayload';
 import type {RootState} from 'src/features/data/context/store';
 
-jest.mock('react-native-device-info', () => ({
-	getVersion: () => '1.2.3',
-	getBuildNumber: () => '42',
-	getModel: () => 'Test Device',
-	getSystemName: () => 'Android',
-	getSystemVersion: () => '14',
-}));
+NativeModules.WidgetBridge = {
+	appName: 'Klockin',
+	versionName: '1.2.3',
+	versionCode: '42',
+	deviceModel: 'Test Device',
+	systemName: 'Android',
+	systemVersion: '14',
+};
 
 const makeState = (): RootState =>
 	({

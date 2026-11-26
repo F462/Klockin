@@ -28,6 +28,15 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
 
   override fun getName() = "WidgetBridge"
 
+  override fun getConstants(): Map<String, Any> = mapOf(
+    "appName" to reactApplicationContext.applicationInfo.loadLabel(reactApplicationContext.packageManager).toString(),
+    "versionName" to BuildConfig.VERSION_NAME,
+    "versionCode" to BuildConfig.VERSION_CODE.toString(),
+    "deviceModel" to android.os.Build.MODEL,
+    "systemName" to "Android",
+    "systemVersion" to android.os.Build.VERSION.RELEASE,
+  )
+
   @ReactMethod
   fun publishState(state: ReadableMap) {
     val preferences = reactApplicationContext.getSharedPreferences(
