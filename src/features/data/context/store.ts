@@ -46,10 +46,14 @@ import {
 } from 'src/features/timesheets/context/timesheetsSlice';
 import {usersReducer} from 'src/features/users/context/usersSlice';
 import {startRootListener} from '../middleware/rootListener';
+import {migrate, STORE_VERSION} from './migrations';
 
 const persistConfig = {
 	key: 'root',
-	version: 0,
+	version: STORE_VERSION,
+	// Migrates any persisted state from an older schema version up to
+	// STORE_VERSION on rehydration. Currently a no-op; see './migrations'.
+	migrate,
 	// Disable the rehydration timeout. redux-persist schedules a setTimeout for
 	// this timeout when persistStore runs, and that timer is never cleaned up,
 	// which keeps the Jest worker process alive (test leak). Rehydration itself
