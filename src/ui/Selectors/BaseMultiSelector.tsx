@@ -1,4 +1,5 @@
 import {useMemo} from 'react';
+import {useTheme} from 'react-native-paper';
 import {PaperSelect} from 'react-native-paper-select';
 
 type BaseElement = {id: string | number; name: string};
@@ -22,6 +23,7 @@ export function BaseMultiSelector<T extends BaseElement>({
 	label,
 	onSelection,
 }: BaseMultiSelectorProps<T>) {
+	const theme = useTheme();
 	const elementList = useMemo(
 		() =>
 			Object.values(elements ?? {}).map((item) => ({
@@ -54,6 +56,12 @@ export function BaseMultiSelector<T extends BaseElement>({
 			multiEnable={true}
 			hideSearchBox={true}
 			textInputMode="outlined"
+			// react-native-paper-select defaults the outline to 'black',
+			// which looks broken in dark mode. Match react-native-paper defaults.
+			textInputProps={{
+				outlineColor: theme.colors.outline,
+				activeOutlineColor: theme.colors.primary,
+			}}
 			onSelection={(selection) => {
 				const selected = (selection.selectedList ?? []).map((item) =>
 					elements.find((candidate) => candidate.id.toString() === item._id),
