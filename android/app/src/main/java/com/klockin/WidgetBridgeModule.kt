@@ -60,6 +60,9 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
       .putLong("activeBeginAt", state.getDouble("activeBeginAt").toLong())
       .putInt("workedSeconds", state.getInt("workedSeconds"))
       .putLong("snapshotAt", state.getDouble("snapshotAt").toLong())
+    if (state.hasKey("workdaySeconds")) {
+      editor.putInt("workdaySeconds", state.getInt("workdaySeconds"))
+    }
     if (state.hasKey("channelName")) {
       editor.putString("channelName", state.getString("channelName"))
     }

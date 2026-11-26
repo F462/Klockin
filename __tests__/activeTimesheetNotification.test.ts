@@ -78,6 +78,7 @@ describe('ActiveTimesheetNotificationIntegration', () => {
 			active: true,
 			activeBeginAt: dayjs(activeBegin).valueOf(),
 			workedSeconds: 7200,
+			workdaySeconds: 28800,
 			snapshotAt: Date.now(),
 			channelName: 'Active timesheet',
 			title: 'Timesheet running',
@@ -114,6 +115,19 @@ describe('ActiveTimesheetNotificationIntegration', () => {
 				active: false,
 				activeBeginAt: 0,
 				workedSeconds: 0,
+				workdaySeconds: 28800,
+			}),
+		);
+	});
+
+	it('publishes zero workdaySeconds on non-working days', () => {
+		jest.setSystemTime(new Date('2026-11-28T10:00:00.000Z'));
+
+		syncActiveTimesheetNotification(store.getState());
+
+		expect(updateActiveTimesheetNotification).toHaveBeenCalledWith(
+			expect.objectContaining({
+				workdaySeconds: 0,
 			}),
 		);
 	});

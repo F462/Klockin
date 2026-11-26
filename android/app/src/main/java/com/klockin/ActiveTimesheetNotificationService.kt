@@ -112,6 +112,7 @@ class ActiveTimesheetNotificationService : Service() {
     val active: Boolean,
     val activeBeginAt: Long,
     val workedSeconds: Int,
+    val workdaySeconds: Int,
     val snapshotAt: Long,
     val channelName: String,
     val title: String,
@@ -152,6 +153,7 @@ class ActiveTimesheetNotificationService : Service() {
         active = preferences.getBoolean("active", false),
         activeBeginAt = preferences.getLong("activeBeginAt", 0L),
         workedSeconds = preferences.getInt("workedSeconds", 0).coerceAtLeast(0),
+        workdaySeconds = preferences.getInt("workdaySeconds", 0).coerceAtLeast(0),
         snapshotAt = preferences.getLong("snapshotAt", 0L),
         channelName = preferences.getString("channelName", DEFAULT_CHANNEL_NAME) ?: DEFAULT_CHANNEL_NAME,
         title = preferences.getString("title", DEFAULT_TITLE) ?: DEFAULT_TITLE,
@@ -211,7 +213,7 @@ class ActiveTimesheetNotificationService : Service() {
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
       )
 
-      return NotificationCompat.Builder(context, CHANNEL_ID)
+      val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_notification)
         .setContentTitle(state.title)
         .setContentText(body)
@@ -220,7 +222,13 @@ class ActiveTimesheetNotificationService : Service() {
         .setOnlyAlertOnce(true)
         .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
         .setContentIntent(openAppPendingIntent)
-        .build()
+
+      if (state.workdaySeconds > 0) {
+        val progress = totalSeconds.coerceIn(0L, state.workdaySeconds.toLong()).toInt()
+        builder.setProgress(state.workdaySeconds, progress, false)
+      }
+
+      return builder.build()
     }
 
     private fun formatDuration(seconds: Long): String {
