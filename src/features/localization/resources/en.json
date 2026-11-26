@@ -316,7 +316,11 @@
 	"manageDailyWorkingHoursNotificationSettings": "Manage or turn off this notification in system settings.",
 	"activeTimesheetChannel": "Active timesheet",
 	"activeTimesheetNotificationTitle": "Timesheet running",
+	"activeTimesheetNotificationPausedTitle": "Timesheet paused",
 	"activeTimesheetNotificationBody": "Current: {{current}} • Total today: {{total}}",
+	"activeTimesheetNotificationPause": "Pause",
+	"activeTimesheetNotificationResume": "Resume",
+	"activeTimesheetNotificationStop": "Stop",
 	"notificationsTitle": "Notifications",
 	"workedTime": "Worked time"
 }

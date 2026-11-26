@@ -21,3 +21,15 @@ export const selectNextTimesheetStartDate = createSelector(
 	[selectActiveTimesheetState],
 	(activeTimesheetState) => activeTimesheetState.nextTimesheetStartDatetime,
 );
+
+export const selectIsNotificationPaused = createSelector(
+	[selectActiveTimesheetState],
+	(activeTimesheetState) =>
+		activeTimesheetState.activeTimesheetId === undefined &&
+		activeTimesheetState.notificationPaused === true,
+);
+
+export const selectPausedTimesheetTemplate = createSelector(
+	[selectActiveTimesheetState],
+	(activeTimesheetState) => activeTimesheetState.pausedTimesheetTemplate,
+);

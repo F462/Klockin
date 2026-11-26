@@ -2,10 +2,12 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {timesheetEdited} from 'src/features/timesheets/context/timesheetActions';
 import {Timesheet} from 'src/features/timesheets/types';
-import {ActiveTimesheetState} from '../types';
+import {ActiveTimesheetState, PausedTimesheetTemplate} from '../types';
 
 const initialState: ActiveTimesheetState = {
 	activeTimesheetId: undefined,
+	notificationPaused: false,
+	pausedTimesheetTemplate: undefined,
 };
 
 const activeTimesheetSlice = createSlice({
@@ -17,6 +19,8 @@ const activeTimesheetSlice = createSlice({
 			{payload: timesheet}: PayloadAction<Timesheet>,
 		) => {
 			state.activeTimesheetId = timesheet.id;
+			state.notificationPaused = false;
+			state.pausedTimesheetTemplate = undefined;
 		},
 		nextTimesheetStartDatetimeSet: (
 			state,
@@ -30,7 +34,23 @@ const activeTimesheetSlice = createSlice({
 		) => {
 			if (timesheetId === state.activeTimesheetId) {
 				state.activeTimesheetId = undefined;
+				state.notificationPaused = false;
+				state.pausedTimesheetTemplate = undefined;
 			}
+		},
+		notificationPausedSet: (
+			state,
+			{
+				payload,
+			}: PayloadAction<{
+				paused: boolean;
+				template?: PausedTimesheetTemplate;
+			}>,
+		) => {
+			state.notificationPaused = payload.paused;
+			state.pausedTimesheetTemplate = payload.paused
+				? payload.template
+				: undefined;
 		},
 	},
 	extraReducers: (builder) => {
@@ -38,9 +58,13 @@ const activeTimesheetSlice = createSlice({
 			if (timesheet.end == null) {
 				// The edited timesheet is ongoing (running), so it becomes the active timesheet.
 				state.activeTimesheetId = timesheet.id;
+				state.notificationPaused = false;
+				state.pausedTimesheetTemplate = undefined;
 			} else if (timesheet.id === state.activeTimesheetId) {
 				// The edited timesheet was ended and it was the active one, so it is no longer active.
 				state.activeTimesheetId = undefined;
+				state.notificationPaused = false;
+				state.pausedTimesheetTemplate = undefined;
 			}
 		});
 	},
@@ -49,6 +73,7 @@ const activeTimesheetSlice = createSlice({
 export const {
 	newTimesheetStarted,
 	nextTimesheetStartDatetimeSet,
+	notificationPausedSet,
 	timesheetStopped,
 } = activeTimesheetSlice.actions;
 export const activeTimesheetReducer = activeTimesheetSlice.reducer;

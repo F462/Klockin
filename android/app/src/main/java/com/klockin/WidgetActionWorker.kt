@@ -40,7 +40,7 @@ class WidgetActionWorker(
 
   override fun doWork(): Result {
     val action = inputData.getString(KEY_ACTION) ?: return Result.failure()
-    if (action != ACTION_TOGGLE) return Result.failure()
+    if (action !in SUPPORTED_ACTIONS) return Result.failure()
 
     val reactApplication = applicationContext as? ReactApplication ?: return Result.failure()
     val reactHost = reactApplication.reactHost ?: return Result.failure()
@@ -131,12 +131,23 @@ class WidgetActionWorker(
     private const val TASK_NAME = "KlockinWidgetAction"
     private const val TASK_TIMEOUT_MS = 30_000L
     private const val KEY_ACTION = "action"
-    private const val ACTION_TOGGLE = "toggle"
+    const val ACTION_TOGGLE = "toggle"
+    const val ACTION_PAUSE = "pause"
+    const val ACTION_RESUME = "resume"
+    const val ACTION_STOP = "stop"
+    private val SUPPORTED_ACTIONS = setOf(ACTION_TOGGLE, ACTION_PAUSE, ACTION_RESUME, ACTION_STOP)
     private const val UNIQUE_WORK_NAME = "klockin_widget_toggle"
 
     fun enqueueToggle(context: Context) {
+      enqueueAction(context, ACTION_TOGGLE)
+    }
+
+    fun enqueueAction(context: Context, action: String) {
+      if (action !in SUPPORTED_ACTIONS) {
+        return
+      }
       val request = OneTimeWorkRequest.Builder(WidgetActionWorker::class.java)
-        .setInputData(Data.Builder().putString(KEY_ACTION, ACTION_TOGGLE).build())
+        .setInputData(Data.Builder().putString(KEY_ACTION, action).build())
         .build()
       WorkManager.getInstance(context).enqueueUniqueWork(
         UNIQUE_WORK_NAME,

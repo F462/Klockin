@@ -17,16 +17,22 @@ import {
 	selectActiveTimesheet,
 	selectTimesheetListOfCurrentDay,
 } from 'src/features/timesheets/context/timesheetsSelectors';
+import {selectIsNotificationPaused} from '../context/activeTimesheetSelectors';
 
 export type ActiveTimesheetNotificationState = {
 	active: boolean;
+	paused: boolean;
 	activeBeginAt: number;
 	workedSeconds: number;
 	workdaySeconds: number;
 	snapshotAt: number;
 	channelName: string;
 	title: string;
+	pausedTitle: string;
 	bodyTemplate: string;
+	pauseLabel: string;
+	resumeLabel: string;
+	stopLabel: string;
 };
 
 type WidgetBridge = {
@@ -44,6 +50,7 @@ export const syncActiveTimesheetNotification = (
 
 	const widgetBridge = NativeModules.WidgetBridge as WidgetBridge | undefined;
 	const activeTimesheet = selectActiveTimesheet(state);
+	const paused = selectIsNotificationPaused(state);
 	const now = dayjs();
 	const workedSeconds = getWorkingHoursInSeconds(
 		selectTimesheetListOfCurrentDay(state),
@@ -56,6 +63,7 @@ export const syncActiveTimesheetNotification = (
 
 	widgetBridge?.updateActiveTimesheetNotification?.({
 		active: activeTimesheet !== undefined,
+		paused,
 		activeBeginAt: activeTimesheet?.begin
 			? dayjs(activeTimesheet.begin).valueOf()
 			: 0,
@@ -64,15 +72,20 @@ export const syncActiveTimesheetNotification = (
 		snapshotAt: Date.now(),
 		channelName: i18n.t('activeTimesheetChannel'),
 		title: i18n.t('activeTimesheetNotificationTitle'),
+		pausedTitle: i18n.t('activeTimesheetNotificationPausedTitle'),
 		bodyTemplate: i18n.t('activeTimesheetNotificationBody', {
 			current: '__CURRENT__',
 			total: '__TOTAL__',
 		}),
+		pauseLabel: i18n.t('activeTimesheetNotificationPause'),
+		resumeLabel: i18n.t('activeTimesheetNotificationResume'),
+		stopLabel: i18n.t('activeTimesheetNotificationStop'),
 	});
 };
 
 export const ActiveTimesheetNotificationIntegration = () => {
 	const activeTimesheet = useAppSelector(selectActiveTimesheet);
+	const isNotificationPaused = useAppSelector(selectIsNotificationPaused);
 	const timesheetsOfCurrentDay = useAppSelector(
 		selectTimesheetListOfCurrentDay,
 	);
@@ -80,7 +93,12 @@ export const ActiveTimesheetNotificationIntegration = () => {
 
 	useEffect(() => {
 		syncActiveTimesheetNotification(store.getState());
-	}, [activeTimesheet, timesheetsOfCurrentDay, workContractHoursPerDay]);
+	}, [
+		activeTimesheet,
+		isNotificationPaused,
+		timesheetsOfCurrentDay,
+		workContractHoursPerDay,
+	]);
 
 	return null;
 };

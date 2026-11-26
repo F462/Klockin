@@ -44,7 +44,7 @@ class ActiveTimesheetNotificationService : Service() {
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
     val state = readState(this)
-    if (!state.active) {
+    if (!state.active && !state.paused) {
       stopUpdates()
       stopForeground(STOP_FOREGROUND_REMOVE)
       stopSelf()
@@ -63,9 +63,13 @@ class ActiveTimesheetNotificationService : Service() {
       startForeground(NOTIFICATION_ID, notification)
     }
 
-    registerTickReceiver()
-    handler.removeCallbacks(updateRunnable)
-    handler.postDelayed(updateRunnable, UPDATE_INTERVAL_MS)
+    if (state.active) {
+      registerTickReceiver()
+      handler.removeCallbacks(updateRunnable)
+      handler.postDelayed(updateRunnable, UPDATE_INTERVAL_MS)
+    } else {
+      stopUpdates()
+    }
     return START_STICKY
   }
 
@@ -76,7 +80,7 @@ class ActiveTimesheetNotificationService : Service() {
 
   private fun refreshNotification(): Boolean {
     val state = readState(this)
-    if (!state.active) {
+    if (!state.active && !state.paused) {
       stopUpdates()
       stopForeground(STOP_FOREGROUND_REMOVE)
       stopSelf()
@@ -110,27 +114,39 @@ class ActiveTimesheetNotificationService : Service() {
 
   private data class NotificationState(
     val active: Boolean,
+    val paused: Boolean,
     val activeBeginAt: Long,
     val workedSeconds: Int,
     val workdaySeconds: Int,
     val snapshotAt: Long,
     val channelName: String,
     val title: String,
+    val pausedTitle: String,
     val bodyTemplate: String,
+    val pauseLabel: String,
+    val resumeLabel: String,
+    val stopLabel: String,
   )
 
   companion object {
     const val PREFERENCES_NAME = "active_timesheet_notification"
     private const val CHANNEL_ID = "active-timesheet"
     private const val NOTIFICATION_ID = 7301
+    private const val REQUEST_CODE_PAUSE = 7302
+    private const val REQUEST_CODE_RESUME = 7303
+    private const val REQUEST_CODE_STOP = 7304
     private const val UPDATE_INTERVAL_MS = 15_000L
     private const val DEFAULT_CHANNEL_NAME = "Active timesheet"
     private const val DEFAULT_TITLE = "Timesheet running"
+    private const val DEFAULT_PAUSED_TITLE = "Timesheet paused"
     private const val DEFAULT_BODY_TEMPLATE = "Current: __CURRENT__ • Total today: __TOTAL__"
+    private const val DEFAULT_PAUSE_LABEL = "Pause"
+    private const val DEFAULT_RESUME_LABEL = "Resume"
+    private const val DEFAULT_STOP_LABEL = "Stop"
 
     fun sync(context: Context) {
       val state = readState(context)
-      if (!state.active) {
+      if (!state.active && !state.paused) {
         context.stopService(Intent(context, ActiveTimesheetNotificationService::class.java))
         NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID)
         return
@@ -151,13 +167,18 @@ class ActiveTimesheetNotificationService : Service() {
       val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
       return NotificationState(
         active = preferences.getBoolean("active", false),
+        paused = preferences.getBoolean("paused", false),
         activeBeginAt = preferences.getLong("activeBeginAt", 0L),
         workedSeconds = preferences.getInt("workedSeconds", 0).coerceAtLeast(0),
         workdaySeconds = preferences.getInt("workdaySeconds", 0).coerceAtLeast(0),
         snapshotAt = preferences.getLong("snapshotAt", 0L),
         channelName = preferences.getString("channelName", DEFAULT_CHANNEL_NAME) ?: DEFAULT_CHANNEL_NAME,
         title = preferences.getString("title", DEFAULT_TITLE) ?: DEFAULT_TITLE,
+        pausedTitle = preferences.getString("pausedTitle", DEFAULT_PAUSED_TITLE) ?: DEFAULT_PAUSED_TITLE,
         bodyTemplate = preferences.getString("bodyTemplate", DEFAULT_BODY_TEMPLATE) ?: DEFAULT_BODY_TEMPLATE,
+        pauseLabel = preferences.getString("pauseLabel", DEFAULT_PAUSE_LABEL) ?: DEFAULT_PAUSE_LABEL,
+        resumeLabel = preferences.getString("resumeLabel", DEFAULT_RESUME_LABEL) ?: DEFAULT_RESUME_LABEL,
+        stopLabel = preferences.getString("stopLabel", DEFAULT_STOP_LABEL) ?: DEFAULT_STOP_LABEL,
       )
     }
 
@@ -176,15 +197,20 @@ class ActiveTimesheetNotificationService : Service() {
 
     private fun buildNotification(context: Context, state: NotificationState): android.app.Notification {
       val now = System.currentTimeMillis()
-      val currentSeconds = if (state.activeBeginAt > 0L) {
+      val currentSeconds = if (state.active && state.activeBeginAt > 0L) {
         ((now - state.activeBeginAt) / 1000L).coerceAtLeast(0L)
       } else {
         0L
       }
 
       val totalSeconds = if (isToday(state.snapshotAt, now)) {
-        state.workedSeconds.toLong() + ((now - state.snapshotAt) / 1000L).coerceAtLeast(0L)
-      } else if (state.activeBeginAt > 0L) {
+        val elapsedSinceSnapshot = if (state.active) {
+          ((now - state.snapshotAt) / 1000L).coerceAtLeast(0L)
+        } else {
+          0L
+        }
+        state.workedSeconds.toLong() + elapsedSinceSnapshot
+      } else if (state.active && state.activeBeginAt > 0L) {
         val startOfToday = Calendar.getInstance().apply {
           timeInMillis = now
           set(Calendar.HOUR_OF_DAY, 0)
@@ -215,7 +241,7 @@ class ActiveTimesheetNotificationService : Service() {
 
       val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_notification)
-        .setContentTitle(state.title)
+        .setContentTitle(if (state.active) state.title else state.pausedTitle)
         .setContentText(body)
         .setOngoing(true)
         .setAutoCancel(false)
@@ -223,12 +249,60 @@ class ActiveTimesheetNotificationService : Service() {
         .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
         .setContentIntent(openAppPendingIntent)
 
+      if (state.active) {
+        builder.addAction(
+          0,
+          state.pauseLabel,
+          createActionPendingIntent(
+            context,
+            ActiveTimesheetNotificationReceiver.ACTION_PAUSE,
+            REQUEST_CODE_PAUSE,
+          ),
+        )
+      } else {
+        builder.addAction(
+          0,
+          state.resumeLabel,
+          createActionPendingIntent(
+            context,
+            ActiveTimesheetNotificationReceiver.ACTION_RESUME,
+            REQUEST_CODE_RESUME,
+          ),
+        )
+      }
+
+      builder.addAction(
+        0,
+        state.stopLabel,
+        createActionPendingIntent(
+          context,
+          ActiveTimesheetNotificationReceiver.ACTION_STOP,
+          REQUEST_CODE_STOP,
+        ),
+      )
+
       if (state.workdaySeconds > 0) {
         val progress = totalSeconds.coerceIn(0L, state.workdaySeconds.toLong()).toInt()
         builder.setProgress(state.workdaySeconds, progress, false)
       }
 
       return builder.build()
+    }
+
+    private fun createActionPendingIntent(
+      context: Context,
+      action: String,
+      requestCode: Int,
+    ): PendingIntent {
+      val intent = Intent(context, ActiveTimesheetNotificationReceiver::class.java).apply {
+        this.action = action
+      }
+      return PendingIntent.getBroadcast(
+        context,
+        requestCode,
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+      )
     }
 
     private fun formatDuration(seconds: Long): String {

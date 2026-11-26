@@ -316,7 +316,11 @@
 	"manageDailyWorkingHoursNotificationSettings": "Diese Benachrichtigung in den Systemeinstellungen verwalten oder deaktivieren.",
 	"activeTimesheetChannel": "Aktiver Zeiteintrag",
 	"activeTimesheetNotificationTitle": "Zeiteintrag läuft",
+	"activeTimesheetNotificationPausedTitle": "Zeiteintrag pausiert",
 	"activeTimesheetNotificationBody": "Aktuell: {{current}} • Gesamt heute: {{total}}",
+	"activeTimesheetNotificationPause": "Pausieren",
+	"activeTimesheetNotificationResume": "Fortsetzen",
+	"activeTimesheetNotificationStop": "Stoppen",
 	"notificationsTitle": "Benachrichtigungen",
 	"workedTime": "Gearbeitete Zeit"
 }

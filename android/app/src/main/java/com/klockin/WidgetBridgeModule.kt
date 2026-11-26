@@ -57,6 +57,7 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
     )
     val editor = preferences.edit()
       .putBoolean("active", state.getBoolean("active"))
+      .putBoolean("paused", if (state.hasKey("paused")) state.getBoolean("paused") else false)
       .putLong("activeBeginAt", state.getDouble("activeBeginAt").toLong())
       .putInt("workedSeconds", state.getInt("workedSeconds"))
       .putLong("snapshotAt", state.getDouble("snapshotAt").toLong())
@@ -69,8 +70,20 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
     if (state.hasKey("title")) {
       editor.putString("title", state.getString("title"))
     }
+    if (state.hasKey("pausedTitle")) {
+      editor.putString("pausedTitle", state.getString("pausedTitle"))
+    }
     if (state.hasKey("bodyTemplate")) {
       editor.putString("bodyTemplate", state.getString("bodyTemplate"))
+    }
+    if (state.hasKey("pauseLabel")) {
+      editor.putString("pauseLabel", state.getString("pauseLabel"))
+    }
+    if (state.hasKey("resumeLabel")) {
+      editor.putString("resumeLabel", state.getString("resumeLabel"))
+    }
+    if (state.hasKey("stopLabel")) {
+      editor.putString("stopLabel", state.getString("stopLabel"))
     }
     editor.apply()
 

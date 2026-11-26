@@ -60,6 +60,9 @@
         android:name="android.appwidget.provider"
         android:resource="@xml/timesheet_widget_info" />
     </receiver>
+    <receiver
+      android:name=".ActiveTimesheetNotificationReceiver"
+      android:exported="false" />
     <service
       android:name=".ActiveTimesheetNotificationService"
       android:foregroundServiceType="specialUse"
