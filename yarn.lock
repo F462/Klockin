@@ -1518,9 +1518,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cspell/cspell-bundled-dicts@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/cspell-bundled-dicts@npm:10.5.1"
+"@cspell/cspell-bundled-dicts@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/cspell-bundled-dicts@npm:10.5.2"
   dependencies:
     "@cspell/dict-ada": "npm:^4.1.1"
     "@cspell/dict-al": "npm:^1.1.1"
@@ -1581,44 +1581,44 @@ __metadata:
     "@cspell/dict-typescript": "npm:^3.2.3"
     "@cspell/dict-vue": "npm:^3.0.5"
     "@cspell/dict-zig": "npm:^1.0.0"
-  checksum: 10c0/b1c98f12bb0b2e82b3a79e2500af59d0b21c39639f00d7fe0e4f3b66fce94fcaec324e80f26b0d4155db2c84434f6112a194950630b4b05ec12db4a84e7be01b
+  checksum: 10c0/90a83739bb9021764041a71790a8de5052f72705c9aad1ec0a9260810ee0e776468ba64341f8bc0896b7b903f8cade849b15c907b88722557c166cab23f36f82
   languageName: node
   linkType: hard
 
-"@cspell/cspell-performance-monitor@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/cspell-performance-monitor@npm:10.5.1"
-  checksum: 10c0/d8dcfddad3a5516c0115989d2dd59415b29c04606913f1ac1e035d27d2799278eda6b527d23936465f68103f96c5d861e8f4efe980714197ef47ad80b90b3faa
+"@cspell/cspell-performance-monitor@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/cspell-performance-monitor@npm:10.5.2"
+  checksum: 10c0/003b0bf921195eec1109455801faac5641e22563ec05109a313cd7b11f246bc00c94a47821a9bcd51663e97328efed8121d4f8cd62918c20921aeeb41087e4f8
   languageName: node
   linkType: hard
 
-"@cspell/cspell-pipe@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/cspell-pipe@npm:10.5.1"
-  checksum: 10c0/82abb39684fee9a223fdf6a569abe37a86735f43512c0fe8f5bed4e995196dd3d301fcea5c72f528545e0bc4d971fdee4987712922f2831847617e3650cdc821
+"@cspell/cspell-pipe@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/cspell-pipe@npm:10.5.2"
+  checksum: 10c0/9428927789fb5a6fad750090bacdfe907d8721e5c87911c63eb5ee25fe5b7a12c03eb0d24056b26bcf9ee05941a1f72f4b1aa90fef49290fc255c23eb3d094b2
   languageName: node
   linkType: hard
 
-"@cspell/cspell-resolver@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/cspell-resolver@npm:10.5.1"
+"@cspell/cspell-resolver@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/cspell-resolver@npm:10.5.2"
   dependencies:
     global-directory: "npm:^5.0.0"
-  checksum: 10c0/8244ab28be3216cf359a6a03a459151e9a69c5ebb4534f12e8eeedc7eeb980924b8db8c27d4d0f6353c23e9acad1c353bc53362e6a4496be3c4aa020965fa2ca
+  checksum: 10c0/cf455d83570d06f710d25a40fa886552a81bfe38c68812107a5eeec9c3f9cf07d9f43a4fe501f32aaaab33ae5b03ce33adaad123187c65372387c3617c8a4c24
   languageName: node
   linkType: hard
 
-"@cspell/cspell-service-bus@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/cspell-service-bus@npm:10.5.1"
-  checksum: 10c0/88538e8a2c10a2255934df9066a58dc65fe136243d2b0faa3cd32f0f2e03e3fbe0868751ea756006cca0c96b296b67cbdd954a1619059dda296bb2e9ee19b849
+"@cspell/cspell-service-bus@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/cspell-service-bus@npm:10.5.2"
+  checksum: 10c0/a58fb9eef98e2b637594e3db2ad02e6dd9d15bc34cf84829f094afa9c42a4667855220342abf06283a3bea20c6e7885c55555630fa24f25e96a7ec98c4b06885
   languageName: node
   linkType: hard
 
-"@cspell/cspell-types@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/cspell-types@npm:10.5.1"
-  checksum: 10c0/d1b285355f3caf7d2e2fc98480b41d320aab1c53466e42ce936f09929532de4f986aabe724d98c5958581c97d763e3a12f543d3a5cdb34e4923d2e0b9ea066b2
+"@cspell/cspell-types@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/cspell-types@npm:10.5.2"
+  checksum: 10c0/59299dd210b7802c30bc9d5f303ae2582fd8d3a55594dcb95970134aa68420038a0f9c19c5b69fd0ba457f465a03a175be0f6082cd456c35130e18918ac005cb
   languageName: node
   linkType: hard
 
@@ -2044,55 +2044,55 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cspell/dynamic-import@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/dynamic-import@npm:10.5.1"
+"@cspell/dynamic-import@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/dynamic-import@npm:10.5.2"
   dependencies:
-    "@cspell/url": "npm:10.5.1"
+    "@cspell/url": "npm:10.5.2"
     import-meta-resolve: "npm:^4.2.0"
-  checksum: 10c0/dfd1ef92df211621fe189e4334d0635e8427997938bdc35bf368d5b2a42f10230f199d294a296ccfe8a17ae2479def2fb11813d861a415f4759a4cea612d7770
+  checksum: 10c0/c1bceba4d6de3d9c31054657463abd8a66578cc23c28f198654d94f6ea77f1ea592129058eddd4824784948a585a8a0e2e9837be1a0860e1c59287945ab72cb9
   languageName: node
   linkType: hard
 
-"@cspell/eslint-plugin@npm:^10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/eslint-plugin@npm:10.5.1"
+"@cspell/eslint-plugin@npm:^10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/eslint-plugin@npm:10.5.2"
   dependencies:
-    "@cspell/cspell-types": "npm:10.5.1"
-    "@cspell/url": "npm:10.5.1"
-    cspell-lib: "npm:10.5.1"
+    "@cspell/cspell-types": "npm:10.5.2"
+    "@cspell/url": "npm:10.5.2"
+    cspell-lib: "npm:10.5.2"
     synckit: "npm:^0.12.3"
   peerDependencies:
     eslint: ^8 || ^9 || ^10
-  checksum: 10c0/cc3c8b4430dc56d4a321824fc4ac356edd3cff6a0ac58c76077455f28a3b1e899a222b227d1770945caefb50061f2378a846d6bff4509084fc1eb6ef806a3106
+  checksum: 10c0/6e8bd4ff6d9888d341a0cdbffc5f1d623b8e4779f18b8debb439594f337fabd20b400646fb44866a72c87f2ff94d2d7aa035bac845cdb0ca5158ebb20f11b5ed
   languageName: node
   linkType: hard
 
-"@cspell/filetypes@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/filetypes@npm:10.5.1"
-  checksum: 10c0/f00fa367701d0ac436e40f5707da488f5cdd862a7c0e6f34cbdbd115de1148bc97a6c4a1046ec4b00babfff0a0c2c9c0f5bd660c2a3d1c50995519340cbe46eb
+"@cspell/filetypes@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/filetypes@npm:10.5.2"
+  checksum: 10c0/d7fb4f23dbedb5b9c2b0ebb2f4983ff0018acf2a4fc825174d1a208d146acec6cd24289412f664dc268aaae0785533acec13b04ce973fc41369c85c911efed25
   languageName: node
   linkType: hard
 
-"@cspell/rpc@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/rpc@npm:10.5.1"
-  checksum: 10c0/3e44f05433991560b460d5653298d3c60f52e6ad20b1863a951d2f897b4773f59eeb660709baa7fb24594349d438a52c0e947dd9b7a9d3b4bf7cff5036f30a8f
+"@cspell/rpc@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/rpc@npm:10.5.2"
+  checksum: 10c0/df383068e5da162f126ec11badf13d703ead12b0bc15b67c0ca2391a0550b6e01bbd549e74df9c9541c76cba0802383bc682913236327eff58b50eddf2599027
   languageName: node
   linkType: hard
 
-"@cspell/strong-weak-map@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/strong-weak-map@npm:10.5.1"
-  checksum: 10c0/043aada85e470e1cabc400d6a0c5e5a6f1868a36eac0dacd10700ff5be0a8a17e32ab229125d43a45609a4fd0eaeefac5f8477876410a4ef46cfd93ac5c31ad5
+"@cspell/strong-weak-map@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/strong-weak-map@npm:10.5.2"
+  checksum: 10c0/493ecc1e613e0d1757fd74c55fbdde223608a3339ed6b063415c644f6608fc82347402ed099e7a26fc998454d07b59fb52e9f845c16161a183173272ecf1b616
   languageName: node
   linkType: hard
 
-"@cspell/url@npm:10.5.1":
-  version: 10.5.1
-  resolution: "@cspell/url@npm:10.5.1"
-  checksum: 10c0/8069e8c4369e747eb37f7f481f300d4198895178ef77e525c0222fbe730c8ce1b7d88bac83e06cf0c764f83d43eb4849d57a2ea2882366d79eff54e8cd91d626
+"@cspell/url@npm:10.5.2":
+  version: 10.5.2
+  resolution: "@cspell/url@npm:10.5.2"
+  checksum: 10c0/63b660d32a268fd8f9b18326c2bf1d369662b5137f823f4c2eb6bbc97912ac3b0b116158011bcd52971bd88e0a23aaa04a9ab169661385941dd9ddcb86739b6f
   languageName: node
   linkType: hard
 
@@ -3608,13 +3608,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-picker/picker@npm:^2.11.4":
-  version: 2.11.4
-  resolution: "@react-native-picker/picker@npm:2.11.4"
+"@react-native-picker/picker@npm:^2.13.1":
+  version: 2.13.1
+  resolution: "@react-native-picker/picker@npm:2.13.1"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/3c9947c1a3022ffa35008cc479b718585b106ff70a5fb0f24c4117bf2eaaf5f60795cba20271af50a01d3a878d5dc06661ea1c1315664898524e291e7412a18f
+  checksum: 10c0/f5718031a58d8943b174abbc76cc2487e39165bca514f1ae2e5ef442a6758cdce82e0e68df6d5a0108a02cb627ddb7f22c524ed46ea9b1451ed3c712ad682467
   languageName: node
   linkType: hard
 
@@ -4007,9 +4007,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reduxjs/toolkit@npm:^2.14.0":
-  version: 2.14.0
-  resolution: "@reduxjs/toolkit@npm:2.14.0"
+"@reduxjs/toolkit@npm:^2.15.0":
+  version: 2.15.0
+  resolution: "@reduxjs/toolkit@npm:2.15.0"
   dependencies:
     "@standard-schema/spec": "npm:^1.0.0"
     "@standard-schema/utils": "npm:^0.3.0"
@@ -4028,13 +4028,13 @@ __metadata:
       optional: true
     react-redux:
       optional: true
-  checksum: 10c0/7316d62f9773a2e5d44fdfbf29d54d9b3d133633cdd0d27d43bff1e0b02cde8f600200b6bed7610d3a676f5f68475c05e6960492f1e203873f493f00f6604b9c
+  checksum: 10c0/1a0cdcb2c72b70c7fe750a73798a2537969261144c734431a0e56d63b398109411817ac5cd73a5fe3357cc8dc50cdd203f43293e342ae2a9bc0dfd6a2648fca3
   languageName: node
   linkType: hard
 
-"@sbaiahmed1/react-native-biometrics@npm:^0.17.0":
-  version: 0.17.0
-  resolution: "@sbaiahmed1/react-native-biometrics@npm:0.17.0"
+"@sbaiahmed1/react-native-biometrics@npm:^0.17.1":
+  version: 0.17.1
+  resolution: "@sbaiahmed1/react-native-biometrics@npm:0.17.1"
   peerDependencies:
     expo: ">=52.0.0"
     react: "*"
@@ -4042,7 +4042,7 @@ __metadata:
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/83f37879bf91c328f65a91837759584053bc268c744fc5428c03a7dbdbc4117992df8def1e53871fc15bb567a9a66749528038ccc4490303e8ba4efef3db16f4
+  checksum: 10c0/eccb8a8272d6ca3e932ef0aa14ed29b28dd55d38ecab79905fae38ae5d78b444481eab7fc62d13879ac1a033d75ab8b632beed8fcc7b1e16f296e7c94496ba52
   languageName: node
   linkType: hard
 
@@ -6327,83 +6327,83 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cspell-config-lib@npm:10.5.1":
-  version: 10.5.1
-  resolution: "cspell-config-lib@npm:10.5.1"
+"cspell-config-lib@npm:10.5.2":
+  version: 10.5.2
+  resolution: "cspell-config-lib@npm:10.5.2"
   dependencies:
-    "@cspell/cspell-types": "npm:10.5.1"
+    "@cspell/cspell-types": "npm:10.5.2"
     comment-json: "npm:^5.0.0"
     smol-toml: "npm:^1.9.1"
     yaml: "npm:^2.9.1"
-  checksum: 10c0/193cb24f5422fdeb555218fa12196ac6332335041dc8d8ae0c011638cad5a39ea2824c7ace68749c11d22e8c93d0de695d75dbc8329518f64d27d7aba4c43d73
+  checksum: 10c0/3db9c42d26c2219e8a245ac893c61921ce5a0642468b056514431840c87f4fffc0cb37f9e448cd82b94114c2199ad372088845616e7409a66c25be29f3aa1e8c
   languageName: node
   linkType: hard
 
-"cspell-dictionary@npm:10.5.1":
-  version: 10.5.1
-  resolution: "cspell-dictionary@npm:10.5.1"
+"cspell-dictionary@npm:10.5.2":
+  version: 10.5.2
+  resolution: "cspell-dictionary@npm:10.5.2"
   dependencies:
-    "@cspell/cspell-performance-monitor": "npm:10.5.1"
-    "@cspell/cspell-pipe": "npm:10.5.1"
-    "@cspell/cspell-types": "npm:10.5.1"
-    cspell-trie-lib: "npm:10.5.1"
+    "@cspell/cspell-performance-monitor": "npm:10.5.2"
+    "@cspell/cspell-pipe": "npm:10.5.2"
+    "@cspell/cspell-types": "npm:10.5.2"
+    cspell-trie-lib: "npm:10.5.2"
     fast-equals: "npm:^6.2.2"
-  checksum: 10c0/5d0af89a454e8ebe3df5a56ecf7c4a316870c8fa2a122d111e716cb0528874936bb34d4eedeb0d3a468d6f373bfe04949d5efeec29066d56ecb14ae8ad54117a
+  checksum: 10c0/5831c39af2710749be5c88252b61fa8e522cb9c77c6289a08a92f67fb0404d391a6a41477b1871be7f79dd309c4c3af6507be491651f7d66719da63ec2bc49e1
   languageName: node
   linkType: hard
 
-"cspell-glob@npm:10.5.1":
-  version: 10.5.1
-  resolution: "cspell-glob@npm:10.5.1"
+"cspell-glob@npm:10.5.2":
+  version: 10.5.2
+  resolution: "cspell-glob@npm:10.5.2"
   dependencies:
-    "@cspell/url": "npm:10.5.1"
+    "@cspell/url": "npm:10.5.2"
     picomatch: "npm:^4.0.7"
-  checksum: 10c0/a8bab7ec015b0fd0af555fcb0a6919e9c307dd20a5db32f0c2b1c76db68332a99308bf7337d30b2b8916fcb64e478c6611c776dffdf228f58d8e946385d93a3b
+  checksum: 10c0/1da62b11ee9016620a7ff9a90a4875026f4d703bddc169582caac8a193d28c4957b118ac6ba639afec036833aa7c36c2d5f02ead4d0af4dc654fd450eb6b41e8
   languageName: node
   linkType: hard
 
-"cspell-grammar@npm:10.5.1":
-  version: 10.5.1
-  resolution: "cspell-grammar@npm:10.5.1"
+"cspell-grammar@npm:10.5.2":
+  version: 10.5.2
+  resolution: "cspell-grammar@npm:10.5.2"
   dependencies:
-    "@cspell/cspell-pipe": "npm:10.5.1"
-    "@cspell/cspell-types": "npm:10.5.1"
+    "@cspell/cspell-pipe": "npm:10.5.2"
+    "@cspell/cspell-types": "npm:10.5.2"
   bin:
     cspell-grammar: bin.mjs
-  checksum: 10c0/6ff212a57e2169142ddeaeb6d1a4abe6132d3317347164c07e129ce1a19dbff61016ac3e06d0ab624ddfe5404e33fd936db986188f6937ddbf9c2ed7dfd90f9f
+  checksum: 10c0/668525b8d0a5c6bd66d2b682e629ff968f6158de2cabf519d09cb6c48399192c4bbf20e3ad96fb7e27516728839e6222f04a3f09e412c536ee8ed6cc74eb178b
   languageName: node
   linkType: hard
 
-"cspell-io@npm:10.5.1":
-  version: 10.5.1
-  resolution: "cspell-io@npm:10.5.1"
+"cspell-io@npm:10.5.2":
+  version: 10.5.2
+  resolution: "cspell-io@npm:10.5.2"
   dependencies:
-    "@cspell/cspell-service-bus": "npm:10.5.1"
-    "@cspell/url": "npm:10.5.1"
-  checksum: 10c0/948ba2de98b8951ab5e665be719c6221fa1b0cafad45b3ea3770e1f1d8c27fb6a2544a2c8cf7e5d20a1e6bda6d4ad34556770f4959fad96e991a030ac3641f2b
+    "@cspell/cspell-service-bus": "npm:10.5.2"
+    "@cspell/url": "npm:10.5.2"
+  checksum: 10c0/ccac6b6edd7e03d0e219be0f0cad2e5909ec20df48bbb3a7a04f08620c74630a16562295569551909bcb05f1a1615b55f20a3ba92bd04e2682020995bfd9e2c5
   languageName: node
   linkType: hard
 
-"cspell-lib@npm:10.5.1":
-  version: 10.5.1
-  resolution: "cspell-lib@npm:10.5.1"
+"cspell-lib@npm:10.5.2":
+  version: 10.5.2
+  resolution: "cspell-lib@npm:10.5.2"
   dependencies:
-    "@cspell/cspell-bundled-dicts": "npm:10.5.1"
-    "@cspell/cspell-performance-monitor": "npm:10.5.1"
-    "@cspell/cspell-pipe": "npm:10.5.1"
-    "@cspell/cspell-resolver": "npm:10.5.1"
-    "@cspell/cspell-types": "npm:10.5.1"
-    "@cspell/dynamic-import": "npm:10.5.1"
-    "@cspell/filetypes": "npm:10.5.1"
-    "@cspell/rpc": "npm:10.5.1"
-    "@cspell/strong-weak-map": "npm:10.5.1"
-    "@cspell/url": "npm:10.5.1"
-    cspell-config-lib: "npm:10.5.1"
-    cspell-dictionary: "npm:10.5.1"
-    cspell-glob: "npm:10.5.1"
-    cspell-grammar: "npm:10.5.1"
-    cspell-io: "npm:10.5.1"
-    cspell-trie-lib: "npm:10.5.1"
+    "@cspell/cspell-bundled-dicts": "npm:10.5.2"
+    "@cspell/cspell-performance-monitor": "npm:10.5.2"
+    "@cspell/cspell-pipe": "npm:10.5.2"
+    "@cspell/cspell-resolver": "npm:10.5.2"
+    "@cspell/cspell-types": "npm:10.5.2"
+    "@cspell/dynamic-import": "npm:10.5.2"
+    "@cspell/filetypes": "npm:10.5.2"
+    "@cspell/rpc": "npm:10.5.2"
+    "@cspell/strong-weak-map": "npm:10.5.2"
+    "@cspell/url": "npm:10.5.2"
+    cspell-config-lib: "npm:10.5.2"
+    cspell-dictionary: "npm:10.5.2"
+    cspell-glob: "npm:10.5.2"
+    cspell-grammar: "npm:10.5.2"
+    cspell-io: "npm:10.5.2"
+    cspell-trie-lib: "npm:10.5.2"
     env-paths: "npm:^4.0.0"
     gensequence: "npm:^8.0.8"
     import-fresh: "npm:^4.0.1"
@@ -6411,16 +6411,16 @@ __metadata:
     vscode-languageserver-textdocument: "npm:^1.0.16"
     vscode-uri: "npm:^3.2.0"
     xdg-basedir: "npm:^5.1.0"
-  checksum: 10c0/0fa375ab8e23f33808aa301a82212bb20c59e6caa90f2cb568bc6c358c20c300a2c3a7629983e347fc63a0b976687b7ead518eed460629979a41b4ace7fc77e6
+  checksum: 10c0/755c424a7f7a29915de14cc306a468cab17d9988a28aeef46efa8f47fa85b5a2e8f4aeb1c1ad09e02d7000323aacd37a3811b455b938b7b3b34c5f224112b6a0
   languageName: node
   linkType: hard
 
-"cspell-trie-lib@npm:10.5.1":
-  version: 10.5.1
-  resolution: "cspell-trie-lib@npm:10.5.1"
+"cspell-trie-lib@npm:10.5.2":
+  version: 10.5.2
+  resolution: "cspell-trie-lib@npm:10.5.2"
   peerDependencies:
-    "@cspell/cspell-types": 10.5.1
-  checksum: 10c0/8030d5e443cc1b12ac7879221bd2aa677a007864d1fcb5c79b03b9ed9acec3fcaf2c01832959ef3db04586912a8dfb72678dd07f176e65e98f4a048caee20f99
+    "@cspell/cspell-types": 10.5.2
+  checksum: 10c0/525f635970f9912d6538d7234ace2a52eb555a357de76bf2b1f545b451ec8e48a1f52fa498e9f48e5748fee8c7f6ac3a44b338b5d288c10ee09d7c6a8321f874
   languageName: node
   linkType: hard
 
@@ -8369,15 +8369,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^27.1.2":
-  version: 27.1.2
-  resolution: "i18next@npm:27.1.2"
+"i18next@npm:^27.2.9":
+  version: 27.2.9
+  resolution: "i18next@npm:27.2.9"
   peerDependencies:
     typescript: ^5 || ^6 || ^7
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/0e00683d816db2c6c4c4d6151d8ac9d1f0be79b25c7562689ba9690fcb445319c69a6f411806f27b62c552fe5a2cbd047974e301172bb0e51c1a6ffa590e3586
+  checksum: 10c0/cfc18ce50ceebb9d55444facdc725ca71449e03426ff1bbf60ac148aaed42c330401201c041eeaa155d5eecd08e50279b5c28eb2d498826a6326d4ea89c88ee4
   languageName: node
   linkType: hard
 
@@ -9798,7 +9798,7 @@ __metadata:
     "@babel/core": "npm:^7.29.7"
     "@babel/preset-env": "npm:^7.29.7"
     "@babel/runtime": "npm:^7.29.7"
-    "@cspell/eslint-plugin": "npm:^10.5.1"
+    "@cspell/eslint-plugin": "npm:^10.5.2"
     "@eslint/compat": "npm:^2.1.1"
     "@eslint/eslintrc": "npm:^3.3.7"
     "@eslint/js": "npm:^10.0.1"
@@ -9809,7 +9809,7 @@ __metadata:
     "@react-native-community/cli-platform-ios": "npm:20.2.0"
     "@react-native-community/datetimepicker": "npm:^9.3.0"
     "@react-native-community/netinfo": "npm:^12.0.1"
-    "@react-native-picker/picker": "npm:^2.11.4"
+    "@react-native-picker/picker": "npm:^2.13.1"
     "@react-native-vector-icons/material-design-icons": "npm:^14.0.0"
     "@react-native/babel-preset": "npm:0.88.1"
     "@react-native/eslint-config": "npm:0.88.1"
@@ -9819,8 +9819,8 @@ __metadata:
     "@react-native/typescript-config": "npm:0.88.1"
     "@react-navigation/drawer": "npm:^7.14.5"
     "@react-navigation/native": "npm:^7.5.2"
-    "@reduxjs/toolkit": "npm:^2.14.0"
-    "@sbaiahmed1/react-native-biometrics": "npm:^0.17.0"
+    "@reduxjs/toolkit": "npm:^2.15.0"
+    "@sbaiahmed1/react-native-biometrics": "npm:^0.17.1"
     "@shopify/flash-list": "npm:^2.3.3"
     "@testing-library/react-native": "npm:^13.3.3"
     "@types/jest": "npm:^30.0.0"
@@ -9840,40 +9840,40 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.5.7"
     eslint-plugin-simple-import-sort: "npm:^14.0.0"
     http-status-codes: "npm:^2.3.0"
-    i18next: "npm:^27.1.2"
+    i18next: "npm:^27.2.9"
     jest: "npm:^30.5.2"
     lodash: "npm:^4.18.1"
     node-addon-api: "npm:^8.9.2"
     path: "npm:^0.12.7"
     prettier: "npm:3.10.1"
     react: "npm:19.3.1"
-    react-i18next: "npm:^18.0.1"
+    react-i18next: "npm:^18.0.3"
     react-native: "npm:0.88.1"
-    react-native-blob-util: "npm:^1.1.1"
-    react-native-bootsplash: "npm:^7.3.5"
+    react-native-blob-util: "npm:^1.2.0"
+    react-native-bootsplash: "npm:^7.4.0"
     react-native-device-info: "npm:^15.0.2"
     react-native-encrypted-storage: "npm:^4.0.3"
     react-native-file-logger: "npm:^0.7.3"
     react-native-gesture-handler: "npm:^3.5.0"
     react-native-get-random-values: "npm:^2.1.0"
-    react-native-localize: "npm:^3.7.2"
+    react-native-localize: "npm:^3.8.0"
     react-native-modalfy: "npm:^3.7.4"
-    react-native-nfc-manager: "npm:^4.2.0"
+    react-native-nfc-manager: "npm:^4.3.0"
     react-native-nitro-image: "npm:^0.15.2"
     react-native-nitro-modules: "npm:^0.37.2"
     react-native-notify-kit: "npm:^10.10.1"
-    react-native-paper: "npm:^5.15.4"
+    react-native-paper: "npm:^5.15.5"
     react-native-paper-select: "npm:^1.5.0"
-    react-native-reanimated: "npm:^4.7.1"
+    react-native-reanimated: "npm:^4.8.0"
     react-native-safe-area-context: "npm:^5.11.1"
     react-native-screens: "npm:^4.30.1"
     react-native-share: "npm:^12.3.1"
     react-native-svg: "npm:^15.16.1"
     react-native-svg-transformer: "npm:^1.5.3"
     react-native-uuid: "npm:^3.0.0"
-    react-native-vision-camera: "npm:^5.2.4"
-    react-native-vision-camera-barcode-scanner: "npm:^5.2.4"
-    react-native-worklets: "npm:^0.13.0"
+    react-native-vision-camera: "npm:^5.2.5"
+    react-native-vision-camera-barcode-scanner: "npm:^5.2.5"
+    react-native-worklets: "npm:^0.14.0"
     react-native-zip-archive: "npm:^9.5.3"
     react-redux: "npm:^9.3.1"
     react-test-renderer: "npm:19.3.1"
@@ -11572,9 +11572,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^18.0.1":
-  version: 18.0.1
-  resolution: "react-i18next@npm:18.0.1"
+"react-i18next@npm:^18.0.3":
+  version: 18.0.3
+  resolution: "react-i18next@npm:18.0.3"
   dependencies:
     html-parse-stringify: "npm:^4.0.1"
   peerDependencies:
@@ -11587,7 +11587,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10c0/a372c17158db33d7deec495dfdff127930334cdc264a931ea942289f25ddbd45e9debb69e986e587db4be8e8eff6ea0a50351b73fd6469be65c1cfa0acde4120
+  checksum: 10c0/69814ea0554b1aff2ef4fb105e965d9e81cfec069394bd0925004f0efbb746e498eb65988a741f9fff628ab0a9ca0c39969607837ed4370d640a51a84c34ce93
   languageName: node
   linkType: hard
 
@@ -11612,21 +11612,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-blob-util@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "react-native-blob-util@npm:1.1.1"
+"react-native-blob-util@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "react-native-blob-util@npm:1.2.0"
   dependencies:
     base-64: "npm:1.0.0"
   peerDependencies:
     react: "*"
     react-native: ">=0.84.0"
-  checksum: 10c0/c20cee268588806f066f8f59bfcbc8819e4985d996fe0d750c70468eb1804bc67b62a01cea0d99cc0656508b1e2902607175970a629e73d568061db08844b86d
+  checksum: 10c0/0a6e673dcac769ca1777bf85a623ccac1ff6f4ca3ad3cfad3e1055b097b18726541844f059e015453bf77cc6f5ac0899a120bbc4398eb9db915bea7536fbb39e
   languageName: node
   linkType: hard
 
-"react-native-bootsplash@npm:^7.3.5":
-  version: 7.3.5
-  resolution: "react-native-bootsplash@npm:7.3.5"
+"react-native-bootsplash@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "react-native-bootsplash@npm:7.4.0"
   dependencies:
     "@expo/config-plugins": "npm:*"
     commander: "npm:^14.0.3"
@@ -11645,7 +11645,7 @@ __metadata:
     react-native: "*"
   bin:
     react-native-bootsplash: cli.js
-  checksum: 10c0/76d12441fe963fc327edbdfa87f564a04e33c7690fa2f8bdb3168f0c718e280619ce7357b5cc773f066600c0a34281615fb11c36d9df424dca11826857e5bc54
+  checksum: 10c0/48a82cb919c95ff2c44f1f9c07f7e86eeb13bd7c226817929b1e9ac2fbc122ccbcf5848a0bedf883c4d5fae80c8883ee551d7ac0bce2e2f626dd078486c00458
   languageName: node
   linkType: hard
 
@@ -11728,9 +11728,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-localize@npm:^3.7.2":
-  version: 3.7.2
-  resolution: "react-native-localize@npm:3.7.2"
+"react-native-localize@npm:^3.8.0":
+  version: 3.8.0
+  resolution: "react-native-localize@npm:3.8.0"
   peerDependencies:
     react: "*"
     react-native: "*"
@@ -11738,7 +11738,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-macos:
       optional: true
-  checksum: 10c0/93c415fdf27096517c791cd24bebf7f6a764e5ab5c6d2f628cfe9be2b3a69e8dfd30f35aae8a36e4631933273eb8c6baec47f1befcafafcceb9f5423762f01c8
+  checksum: 10c0/de89fea315a697ef8c264eef7ffc2ce1b200648612e3fc3bd666e3937343dc1cd493383233ac74fda0e369bbcb928f789c1bc762dca666130c20d499d9a8a057
   languageName: node
   linkType: hard
 
@@ -11756,9 +11756,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-nfc-manager@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "react-native-nfc-manager@npm:4.2.0"
+"react-native-nfc-manager@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "react-native-nfc-manager@npm:4.3.0"
   peerDependencies:
     "@expo/config-plugins": "*"
     react: ">=18.2"
@@ -11766,7 +11766,7 @@ __metadata:
   peerDependenciesMeta:
     "@expo/config-plugins":
       optional: true
-  checksum: 10c0/10bbb7c5e8021921e5d44b46df0e810186d1c618f63190be51f8b8488d97c8265ccafa58d9b6bf44c5b9a1089fa88aec5657f8d60ed7ec9569bf3d84861d464f
+  checksum: 10c0/619b04ce6f087bdef9b189bccf1c11ef612ae78de75eeb158767054cc6dc1848e5d44c88f28fe78e53e4ad66dacd9d2d4c5210a2a4b9b5da543ae44262b1e806
   languageName: node
   linkType: hard
 
@@ -11844,9 +11844,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-paper@npm:^5.15.4":
-  version: 5.15.4
-  resolution: "react-native-paper@npm:5.15.4"
+"react-native-paper@npm:^5.15.5":
+  version: 5.15.5
+  resolution: "react-native-paper@npm:5.15.5"
   dependencies:
     "@callstack/react-theme-provider": "npm:^3.0.9"
     color: "npm:^3.1.2"
@@ -11855,21 +11855,21 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-safe-area-context: "*"
-  checksum: 10c0/eea653c0e495b60a937ae4b0b586ea16903c9935d8ae76562921abbd08fcd9a12a2c51e54d5d37ddade7d50345c0a42e7c9c6452fdcf600d9441e2c5bca06c7e
+  checksum: 10c0/b129a6fbfe9e468983ff71e01f8cde4453834784cf22ea9f8ceb1bddf6c6187c044ab6b04be0b05e17753b4a31b0259548e258979a02eff191f4e62488ee9c0e
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "react-native-reanimated@npm:4.7.1"
+"react-native-reanimated@npm:^4.8.0":
+  version: 4.8.0
+  resolution: "react-native-reanimated@npm:4.8.0"
   dependencies:
     react-native-is-edge-to-edge: "npm:^1.3.1"
     semver: "npm:^7.7.3"
   peerDependencies:
     react: "*"
-    react-native: 0.86 - 0.88
-    react-native-worklets: 0.13.x
-  checksum: 10c0/d92548f318efb18f4f18c819d02b5d1767f34d4221a4dcb2a4baee4c0769e405a409c0a9f18103adbcfa8596fca36e5bd5025e7b1d8dd9e152c9d7f2e148d939
+    react-native: 0.87 - 0.89
+    react-native-worklets: 0.14.x
+  checksum: 10c0/fa21dbee06d57c2f5238b6d924382eff0a4ba48fe269f4d966d3feca5a1d6aa785a30f741dc1fb415ca3bd463ee82488407a9ab6830cc03fc4e6fe8d34f9d9d4
   languageName: node
   linkType: hard
 
@@ -11943,40 +11943,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-vision-camera-barcode-scanner@npm:^5.2.4":
-  version: 5.2.4
-  resolution: "react-native-vision-camera-barcode-scanner@npm:5.2.4"
+"react-native-vision-camera-barcode-scanner@npm:^5.2.5":
+  version: 5.2.5
+  resolution: "react-native-vision-camera-barcode-scanner@npm:5.2.5"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-nitro-image: "*"
-    react-native-nitro-modules: "*"
+    react-native-nitro-modules: ">=0.37.2"
     react-native-vision-camera: "*"
   peerDependenciesMeta:
     react-native-nitro-modules:
       optional: true
-  checksum: 10c0/5d029641ec6f6523789bb04c1aef96850f27a7495d36d9d887e030a8a5d857dea48eb9922d4862fbdd492244baafb03008a5ba199ffb5c940f7ab0021931f42a
+  checksum: 10c0/87aaf8e6dd46af35d8df15a5a9c09b6b6d882c4740ab4a77b3dd30b356a1b241a1623dc15d0c5065202112c9f54ce86d62e1be3585a8e7146757804ad5329796
   languageName: node
   linkType: hard
 
-"react-native-vision-camera@npm:^5.2.4":
-  version: 5.2.4
-  resolution: "react-native-vision-camera@npm:5.2.4"
+"react-native-vision-camera@npm:^5.2.5":
+  version: 5.2.5
+  resolution: "react-native-vision-camera@npm:5.2.5"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-nitro-image: "*"
-    react-native-nitro-modules: "*"
+    react-native-nitro-modules: ">=0.37.2"
   peerDependenciesMeta:
     react-native-nitro-modules:
       optional: true
-  checksum: 10c0/681f8859bd6242a7c2778bb2022faa1ea6daf3fe6aa1252dd813004628089f601f257dacf6131b362e846ffc17e4c2d89f92d286d5e9823a142b64737000f323
+  checksum: 10c0/b8ac7453b461633184f49dae421b951f39e0d2624f2ae252e2d27f12a08eb47ff36291e49858c1aed198d6741de0c798837bbba5ccb224c994bead0250a18545
   languageName: node
   linkType: hard
 
-"react-native-worklets@npm:^0.13.0":
-  version: 0.13.0
-  resolution: "react-native-worklets@npm:0.13.0"
+"react-native-worklets@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "react-native-worklets@npm:0.14.0"
   dependencies:
     "@babel/generator": "npm:^7.27.1"
     "@babel/plugin-transform-arrow-functions": "npm:^7.27.1"
@@ -11998,8 +11998,8 @@ __metadata:
     "@babel/core": "*"
     "@react-native/metro-config": "*"
     react: "*"
-    react-native: 0.86 - 0.88
-  checksum: 10c0/bf35b75c9711019a9de757317afab7bc5f4015bf3770c64f1bb13fc5c8edae86b145642b721f6b3c886e4b52c69ea38c6331a3e59de6a1db3386976a6aadfc79
+    react-native: 0.87 - 0.89
+  checksum: 10c0/63cf8252c52b0948c536909aa24626d4526c3df32d4359beca2ed1b35ecf3f786fa98491bf68176210e39ba1007403d639cf3c56ceb56eda52755b51fd589b02
   languageName: node
   linkType: hard
 
