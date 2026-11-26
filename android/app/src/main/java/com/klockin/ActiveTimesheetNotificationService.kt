@@ -306,7 +306,7 @@ class ActiveTimesheetNotificationService : Service() {
     }
 
     private fun formatDuration(seconds: Long): String {
-      val totalMinutes = (seconds.coerceAtLeast(0L) + 30L) / 60L
+      val totalMinutes = seconds.coerceAtLeast(0L) / 60L
       return "%02d:%02d".format(totalMinutes / 60L, totalMinutes % 60L)
     }
 
