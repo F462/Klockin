@@ -16,7 +16,7 @@ import {CustomerColorField} from 'src/features/customers/components/CustomerColo
 import {fetchCustomerColors} from 'src/features/customers/middleware/customersThunks';
 import {LANGUAGES, TIMEZONES} from 'src/features/customers/utils/options';
 import {useAppDispatch, useAppSelector} from 'src/features/data/context/store';
-import {selectRoleList} from 'src/features/roles/context/rolesSelectors';
+import {WELL_KNOWN_ROLES} from 'src/features/roles/permissions';
 import {useStyle} from 'src/features/theming/utils/useStyle';
 import {selectUserList} from 'src/features/users/context/usersSelectors';
 import {
@@ -161,7 +161,6 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 	const {t} = useTranslation();
 	const theme = useTheme();
 	const userList = useAppSelector(selectUserList);
-	const knownRoles = useAppSelector(selectRoleList);
 	const isEdit = user !== undefined;
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
@@ -225,12 +224,15 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 	);
 	const roleOptions = useMemo(
 		() => [
-			...knownRoles.map((role) => ({id: role.name, name: role.name})),
+			...WELL_KNOWN_ROLES.map((name) => ({id: name, name})),
+			// Keep any roles already assigned to this user that are not one
+			// of the well-known roles, so custom roles are not silently lost
+			// when editing.
 			...(user?.roles ?? [])
-				.filter((name) => !knownRoles.some((role) => role.name === name))
+				.filter((name) => !WELL_KNOWN_ROLES.includes(name))
 				.map((name) => ({id: name, name})),
 		],
-		[knownRoles, user?.roles],
+		[user?.roles],
 	);
 
 	useEffect(() => {
@@ -267,7 +269,12 @@ export const UserModal = ({user, visible, onHideModal}: UserModalProps) => {
 		setSelectedRoles(
 			user?.roles && user.roles.length > 0
 				? user.roles.map((name) => ({id: name, name}))
-				: [{id: 'ROLE_USER', name: 'ROLE_USER'}],
+				: [
+						{
+							id: WELL_KNOWN_ROLES[0],
+							name: WELL_KNOWN_ROLES[0],
+						},
+					],
 		);
 		setEnabled(user?.enabled ?? true);
 		setSystemAccount(user?.systemAccount ?? false);

@@ -63,6 +63,19 @@ export const ALL_CAPABILITIES: ReadonlyArray<Capability> = [
 	...SYSTEM,
 ];
 
+/**
+ * The well-known standard roles shipped with Kimai.
+ *
+ * These are the fixed roles that make sense to assign to a user when
+ * creating or editing one. They map onto the capability model below and
+ * are what the user editor offers as role choices.
+ */
+export const WELL_KNOWN_ROLES: ReadonlyArray<string> = [
+	'ROLE_USER',
+	'ROLE_ADMIN',
+	'ROLE_SUPER_ADMIN',
+];
+
 /** The set of every known capability (used for local/offline mode). */
 export const ALL_CAPABILITIES_SET = new Set<Capability>(ALL_CAPABILITIES);
 
