@@ -159,6 +159,7 @@ export const NotificationPermissionGate = ({children}: Props) => {
 				</Button>
 				<Button
 					mode="text"
+					testID="skipNotificationPermission"
 					disabled={isRequesting}
 					style={styles.button}
 					onPress={() => dispatch(notificationPermissionSkipped())}>

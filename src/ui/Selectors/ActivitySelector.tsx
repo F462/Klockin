@@ -15,12 +15,14 @@ type ActivitySelectorProps = {
 	onSelectActivity: (activity: Activity | undefined) => void;
 	label?: string;
 	emptyOptionLabel?: string;
+	testID?: string;
 };
 export const ActivitySelector = ({
 	selectedActivity,
 	onSelectActivity,
 	label,
 	emptyOptionLabel,
+	testID,
 }: ActivitySelectorProps) => {
 	const {t} = useTranslation();
 
@@ -51,6 +53,7 @@ export const ActivitySelector = ({
 			label={label ?? t('selectActivity')}
 			emptyOptionLabel={emptyOptionLabel}
 			onSelection={convertSelectionToActivity}
+			testID={testID}
 		/>
 	);
 };

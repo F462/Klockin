@@ -437,6 +437,7 @@ export const ProjectModal = ({
 				<ScrollView>
 					<TextInput
 						label={`${t('name')} *`}
+						testID="entityNameField"
 						mode="outlined"
 						value={name}
 						onChangeText={setName}
@@ -599,6 +600,7 @@ export const ProjectModal = ({
 					<Button onPress={onHideModal}>{t('dismiss')}</Button>
 					<Button
 						mode="contained"
+						testID="entitySave"
 						onPress={() => {
 							onSave().catch(console.error);
 						}}

@@ -45,7 +45,11 @@ export const DefaultHeader = ({navigation, route}: DrawerHeaderProps) => {
 	return (
 		<View style={styles.container}>
 			{hasCompletedOnboarding && (
-				<IconButton icon="menu" onPress={navigation.openDrawer} />
+				<IconButton
+					icon="menu"
+					testID="openDrawerMenu"
+					onPress={navigation.openDrawer}
+				/>
 			)}
 			<Text
 				variant="titleLarge"

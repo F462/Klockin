@@ -113,7 +113,7 @@ export const OverviewScreen = () => {
 	// run the screen has nothing to display yet.
 	if (monthlyOverview === null) {
 		return (
-			<View style={styles.loadingContainer}>
+			<View style={styles.loadingContainer} testID="overviewScreen">
 				<ActivityIndicator />
 			</View>
 		);
@@ -126,7 +126,7 @@ export const OverviewScreen = () => {
 
 	return (
 		<RefreshView style={styles.refreshView}>
-			<View style={styles.container}>
+			<View style={styles.container} testID="overviewScreen">
 				<View style={[styles.card, dynamicStyles.yearTotal]}>
 					<View style={styles.row}>
 						<Text variant="titleMedium">{t('total')}</Text>

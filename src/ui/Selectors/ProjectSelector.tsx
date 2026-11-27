@@ -15,12 +15,14 @@ type ProjectSelectorProps = {
 	onSelectProject: (project: Project | undefined) => void;
 	label?: string;
 	emptyOptionLabel?: string;
+	testID?: string;
 };
 export const ProjectSelector = ({
 	selectedProject,
 	onSelectProject,
 	label,
 	emptyOptionLabel,
+	testID,
 }: ProjectSelectorProps) => {
 	const {t} = useTranslation();
 
@@ -51,6 +53,7 @@ export const ProjectSelector = ({
 			label={label ?? t('selectProject')}
 			emptyOptionLabel={emptyOptionLabel}
 			onSelection={convertSelectionToProject}
+			testID={testID}
 		/>
 	);
 };

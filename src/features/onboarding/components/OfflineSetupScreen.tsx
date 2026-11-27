@@ -89,7 +89,11 @@ export const OfflineSetupScreen = () => {
 				<Text variant="bodyLarge" style={styles.text}>
 					{offlineStage[next].message}
 				</Text>
-				<Button mode="contained" style={styles.button} onPress={continueSetup}>
+				<Button
+					mode="contained"
+					testID="offlineSetupContinue"
+					style={styles.button}
+					onPress={continueSetup}>
 					{next === 'ActiveTimesheet'
 						? t('onboarding.startTracking')
 						: t('onboarding.createFirst', {

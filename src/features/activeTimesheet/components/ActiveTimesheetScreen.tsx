@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
 const ICON_SIZE = 200;
 
 const StopButton = () => {
+	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
 	const theme = useTheme();
 	const scale = useResponsiveScale();
@@ -101,6 +102,8 @@ const StopButton = () => {
 	return (
 		<IconButton
 			icon="stop"
+			testID="stopTimesheet"
+			accessibilityLabel={t('activeTimesheetNotificationStop')}
 			style={[styles.startButton, {padding: 20 * scale}]}
 			iconColor={theme.colors.primary}
 			size={ICON_SIZE * scale}
@@ -188,6 +191,7 @@ const ActivitySelector = () => {
 		<ActivitySelectorComponent
 			selectedActivity={selectedActivity}
 			onSelectActivity={handleSelectActivity}
+			testID="activeTimesheetActivitySelector"
 		/>
 	);
 };
@@ -210,6 +214,7 @@ const ProjectSelector = () => {
 		<ProjectSelectorComponent
 			selectedProject={selectedProject}
 			onSelectProject={handleSelectProject}
+			testID="activeTimesheetProjectSelector"
 		/>
 	);
 };
@@ -249,6 +254,7 @@ const StartButton = () => {
 	return canTimesheetBeStarted ? (
 		<Pressable
 			onPress={handleStart}
+			testID="startTimesheet"
 			style={[
 				styles.centeredCircle,
 				{

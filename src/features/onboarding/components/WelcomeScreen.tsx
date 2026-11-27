@@ -97,6 +97,7 @@ export const WelcomeScreen = () => {
 				{options.map((option) => (
 					<Pressable
 						key={option.mode}
+						testID={`welcome-${option.mode}`}
 						onPress={() => chooseMode(option.mode)}
 						style={[
 							styles.option,

@@ -383,6 +383,7 @@ export const CustomerModal = ({
 					<TextInput
 						label={`${t('name')} *`}
 						mode="outlined"
+						testID="entityNameField"
 						value={name}
 						onChangeText={setName}
 						style={styles.field}
@@ -550,6 +551,7 @@ export const CustomerModal = ({
 					<Button onPress={onHideModal}>{t('dismiss')}</Button>
 					<Button
 						mode="contained"
+						testID="entitySave"
 						onPress={() => {
 							onSave().catch(console.error);
 						}}

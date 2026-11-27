@@ -65,6 +65,7 @@ const DrawerItemComponent = ({
 			focused={routes.findIndex((route) => route.name === routeName) === index}
 			label={t(`screenTitles.${routeName}`)}
 			key={routeKey}
+			testID={`drawer-${routeName}`}
 			onPress={() => navigation.navigate(routeName)}
 			icon={drawerIcon}
 			style={indent ? styles.indentedItem : undefined}

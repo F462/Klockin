@@ -11,6 +11,8 @@ type BaseSelectorProps<T extends BaseElement> = {
 	label: string;
 	emptyOptionLabel?: string;
 	onSelection: React.ComponentProps<typeof PaperSelect>['onSelection'];
+	/** Forwarded to the underlying input; used by E2E tests to find the field. */
+	testID?: string;
 	/**
 	 * Optional. Renders a leading element (e.g. a color swatch or an icon)
 	 * before the label of the selected element and of every list item.
@@ -44,6 +46,7 @@ export function BaseSelector<T extends BaseElement>({
 	label,
 	emptyOptionLabel,
 	onSelection,
+	testID,
 	renderLeadingElement,
 }: BaseSelectorProps<T>) {
 	const theme = useTheme();
@@ -78,6 +81,10 @@ export function BaseSelector<T extends BaseElement>({
 			multiEnable={false}
 			hideSearchBox={true}
 			textInputMode="outlined"
+			// `PaperSelectTextInputProps` does not include `testID`, so it is
+			// passed as a top-level prop; PaperSelect forwards it to the
+			// underlying TextInput, which is what E2E tests match on.
+			testID={testID}
 			// react-native-paper-select defaults the outline to 'black',
 			// which looks broken in dark mode. Match react-native-paper defaults.
 			textInputProps={{

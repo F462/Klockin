@@ -290,6 +290,7 @@ export const ActivityModal = ({
 				<ScrollView keyboardShouldPersistTaps="handled">
 					<TextInput
 						label={`${t('name')} *`}
+						testID="entityNameField"
 						mode="outlined"
 						value={name}
 						onChangeText={setName}
@@ -393,6 +394,7 @@ export const ActivityModal = ({
 					</Button>
 					<Button
 						mode="contained"
+						testID="entitySave"
 						onPress={() => {
 							onSave().catch(console.error);
 						}}

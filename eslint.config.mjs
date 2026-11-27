@@ -28,6 +28,7 @@ export default defineConfig([
 	globalIgnores([
 		'**/.eslintrc.js',
 		'**/.detoxrc.js',
+		'**/detox.config.js',
 		'**/jest.config.js',
 		'**/jest.setup.js',
 		'.yarn/',
@@ -176,7 +177,7 @@ export default defineConfig([
 	},
 	{
 		// Detox E2E tests rely on globals injected by the Detox Jest environment.
-		files: ['e2e/**/*.js'],
+		files: ['e2e/**/*.js', 'e2e/**/*.ts'],
 		languageOptions: {
 			globals: {
 				by: 'readonly',
