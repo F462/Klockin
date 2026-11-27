@@ -26,7 +26,9 @@ module.exports = {
       // Scoped to :app on purpose: running `assembleAndroidTest` at the root
       // would also compile third-party libraries' androidTest sources, some of
       // which (e.g. react-native-encrypted-storage) do not compile.
-      build: 'cd android && ./gradlew :app:assembleDebug :app:assembleAndroidTest -DtestBuildType=debug',
+      // -PenableDetox wires in the Detox driver (maven repo + androidTest dep)
+      // that is otherwise gated out of production builds.
+      build: 'cd android && ./gradlew :app:assembleDebug :app:assembleAndroidTest -DtestBuildType=debug -PenableDetox',
       reversePorts: [
         8081
       ]
@@ -34,7 +36,7 @@ module.exports = {
     'android.release': {
       type: 'android.apk',
       binaryPath: 'android/app/build/outputs/apk/release/app-release.apk',
-      build: 'cd android && ./gradlew :app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release'
+      build: 'cd android && ./gradlew :app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release -PenableDetox'
     }
   },
   devices: {

@@ -33,6 +33,8 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+# Release signing secrets (see android/app/build.gradle) must never be committed
+signing.properties
 .kotlin/
 
 # node.js

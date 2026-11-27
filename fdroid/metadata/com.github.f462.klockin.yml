@@ -1,0 +1,85 @@
+# This file contains metadata of a package in the F-Droid Repository
+# Information on all available fields may be found on the project wiki:
+# https://gitlab.com/fdroid/fdroiddata#format
+#
+# NOTE: This is a DRAFT for review. Validate with `fdroid build` / `fdroid scanner`
+# before submitting a merge request to https://gitlab.com/fdroid/fdroiddata .
+
+# The source code repository
+GitRepo: 'https://github.com/F462/Klockin'
+GitSubmodule: ''
+
+# The license of the application
+License: GPL-3.0-only
+
+# The (latest) version code and name of the app
+# Keep in sync with android/app/build.gradle and package.json on every release.
+VersionCode: 1
+VersionName: '0.0.1'
+
+# The human-readable name of the app
+AppName: Klockin
+
+# A short description (max 80 characters)
+Summary: One-tap time tracking for Kimai, offline with delayed sync.
+
+# A longer description
+Description: >
+  Klockin is a time-tracking companion for Kimai, the open-source
+  time-tracking server. Start and stop timesheets with a single tap, even
+  while offline: Klockin stores entries locally and syncs them with your
+  Kimai server once a connection is available. It includes a home-screen
+  widget.
+
+# The app's website
+Website: 'https://github.com/F462/Klockin'
+
+# The app's category on F-Droid
+Categories:
+  - Time
+  - Office
+
+# The app's icon (must be in the fastlane/ images directory in the source repo)
+IconUrl: 'https://raw.githubusercontent.com/F462/Klockin/main/fastlane/metadata/android/en-US/images/icon.png'
+
+# Permissions requested by the app, with a human-readable justification
+Permissions:
+  INTERNET: Sync timesheets with your Kimai server
+  CAMERA: Scan QR codes to log in
+  USE_FINGERPRINT: Unlock the app with a fingerprint
+  USE_BIOMETRIC: Unlock the app with a biometric (face/fingerprint)
+  NFC: Start/stop timesheets by tapping an NFC tag
+  FOREGROUND_SERVICE: Keep an ongoing notification for the active timesheet
+  FOREGROUND_SERVICE_SPECIAL_USE: Keep an ongoing notification for the active timesheet
+
+# Optional hardware features the app declares (all marked not-required)
+UsesFeatures:
+  - android.hardware.camera
+  - android.hardware.nfc
+
+# Sdk version range
+usesSdkInt:
+  min: '24'
+  target: '36'
+
+# Build information
+#
+# React Native requires bundling the JS before the native Gradle build.
+# The Detox test dependency is intentionally NOT pulled in (no -PenableDetox),
+# so no prebuilt AAR is bundled and F-Droid's scanner will not flag binaries.
+Gradle:
+  - v3:
+      - showInUi: false
+        prebuild:
+          - export NODE_OPTIONS="--max_old_space_size=4096"
+          # Yarn 4 (Berry): use --immutable to enforce the committed lockfile.
+          - yarn install --immutable
+          - yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dir android/app/src/main/res
+        build:
+          - cd android && ./gradlew assembleRelease
+      # F-Droid signs the resulting APK with its own key; no release keystore
+      # is required in the repo (see android/app/build.gradle).
+      #
+      # If F-Droid's scanner or the build environment needs additional steps
+      # (e.g. a pinned Node version, or a different bundling command), adjust
+      # the `prebuild` list above.

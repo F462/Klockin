@@ -1,0 +1,13 @@
+Klockin is a time-tracking companion for [Kimai](https://www.kimai.org/), the open-source time-tracking server.
+
+Start and stop timesheets with a single tap — even while offline. Klockin stores your entries locally and syncs them with your Kimai server automatically once a connection is available.
+
+Features:
+- Start and stop new timesheets to track time, with full offline support
+- Browse and manage activities, customers, and projects
+- Review your recorded timesheets
+- Log in quickly by scanning a QR code
+- Home-screen widget showing today's worked duration, plus a one-tap toggle for the active timesheet
+- Keep a local record of your data and export a full backup at any time
+
+Klockin is free and open-source software, licensed under the GNU GPL v3.

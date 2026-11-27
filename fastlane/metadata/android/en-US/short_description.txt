@@ -1,0 +1,1 @@
+One-tap time tracking for Kimai, offline with delayed sync.

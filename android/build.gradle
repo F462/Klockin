@@ -32,8 +32,12 @@ subprojects{
 allprojects {
     repositories {
         // Detox (E2E testing): exposes the prebuilt native Android driver AAR.
-        maven {
-            url("$rootDir/../node_modules/detox/Detox-android")
+        // Gated behind -PenableDetox=true so release / F-Droid builds never
+        // resolve the prebuilt binary AAR from node_modules.
+        if (project.hasProperty('enableDetox')) {
+            maven {
+                url("$rootDir/../node_modules/detox/Detox-android")
+            }
         }
     }
 }

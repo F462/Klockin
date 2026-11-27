@@ -89,8 +89,12 @@ android {
         applicationId "com.github.f462.klockin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        // F-Droid parses these for UpdateCheckMode: Tags / AutoUpdateMode: Version.
+        // Keep in sync with `version` in package.json on every release, and
+        // increment both when cutting a new release (or override via
+        // -PversionCode / -PversionName in CI).
         versionCode project.hasProperty('versionCode') ? project.versionCode.toInteger() : 1
-        versionName project.hasProperty('versionName') ? project.versionName : "1.0.0"
+        versionName project.hasProperty('versionName') ? project.versionName : "0.0.1"
 
         // Detox (E2E testing): build the auxiliary androidTest APK against the
         // same build type as the app APK (driven by `-DtestBuildType=...`).
@@ -104,6 +108,21 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        // Optional release signing. F-Droid signs builds with its own key, so no
+        // release keystore is required to produce a buildable APK. To self-sign
+        // releases, drop a `signing.properties` file next to this build.gradle
+        // containing storeFile/storePassword/keyAlias/keyPassword.
+        release {
+            def propsFile = rootProject.file('signing.properties')
+            if (propsFile.exists()) {
+                def props = new Properties()
+                propsFile.withInputStream { props.load(it) }
+                storeFile file(props['storeFile'])
+                storePassword props['storePassword']
+                keyAlias props['keyAlias']
+                keyPassword props['keyPassword']
+            }
+        }
     }
     buildTypes {
         debug {
@@ -112,13 +131,20 @@ android {
             applicationIdSuffix ".debug"
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // F-Droid signs the APK with its own key by default, so we do NOT
+            // sign release with the debug key (which previously masked the
+            // unsigned-APK path). Only attach a release signing config when an
+            // explicit keystore is provided via signing.properties.
+            if (rootProject.file('signing.properties').exists()) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             // Keep Detox's reflection-based hooks from being minified (release).
-            proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
+            // Only relevant when building the E2E (androidTest) APK.
+            if (project.hasProperty('enableDetox')) {
+                proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
+            }
         }
     }
 }
@@ -134,6 +160,10 @@ dependencies {
         implementation jscFlavor
     }
 
-    // Detox (E2E testing): native Android driver bundled into the test APK.
-    androidTestImplementation('com.wix:detox:+')
+    // Detox (E2E testing): native Android driver bundled into the androidTest APK.
+    // Gated behind -PenableDetox=true so production / F-Droid builds do not pull
+    // the prebuilt binary AAR (which would trip F-Droid's scanner).
+    if (project.hasProperty('enableDetox')) {
+        androidTestImplementation('com.wix:detox:+')
+    }
 }
