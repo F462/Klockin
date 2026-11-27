@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clock_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/clock_duration"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/widget_open_app"
+        android:focusable="true"
+        android:gravity="center"
+        android:shadowColor="#66000000"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:fontFamily="monospace"
+        android:textStyle="bold" />
+</LinearLayout>

@@ -3,4 +3,5 @@
     <string name="widget_worked_today">Worked today</string>
     <string name="widget_toggle_timesheet">Start or stop timesheet</string>
     <string name="widget_open_app">Open active timesheet</string>
+    <string name="widget_clock_label">Klockin Time</string>
 </resources>

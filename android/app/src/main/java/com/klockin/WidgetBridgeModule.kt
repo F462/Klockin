@@ -1,8 +1,6 @@
 package com.github.f462.klockin
 
-import android.appwidget.AppWidgetManager
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -40,7 +38,7 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
   @ReactMethod
   fun publishState(state: ReadableMap) {
     val preferences = reactApplicationContext.getSharedPreferences(
-      TimesheetWidgetProvider.PREFERENCES_NAME,
+      TimesheetWidgetData.PREFERENCES_NAME,
       Context.MODE_PRIVATE,
     )
     val editor = preferences.edit()
@@ -53,9 +51,7 @@ class WidgetBridgeModule(context: ReactApplicationContext) : ReactContextBaseJav
     }
     editor.apply()
 
-    val manager = AppWidgetManager.getInstance(reactApplicationContext)
-    val component = ComponentName(reactApplicationContext, TimesheetWidgetProvider::class.java)
-    TimesheetWidgetProvider.updateWidgets(reactApplicationContext, manager, manager.getAppWidgetIds(component))
+    TimesheetWidgetData.refreshAll(reactApplicationContext, scheduleRefresh = true)
   }
 
   @ReactMethod

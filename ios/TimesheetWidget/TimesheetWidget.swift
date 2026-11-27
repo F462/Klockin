@@ -3,6 +3,18 @@ import WidgetKit
 
 private let appGroup = "group.com.github.f462.klockin"
 
+func widgetColor(from colorString: String) -> Color {
+  let hex = colorString.trimmingCharacters(in: CharacterSet(charactersIn: "#"))
+  guard hex.count == 6, let value = UInt32(hex, radix: 16) else {
+    return Color(red: 209.0 / 255, green: 250.0 / 255, blue: 229.0 / 255)
+  }
+  return Color(
+    red: Double((value >> 16) & 0xff) / 255,
+    green: Double((value >> 8) & 0xff) / 255,
+    blue: Double(value & 0xff) / 255
+  )
+}
+
 struct TimesheetWidgetEntry: TimelineEntry {
   let date: Date
   let workedSeconds: Int
@@ -119,6 +131,30 @@ struct TimesheetWidgetView: View {
   }
 }
 
+struct TimesheetClockView: View {
+  let entry: TimesheetWidgetEntry
+
+  private var durationText: String {
+    String(format: "%02d:%02d", entry.workedSeconds / 3600, (entry.workedSeconds % 3600) / 60)
+  }
+
+  var body: some View {
+    Link(destination: URL(string: "klockin://active-timesheet")!) {
+      Text(durationText)
+        .font(.system(size: 28, weight: .semibold, design: .monospaced).monospacedDigit())
+        .foregroundStyle(.white)
+        .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
+        .minimumScaleFactor(0.6)
+        .lineLimit(1)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .contentShape(Rectangle())
+    }
+    .accessibilityLabel("Open Active Timesheet")
+    .padding(8)
+    .containerBackground(widgetColor(from: entry.primaryContainer).opacity(0.8), for: .widget)
+  }
+}
+
 struct TimesheetWidget: Widget {
   let kind = "TimesheetWidget"
 
@@ -132,9 +168,23 @@ struct TimesheetWidget: Widget {
   }
 }
 
+struct TimesheetClockWidget: Widget {
+  let kind = "TimesheetClockWidget"
+
+  var body: some WidgetConfiguration {
+    StaticConfiguration(kind: kind, provider: TimesheetWidgetProvider()) { entry in
+      TimesheetClockView(entry: entry)
+    }
+    .configurationDisplayName("Klockin Time")
+    .description("Show today's worked time.")
+    .supportedFamilies([.systemSmall])
+  }
+}
+
 @main
 struct TimesheetWidgetBundle: WidgetBundle {
   var body: some Widget {
     TimesheetWidget()
+    TimesheetClockWidget()
   }
 }
